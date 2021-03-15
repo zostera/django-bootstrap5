@@ -1,7 +1,7 @@
 from django.forms import EmailInput, NumberInput, PasswordInput, Textarea, TextInput, URLInput
 from django.utils.safestring import mark_safe
 
-from .bootstrap import get_bootstrap_setting, get_field_renderer, get_form_renderer, get_formset_renderer
+from .core import get_bootstrap_setting, get_field_renderer, get_form_renderer, get_formset_renderer
 from .exceptions import BootstrapError
 from .text import text_value
 from .utils import add_css_class, render_tag

@@ -4,13 +4,13 @@ from bs4 import BeautifulSoup
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.core.paginator import Paginator
 from django.forms import formset_factory
-from django.test import TestCase, override_settings
+from django.test import TestCase
 from django.utils.html import escape
+from django_bootstrap5.core import get_bootstrap_setting
+from django_bootstrap5.exceptions import BootstrapError
+from django_bootstrap5.text import text_concat, text_value
+from django_bootstrap5.utils import add_css_class, render_tag, url_replace_param
 
-from bootstrap4.bootstrap import get_bootstrap_setting
-from bootstrap4.exceptions import BootstrapError
-from bootstrap4.text import text_concat, text_value
-from bootstrap4.utils import add_css_class, render_tag, url_replace_param
 from tests.utils import html_39x27
 
 from .test_templates import TestForm, render_template, render_template_with_form
@@ -58,33 +58,8 @@ class MediaTest(TestCase):
         setting = get_bootstrap_setting(tag + "_url")
         return template.format(**setting)
 
-    def test_bootstrap_jquery(self):
-        self.assertHTMLEqual(render_template_with_form("{% bootstrap_jquery %}"), self.expected_js("jquery"))
-        self.assertHTMLEqual(
-            render_template_with_form("{% bootstrap_jquery jquery=True %}"), self.expected_js("jquery")
-        )
-        self.assertHTMLEqual(
-            render_template_with_form('{% bootstrap_jquery jquery="full" %}'), self.expected_js("jquery")
-        )
-        self.assertHTMLEqual(
-            render_template_with_form('{% bootstrap_jquery jquery="slim" %}'), self.expected_js("jquery_slim")
-        )
-        self.assertHTMLEqual(render_template_with_form("{% bootstrap_jquery jquery=False %}"), "")
-
-    @override_settings(BOOTSTRAP4={"jquery_url": {"url": "foo"}})
-    def test_bootstrap_jquery_custom_setting_dict(self):
-        self.assertHTMLEqual(render_template_with_form("{% bootstrap_jquery %}"), '<script src="foo"></script>')
-
-    @override_settings(BOOTSTRAP4={"jquery_url": "http://example.com"})
-    def test_bootstrap_jquery_custom_setting_str(self):
-        self.assertHTMLEqual(
-            render_template_with_form("{% bootstrap_jquery %}"), '<script src="http://example.com"></script>'
-        )
-
     def test_bootstrap_javascript_tag(self):
-        html = render_template_with_form("{% bootstrap_javascript jquery=True %}")
-        # jQuery
-        self.assertInHTML(self.expected_js("jquery"), html)
+        html = render_template_with_form("{% bootstrap_javascript %}")
         # Bootstrap
         self.assertInHTML(self.expected_js("javascript"), html)
 
@@ -96,36 +71,30 @@ class MediaTest(TestCase):
 
     def test_bootstrap_setting_filter(self):
         res = render_template_with_form('{{ "required_css_class"|bootstrap_setting }}')
-        self.assertEqual(res.strip(), "bootstrap4-req")
+        self.assertEqual(res.strip(), "django_bootstrap5-req")
         res = render_template_with_form('{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}')
         self.assertEqual(res.strip(), "head")
 
     def test_bootstrap_required_class(self):
         form = TestForm()
         res = render_template_with_form("{% bootstrap_form form %}", {"form": form})
-        self.assertIn("bootstrap4-req", res)
+        self.assertIn("django_bootstrap5-req", res)
 
     def test_bootstrap_error_class(self):
         form = TestForm({})
         res = render_template_with_form("{% bootstrap_form form %}", {"form": form})
-        self.assertIn("bootstrap4-err", res)
+        self.assertIn("django_bootstrap5-err", res)
 
     def test_bootstrap_bound_class(self):
         form = TestForm({"sender": "sender"})
         res = render_template_with_form("{% bootstrap_form form %}", {"form": form})
-        self.assertIn("bootstrap4-bound", res)
+        self.assertIn("django_bootstrap5-bound", res)
 
 
 class JavaScriptTagTest(TestCase):
-    def test_bootstrap_javascript_without_jquery(self):
+    def test_bootstrap_javascript(self):
         res = render_template_with_form("{% bootstrap_javascript %}")
         self.assertIn("bootstrap", res)
-        self.assertNotIn("jquery", res)
-
-    def test_bootstrap_javascript_with_jquery(self):
-        res = render_template_with_form("{% bootstrap_javascript jquery=True %}")
-        self.assertIn("bootstrap", res)
-        self.assertIn("jquery", res)
 
 
 class BootstrapFormSetTest(TestCase):
@@ -196,18 +165,18 @@ class BootstrapFormTest(TestCase):
     def test_error_class(self):
         form = TestForm({"sender": "sender"})
         res = render_template_with_form("{% bootstrap_form form %}", {"form": form})
-        self.assertIn("bootstrap4-err", res)
+        self.assertIn("django_bootstrap5-err", res)
 
         res = render_template_with_form('{% bootstrap_form form error_css_class="successful-test" %}', {"form": form})
         self.assertIn("successful-test", res)
 
         res = render_template_with_form('{% bootstrap_form form error_css_class="" %}', {"form": form})
-        self.assertNotIn("bootstrap4-err", res)
+        self.assertNotIn("django_bootstrap5-err", res)
 
     def test_required_class(self):
         form = TestForm({"sender": "sender"})
         res = render_template_with_form("{% bootstrap_form form %}", {"form": form})
-        self.assertIn("bootstrap4-req", res)
+        self.assertIn("django_bootstrap5-req", res)
 
         res = render_template_with_form(
             '{% bootstrap_form form required_css_class="successful-test" %}', {"form": form}
@@ -215,13 +184,13 @@ class BootstrapFormTest(TestCase):
         self.assertIn("successful-test", res)
 
         res = render_template_with_form('{% bootstrap_form form required_css_class="" %}', {"form": form})
-        self.assertNotIn("bootstrap4-req", res)
+        self.assertNotIn("django_bootstrap5-req", res)
 
     def test_bound_class(self):
         form = TestForm({"sender": "sender"})
 
         res = render_template_with_form("{% bootstrap_form form %}", {"form": form})
-        self.assertIn("bootstrap4-bound", res)
+        self.assertIn("django_bootstrap5-bound", res)
 
         form = TestForm({"sender": "sender"})
 
@@ -231,7 +200,7 @@ class BootstrapFormTest(TestCase):
         form = TestForm({"sender": "sender"})
 
         res = render_template_with_form('{% bootstrap_form form bound_css_class="" %}', {"form": form})
-        self.assertNotIn("bootstrap4-bound", res)
+        self.assertNotIn("django_bootstrap5-bound", res)
 
     def test_radio_select_button_group(self):
         form = TestForm()
@@ -377,7 +346,7 @@ class FieldTest(TestCase):
         self.assertIn("text-muted", help_text["class"], "The help text should have the class 'text-muted'.")
 
     def test_required_field(self):
-        required_css_class = "bootstrap4-req"
+        required_css_class = "django_bootstrap5-req"
         required_field = render_form_field("subject")
         self.assertIn(required_css_class, required_field)
         not_required_field = render_form_field("message")
@@ -391,7 +360,7 @@ class FieldTest(TestCase):
 
     def test_empty_permitted(self):
         """If a form has empty_permitted, no fields should get the CSS class for required."""
-        required_css_class = "bootstrap4-req"
+        required_css_class = "django_bootstrap5-req"
         form = TestForm()
         res = render_form_field("subject", {"form": form})
         self.assertIn(required_css_class, res)
@@ -658,7 +627,7 @@ class PaginatorTest(TestCase):
     def bootstrap_pagination(self, page, extra=""):
         """Helper to test bootstrap_pagination tag."""
         template = """
-            {% load bootstrap4 %}
+            {% load django_bootstrap5 %}
             {% bootstrap_pagination page {extra} %}
         """.replace(
             "{extra}", extra

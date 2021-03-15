@@ -1,8 +1,8 @@
 # django-bootstrap 4
 
-[![CI](https://github.com/zostera/django-bootstrap4/workflows/CI/badge.svg?branch=main)](https://github.com/zostera/django-bootstrap4/actions?workflow=CI)
-[![Coverage Status](https://coveralls.io/repos/github/zostera/django-bootstrap4/badge.svg?branch=main)](https://coveralls.io/github/zostera/django-bootstrap4?branch=main)
-[![Latest PyPI version](https://img.shields.io/pypi/v/django-bootstrap4.svg)](https://pypi.python.org/pypi/django-bootstrap4)
+[![CI](https://github.com/zostera/django-bootstrap5/workflows/CI/badge.svg?branch=main)](https://github.com/zostera/django-bootstrap5/actions?workflow=CI)
+[![Coverage Status](https://coveralls.io/repos/github/zostera/django-bootstrap5/badge.svg?branch=main)](https://coveralls.io/github/zostera/django-bootstrap5?branch=main)
+[![Latest PyPI version](https://img.shields.io/pypi/v/django-bootstrap5.svg)](https://pypi.python.org/pypi/django-bootstrap5)
 [![Any color you like](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
 Bootstrap 4 integration for Django.
@@ -17,14 +17,14 @@ Python 3.6 or newer with Django >= 2.2 or newer.
 
 ## Documentation
 
-The full documentation is at https://django-bootstrap4.readthedocs.io/
+The full documentation is at https://django-bootstrap5.readthedocs.io/
 
 ## Installation
 
 1. Install using pip:
 
     ```shell script
-    pip install django-bootstrap4
+    pip install django-bootstrap5
     ```
    
    Alternatively, you can install download or clone this repo and call ``pip install -e .``.
@@ -34,17 +34,17 @@ The full documentation is at https://django-bootstrap4.readthedocs.io/
    ```python
    INSTALLED_APPS = (
        # ...
-       "bootstrap4",
+       "django_bootstrap5",
        # ...
    )
    ````
 
-3. In your templates, load the `bootstrap4` library and use the `bootstrap_*` tags:
+3. In your templates, load the `bootstrap5` library and use the `bootstrap_*` tags:
 
 ## Example template
 
 ```djangotemplate
-{% load bootstrap4 %}
+{% load django_bootstrap5 %}
 
 {# Display a form #}
 
@@ -68,7 +68,7 @@ Bugs and suggestions
 
 If you have found a bug or if you have a request for additional functionality, please use the issue tracker on GitHub.
 
-https://github.com/zostera/django-bootstrap4/issues
+https://github.com/zostera/django-bootstrap5/issues
 
 
 License

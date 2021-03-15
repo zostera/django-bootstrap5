@@ -2,30 +2,19 @@ from importlib import import_module
 
 from django.conf import settings
 
-BOOTSTRAP4_DEFAULTS = {
+BOOTSTRAP5_DEFAULTS = {
     "css_url": {
-        "href": "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css",
-        "integrity": "sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l",
+        "href": "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css",
+        "integrity": "sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl",
         "crossorigin": "anonymous",
     },
     "javascript_url": {
-        "url": "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js",
-        "integrity": "sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF",
+        "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js",
+        "integrity": "sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0",
         "crossorigin": "anonymous",
     },
     "theme_url": None,
-    "jquery_url": {
-        "url": "https://code.jquery.com/jquery-3.5.1.min.js",
-        "integrity": "sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2",
-        "crossorigin": "anonymous",
-    },
-    "jquery_slim_url": {
-        "url": "https://code.jquery.com/jquery-3.5.1.slim.min.js",
-        "integrity": "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj",
-        "crossorigin": "anonymous",
-    },
     "javascript_in_head": False,
-    "include_jquery": False,
     "use_i18n": False,
     "horizontal_label_class": "col-md-3",
     "horizontal_field_class": "col-md-9",
@@ -33,11 +22,11 @@ BOOTSTRAP4_DEFAULTS = {
     "required_css_class": "",
     "error_css_class": "is-invalid",
     "success_css_class": "is-valid",
-    "formset_renderers": {"default": "bootstrap4.renderers.FormsetRenderer"},
-    "form_renderers": {"default": "bootstrap4.renderers.FormRenderer"},
+    "formset_renderers": {"default": "django_bootstrap5.renderers.FormsetRenderer"},
+    "form_renderers": {"default": "django_bootstrap5.renderers.FormRenderer"},
     "field_renderers": {
-        "default": "bootstrap4.renderers.FieldRenderer",
-        "inline": "bootstrap4.renderers.InlineFieldRenderer",
+        "default": "django_bootstrap5.renderers.FieldRenderer",
+        "inline": "django_bootstrap5.renderers.InlineFieldRenderer",
     },
 }
 
@@ -45,34 +34,15 @@ BOOTSTRAP4_DEFAULTS = {
 def get_bootstrap_setting(name, default=None):
     """Read a setting."""
     # Start with a copy of default settings
-    BOOTSTRAP4 = BOOTSTRAP4_DEFAULTS.copy()
+    BOOTSTRAP5 = BOOTSTRAP5_DEFAULTS.copy()
 
     # Override with user settings from settings.py
-    BOOTSTRAP4.update(getattr(settings, "BOOTSTRAP4", {}))
+    BOOTSTRAP5.update(getattr(settings, "BOOTSTRAP5", {}))
 
     # Update use_i18n
-    BOOTSTRAP4["use_i18n"] = i18n_enabled()
+    BOOTSTRAP5["use_i18n"] = i18n_enabled()
 
-    return BOOTSTRAP4.get(name, default)
-
-
-def jquery_url():
-    """Return the full url to jQuery library file to use."""
-    return get_bootstrap_setting("jquery_url")
-
-
-def jquery_slim_url():
-    """Return the full url to slim jQuery library file to use."""
-    return get_bootstrap_setting("jquery_slim_url")
-
-
-def include_jquery():
-    """
-    Return whether to include jquery.
-
-    Setting could be False, True|'full', or 'slim'
-    """
-    return get_bootstrap_setting("include_jquery")
+    return BOOTSTRAP5.get(name, default)
 
 
 def javascript_url():

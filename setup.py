@@ -17,7 +17,7 @@ setup(
     description="Bootstrap 4 for Django",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/zostera/django-bootstrap4",
+    url="https://github.com/zostera/django-bootstrap5",
     author="Dylan Verheul",
     author_email="dylan@dyve.net",
     license="BSD-3-Clause",

@@ -3,10 +3,10 @@ import sys
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ""))
 
-# Include BOOTSTRAP4_FOLDER in path
-BOOTSTRAP4_FOLDER = os.path.abspath(os.path.join(BASE_DIR, "..", "bootstrap4"))
-if BOOTSTRAP4_FOLDER not in sys.path:
-    sys.path.insert(0, BOOTSTRAP4_FOLDER)
+# Include BOOTSTRAP5_FOLDER in path
+BOOTSTRAP5_FOLDER = os.path.abspath(os.path.join(BASE_DIR, "..", "django_bootstrap5"))
+if BOOTSTRAP5_FOLDER not in sys.path:
+    sys.path.insert(0, BOOTSTRAP5_FOLDER)
 
 DEBUG = True
 
@@ -121,7 +121,7 @@ INSTALLED_APPS = (
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
-    "bootstrap4",
+    "django_bootstrap5",
     "app",
 )
 
@@ -144,10 +144,9 @@ LOGGING = {
     "loggers": {"django.request": {"handlers": ["mail_admins"], "level": "ERROR", "propagate": True}},
 }
 
-# Settings for django-bootstrap4
-BOOTSTRAP4 = {
-    "error_css_class": "bootstrap4-error",
-    "required_css_class": "bootstrap4-required",
+# Settings for django-bootstrap5
+BOOTSTRAP5 = {
+    "error_css_class": "django_bootstrap5-error",
+    "required_css_class": "django_bootstrap5-required",
     "javascript_in_head": True,
-    "include_jquery": True,
 }

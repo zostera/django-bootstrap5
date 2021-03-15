@@ -138,7 +138,7 @@ def url_replace_param(url, name, value):
 
 
 def sanitize_url_dict(url, url_attr="src"):
-    """Sanitize url dict as used in django-bootstrap4 settings."""
+    """Sanitize url dict as used in django-bootstrap5 settings."""
     if isinstance(url, str):
         return {url_attr: url}
     return url.copy()

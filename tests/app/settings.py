@@ -1,4 +1,4 @@
-SECRET_KEY = "Thanks for using django-bootstrap4!"
+SECRET_KEY = "Thanks for using django-bootstrap5!"
 
 DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}}
 
@@ -12,7 +12,7 @@ INSTALLED_APPS = (
     "django.contrib.staticfiles",
     "django.contrib.gis",
     # Our tests
-    "bootstrap4",
+    "django_bootstrap5",
     "tests",
 )
 
@@ -45,10 +45,10 @@ TEMPLATES = [
     }
 ]
 
-BOOTSTRAP4 = {
+BOOTSTRAP5 = {
     "theme_url": "//example.com/theme.css",
     "javascript_in_head": True,
-    "required_css_class": "bootstrap4-req",
-    "error_css_class": "bootstrap4-err",
-    "success_css_class": "bootstrap4-bound",
+    "required_css_class": "django_bootstrap5-req",
+    "error_css_class": "django_bootstrap5-err",
+    "success_css_class": "django_bootstrap5-bound",
 }

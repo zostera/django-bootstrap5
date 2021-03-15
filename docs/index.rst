@@ -1,4 +1,4 @@
-Welcome to django-bootstrap4's documentation!
+Welcome to django-bootstrap5's documentation!
 =============================================
 
 Contents:

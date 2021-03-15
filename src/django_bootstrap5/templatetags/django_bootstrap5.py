@@ -7,8 +7,8 @@ from django.template import Context
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
-from ..bootstrap import css_url, get_bootstrap_setting, javascript_url, jquery_slim_url, jquery_url, theme_url
 from ..components import render_alert
+from ..core import css_url, get_bootstrap_setting, javascript_url, theme_url
 from ..forms import (
     render_button,
     render_field,
@@ -25,7 +25,6 @@ from ..utils import (
     parse_token_contents,
     render_link_tag,
     render_script_tag,
-    render_tag,
     render_template_file,
     url_replace_param,
 )
@@ -73,58 +72,6 @@ def bootstrap_message_classes(message):
         except KeyError:
             classes.append("alert alert-danger")
     return " ".join(classes).strip()
-
-
-@register.simple_tag
-def bootstrap_jquery_url():
-    """
-    Return url to full version of jQuery.
-
-    **Tag name**::
-
-        bootstrap_jquery_url
-
-    Return the full url to jQuery plugin to use
-
-    Default value: ``https://code.jquery.com/jquery-3.2.1.min.js``
-
-    This value is configurable, see Settings section
-
-    **Usage**::
-
-        {% bootstrap_jquery_url %}
-
-    **Example**::
-
-        {% bootstrap_jquery_url %}
-    """
-    return jquery_url()
-
-
-@register.simple_tag
-def bootstrap_jquery_slim_url():
-    """
-    Return url to slim version of jQuery.
-
-    **Tag name**::
-
-        bootstrap_jquery_slim_url
-
-    Return the full url to slim jQuery plugin to use
-
-    Default value: ``https://code.jquery.com/jquery-3.2.1.slim.min.js``
-
-    This value is configurable, see Settings section
-
-    **Usage**::
-
-        {% bootstrap_jquery_slim_url %}
-
-    **Example**::
-
-        {% bootstrap_jquery_slim_url %}
-    """
-    return jquery_slim_url()
 
 
 @register.simple_tag
@@ -229,50 +176,7 @@ def bootstrap_css():
 
 
 @register.simple_tag
-def bootstrap_jquery(jquery=True):
-    """
-    Return HTML for jQuery tag.
-
-    Adjust the url dict in settings.
-    If no url is returned, we don't want this statement to return any HTML. This is intended behavior.
-
-    This value is configurable, see Settings section. Note that any value that evaluates to True and is
-    not "slim" will be interpreted as True.
-
-    **Tag name**::
-
-        bootstrap_jquery
-
-    **Parameters**::
-
-        :jquery: False|"slim"|True (default=True)
-
-    **Usage**::
-
-        {% bootstrap_jquery %}
-
-    **Example**::
-
-        {% bootstrap_jquery jquery='slim' %}
-    """
-    if not jquery:
-        return ""
-    elif jquery == "slim":
-        jquery = get_bootstrap_setting("jquery_slim_url")
-    else:
-        jquery = get_bootstrap_setting("jquery_url")
-
-    if isinstance(jquery, str):
-        jquery = dict(src=jquery)
-    else:
-        jquery = jquery.copy()
-        jquery.setdefault("src", jquery.pop("url", None))
-
-    return render_tag("script", attrs=jquery)
-
-
-@register.simple_tag
-def bootstrap_javascript(jquery=False):
+def bootstrap_javascript():
     """
     Return HTML for Bootstrap JavaScript.
 
@@ -288,29 +192,18 @@ def bootstrap_javascript(jquery=False):
 
         bootstrap_javascript
 
-    **Parameters**::
-
-        :jquery: False|"slim"|True (default=False)
-
     **Usage**::
 
         {% bootstrap_javascript %}
 
     **Example**::
 
-        {% bootstrap_javascript jquery="slim" %}
+        {% bootstrap_javascript %}
     """
     # List of JS tags to include
     javascript_tags = []
 
-    # Get jquery value from setting or leave default.
-    jquery = jquery or get_bootstrap_setting("include_jquery", False)
-
-    # Include jQuery if the option is passed
-    if jquery:
-        javascript_tags.append(bootstrap_jquery(jquery=jquery))
-
-    # Bootstrap 4 JavaScript
+    # Bootstrap JavaScript
     bootstrap_js_url = bootstrap_javascript_url()
     if bootstrap_js_url:
         javascript_tags.append(render_script_tag(bootstrap_js_url))
@@ -362,7 +255,7 @@ def bootstrap_formset_errors(*args, **kwargs):
             The formset that is being rendered
 
         layout
-            Context value that is available in the template ``bootstrap4/form_errors.html`` as ``layout``.
+            Context value that is available in the template ``django_bootstrap5/form_errors.html`` as ``layout``.
 
     **Usage**::
 
@@ -443,7 +336,7 @@ def bootstrap_form_errors(*args, **kwargs):
             :default: ``'all'``
 
         layout
-            Context value that is available in the template ``bootstrap4/form_errors.html`` as ``layout``.
+            Context value that is available in the template ``django_bootstrap5/form_errors.html`` as ``layout``.
 
     **Usage**::
 
@@ -793,11 +686,7 @@ def bootstrap_messages(context, *args, **kwargs):
     """
     Show django.contrib.messages Messages in Bootstrap alert containers.
 
-    In order to make the alerts dismissible (with the close button),
-    we have to set the jquery parameter too when using the
-    bootstrap_javascript tag.
-
-    Uses the template ``bootstrap4/messages.html``.
+    Uses the template ``django_bootstrap5/messages.html``.
 
     **Tag name**::
 
@@ -813,17 +702,16 @@ def bootstrap_messages(context, *args, **kwargs):
 
     **Example**::
 
-        {% bootstrap_javascript jquery=True %}
         {% bootstrap_messages %}
     """
     # Force Context to dict
     if isinstance(context, Context):
         context = context.flatten()
     context.update({"message_constants": message_constants})
-    return render_template_file("bootstrap4/messages.html", context=context)
+    return render_template_file("django_bootstrap5/messages.html", context=context)
 
 
-@register.inclusion_tag("bootstrap4/pagination.html")
+@register.inclusion_tag("django_bootstrap5/pagination.html")
 def bootstrap_pagination(page, **kwargs):
     """
     Render pagination for a page.
