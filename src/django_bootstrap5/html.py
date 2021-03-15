@@ -1,6 +1,5 @@
 from django.forms.utils import flatatt
 from django.utils.html import format_html
-from django.utils.safestring import mark_safe
 
 from django_bootstrap5.text import text_value
 from django_bootstrap5.utils import sanitize_url_dict
@@ -25,7 +24,9 @@ def render_link_tag(url, rel="stylesheet", media=None):
 
 def render_tag(tag, attrs=None, content=None, close=True):
     """Render a HTML tag."""
-    builder = "<{tag}{attrs}>{content}"
-    if content or close:
+    attrs_string = flatatt(attrs) if attrs else ""
+    builder = "<{tag}" + attrs_string + ">{content}"
+    content_string = text_value(content)
+    if content_string or close:
         builder += "</{tag}>"
-    return format_html(builder, tag=tag, attrs=mark_safe(flatatt(attrs)) if attrs else "", content=text_value(content))
+    return format_html(builder, tag=tag, content=content_string)

@@ -2,13 +2,13 @@
 Widgets
 =======
 
-A form widget is available for displaying radio buttons as a Bootstrap 4 button group(https://getbootstrap.com/docs/4.5/components/button-group/).
+A form widget is available for displaying radio buttons as a Bootstrap 5 button group(https://getbootstrap.com/docs/4.5/components/button-group/).
 
 
 RadioSelectButtonGroup
 ~~~~~~~~~~~~~~~~~~~~~~
 
-This renders a form ChoiceField as a Bootstrap 4 button group in the `primary` Bootstrap 4 color.
+This renders a form ChoiceField as a Bootstrap 5 button group in the `primary` Bootstrap 5 color.
 
 .. code:: django
 

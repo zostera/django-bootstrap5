@@ -1,15 +1,15 @@
-# django-bootstrap 4
+# django-bootstrap5
 
 [![CI](https://github.com/zostera/django-bootstrap5/workflows/CI/badge.svg?branch=main)](https://github.com/zostera/django-bootstrap5/actions?workflow=CI)
 [![Coverage Status](https://coveralls.io/repos/github/zostera/django-bootstrap5/badge.svg?branch=main)](https://coveralls.io/github/zostera/django-bootstrap5?branch=main)
 [![Latest PyPI version](https://img.shields.io/pypi/v/django-bootstrap5.svg)](https://pypi.python.org/pypi/django-bootstrap5)
 [![Any color you like](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 
-Bootstrap 4 integration for Django.
+Bootstrap 5 for Django.
 
 ## Goal
 
-The goal of this project is to seamlessly blend Django and Bootstrap 4.
+The goal of this project is to seamlessly blend Django and Bootstrap 5.
 
 ## Requirements
 
@@ -39,7 +39,7 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
    )
    ````
 
-3. In your templates, load the `bootstrap5` library and use the `bootstrap_*` tags:
+3. In your templates, load the `django_bootstrap5` library and use the `bootstrap_*` tags:
 
 ## Example template
 

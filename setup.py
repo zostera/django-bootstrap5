@@ -14,7 +14,7 @@ setup(
     name="django-bootstrap5",
     zip_safe=False,
     version="0.0.1",
-    description="Bootstrap 4 for Django",
+    description="Bootstrap 5 for Django",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/zostera/django-bootstrap5",
