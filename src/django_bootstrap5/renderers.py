@@ -20,6 +20,7 @@ from django.utils.html import conditional_escape, escape, strip_tags
 from django.utils.safestring import mark_safe
 
 from .core import get_bootstrap_setting
+from .css import merge_css_classes
 from .exceptions import BootstrapError
 from .forms import (
     FORM_GROUP_CLASS,
@@ -30,7 +31,7 @@ from .forms import (
     render_label,
 )
 from .text import text_value
-from .utils import add_css_class, render_template_file
+from .utils import render_template_file
 
 try:
     # If Django is set up without a database, importing this widget gives RuntimeError
@@ -276,22 +277,22 @@ class FieldRenderer(BaseRenderer):
         classes = widget.attrs.get("class", "")
         if ReadOnlyPasswordHashWidget is not None and isinstance(widget, ReadOnlyPasswordHashWidget):
             # Render this is a static control
-            classes = add_css_class(classes, "form-control-static", prepend=True)
+            classes = merge_css_classes("form-control-static", classes)
         elif not isinstance(widget, self.WIDGETS_NO_FORM_CONTROL):
-            classes = add_css_class(classes, "form-control", prepend=True)
+            classes = merge_css_classes("form-control", classes)
             # For these widget types, add the size class here
-            classes = add_css_class(classes, self.get_size_class())
+            classes = merge_css_classes(classes, self.get_size_class())
         elif isinstance(widget, CheckboxInput):
-            classes = add_css_class(classes, "form-check-input", prepend=True)
+            classes = merge_css_classes("form-check-input", classes)
         elif isinstance(widget, FileInput):
-            classes = add_css_class(classes, "form-control-file", prepend=True)
+            classes = merge_css_classes("form-control-file", classes)
 
         if self.field.errors:
             if self.error_css_class:
-                classes = add_css_class(classes, self.error_css_class)
+                classes = merge_css_classes(classes, self.error_css_class)
         else:
             if self.field.form.is_bound:
-                classes = add_css_class(classes, self.success_css_class)
+                classes = merge_css_classes(classes, self.success_css_class)
 
         widget.attrs["class"] = classes
 
@@ -320,7 +321,7 @@ class FieldRenderer(BaseRenderer):
             self.add_help_attrs(widget)
 
     def list_to_class(self, html, klass):
-        classes = add_css_class(klass, self.get_size_class())
+        classes = merge_css_classes(klass, self.get_size_class())
         mapping = [
             ("<ul", '<div class="{classes}"'.format(classes=classes)),
             ("</ul>", "</div>"),
@@ -469,10 +470,10 @@ class FieldRenderer(BaseRenderer):
         label_class = self.label_class
         if not label_class and self.layout == "horizontal":
             label_class = self.horizontal_label_class
-            label_class = add_css_class(label_class, "col-form-label")
+            label_class = merge_css_classes(label_class, "col-form-label")
         label_class = text_value(label_class)
         if not self.show_label or self.show_label == "sr-only":
-            label_class = add_css_class(label_class, "sr-only")
+            label_class = merge_css_classes(label_class, "sr-only")
         return label_class
 
     def get_label(self):
@@ -496,14 +497,14 @@ class FieldRenderer(BaseRenderer):
         form_group_class = self.form_group_class
         if self.field.errors:
             if self.error_css_class:
-                form_group_class = add_css_class(form_group_class, self.error_css_class)
+                form_group_class = merge_css_classes(form_group_class, self.error_css_class)
         else:
             if self.field.form.is_bound:
-                form_group_class = add_css_class(form_group_class, self.success_css_class)
+                form_group_class = merge_css_classes(form_group_class, self.success_css_class)
         if self.field.field.required and self.required_css_class:
-            form_group_class = add_css_class(form_group_class, self.required_css_class)
+            form_group_class = merge_css_classes(form_group_class, self.required_css_class)
         if self.layout == "horizontal":
-            form_group_class = add_css_class(form_group_class, "row")
+            form_group_class = merge_css_classes(form_group_class, "row")
         return form_group_class
 
     def wrap_label_and_field(self, html):
@@ -551,4 +552,4 @@ class InlineFieldRenderer(FieldRenderer):
         return self.field_class
 
     def get_label_class(self):
-        return add_css_class(self.label_class, "sr-only")
+        return merge_css_classes(self.label_class, "sr-only")

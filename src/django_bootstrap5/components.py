@@ -1,7 +1,7 @@
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
-from django_bootstrap5.utils import render_tag
 
+from .html import render_tag
 from .text import text_value
 
 

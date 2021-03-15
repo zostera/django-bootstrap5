@@ -20,14 +20,8 @@ from ..forms import (
     render_formset_errors,
     render_label,
 )
-from ..utils import (
-    handle_var,
-    parse_token_contents,
-    render_link_tag,
-    render_script_tag,
-    render_template_file,
-    url_replace_param,
-)
+from ..html import render_link_tag, render_script_tag
+from ..utils import handle_var, parse_token_contents, render_template_file, url_replace_param
 
 MESSAGE_LEVEL_CLASSES = {
     message_constants.DEBUG: "alert alert-warning",

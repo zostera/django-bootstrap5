@@ -6,11 +6,13 @@ from django.core.paginator import Paginator
 from django.forms import formset_factory
 from django.test import TestCase
 from django.utils.html import escape
-from django_bootstrap5.core import get_bootstrap_setting
-from django_bootstrap5.exceptions import BootstrapError
-from django_bootstrap5.text import text_concat, text_value
-from django_bootstrap5.utils import add_css_class, render_tag, url_replace_param
 
+from django_bootstrap5.core import get_bootstrap_setting
+from django_bootstrap5.css import merge_css_classes
+from django_bootstrap5.exceptions import BootstrapError
+from django_bootstrap5.html import render_tag
+from django_bootstrap5.text import text_concat, text_value
+from django_bootstrap5.utils import url_replace_param
 from tests.utils import html_39x27
 
 from .test_templates import TestForm, render_template, render_template_with_form
@@ -316,7 +318,11 @@ class FieldTest(TestCase):
             self.assertIsNotNone(input_, "The input should be rendered after the label")
             self.assertEqual(input_.name, "input", "After the label there should be an input")
             self.assertIn("form-check-input", input_["class"], "The input should have the class 'form-check-input'")
-            self.assertEqual(str(idx), input_["value"], "The input should have value '{idx}'".format(idx=idx))
+            self.assertEqual(
+                str(idx),
+                input_["value"],
+                "The input should have value '{idx}'".format(idx=idx),
+            )
             self.assertEqual(
                 label["for"], input_["id"], "The for attribute of the label should be the id of the radio input"
             )
@@ -557,10 +563,10 @@ class UtilsTest(TestCase):
     def test_add_css_class(self):
         css_classes = "one two"
         css_class = "three four"
-        classes = add_css_class(css_classes, css_class)
+        classes = merge_css_classes(css_classes, css_class)
         self.assertEqual(classes, "one two three four")
 
-        classes = add_css_class(css_classes, css_class, prepend=True)
+        classes = merge_css_classes(css_class, css_classes)
         self.assertEqual(classes, "three four one two")
 
     def test_text_value(self):

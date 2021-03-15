@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from django_bootstrap5.core import get_bootstrap_setting
 
 

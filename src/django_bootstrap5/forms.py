@@ -2,9 +2,10 @@ from django.forms import EmailInput, NumberInput, PasswordInput, Textarea, TextI
 from django.utils.safestring import mark_safe
 
 from .core import get_bootstrap_setting, get_field_renderer, get_form_renderer, get_formset_renderer
+from .css import merge_css_classes
 from .exceptions import BootstrapError
+from .html import render_tag
 from .text import text_value
-from .utils import add_css_class, render_tag
 
 FORM_GROUP_CLASS = "form-group"
 
@@ -65,14 +66,14 @@ def render_button(
 ):
     """Render a button with content."""
     attrs = {}
-    classes = add_css_class("btn", button_class)
+    classes = merge_css_classes("btn", button_class)
     size = text_value(size).lower().strip()
     if size == "xs":
-        classes = add_css_class(classes, "btn-xs")
+        classes = merge_css_classes(classes, "btn-xs")
     elif size == "sm" or size == "small":
-        classes = add_css_class(classes, "btn-sm")
+        classes = merge_css_classes(classes, "btn-sm")
     elif size == "lg" or size == "large":
-        classes = add_css_class(classes, "btn-lg")
+        classes = merge_css_classes(classes, "btn-lg")
     elif size == "md" or size == "medium":
         pass
     elif size:
@@ -89,7 +90,7 @@ def render_button(
         if button_type != "link":
             attrs["type"] = button_type
 
-    classes = add_css_class(classes, extra_classes)
+    classes = merge_css_classes(classes, extra_classes)
     attrs["class"] = classes
 
     if href:
@@ -124,7 +125,7 @@ def render_field_and_label(field, label, field_class="", label_for=None, label_c
             field_class = get_bootstrap_setting("horizontal_field_class")
         if not label:
             label = mark_safe("&#160;")
-        label_class = add_css_class(label_class, "control-label")
+        label_class = merge_css_classes(label_class, "control-label")
     html = field
     if field_class:
         html = '<div class="{field_class}">{html}</div>'.format(field_class=field_class, html=html)
