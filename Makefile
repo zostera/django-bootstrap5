@@ -1,6 +1,6 @@
 .PHONY: test tox reformat lint docs porcelain branch build publish
 
-PROJECT_DIR=src/bootstrap4
+PROJECT_DIR=src/django_bootstrap5
 PYTHON_SOURCES=${PROJECT_DIR} tests example *.py
 
 test:

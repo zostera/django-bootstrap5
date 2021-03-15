@@ -1,11 +1,11 @@
 .. code:: django
 
   {# Load the tag library #}
-  {% load bootstrap4 %}
+  {% load django_bootstrap5 %}
 
   {# Load CSS and JavaScript #}
   {% bootstrap_css %}
-  {% bootstrap_javascript jquery='full' %}
+  {% bootstrap_javascript %}
 
   {# Display django.contrib.messages as Bootstrap alerts #}
   {% bootstrap_messages %}

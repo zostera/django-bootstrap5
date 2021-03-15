@@ -1,16 +1,11 @@
 import re
-from collections.abc import Mapping
 from urllib.parse import parse_qs, urlparse, urlunparse
 
-from django.forms.utils import flatatt
 from django.template.base import FilterExpression, TemplateSyntaxError, Variable, VariableDoesNotExist, kwarg_re
 from django.template.loader import get_template
 from django.utils.encoding import force_str
-from django.utils.html import format_html
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
-
-from .text import text_value
 
 # RegEx for quoted string
 QUOTED_STRING = re.compile(r'^["\'](?P<noquotes>.+)["\']$')
@@ -56,58 +51,8 @@ def parse_token_contents(parser, token):
     return {"tag": tag, "args": args, "kwargs": kwargs, "asvar": asvar}
 
 
-def split_css_classes(css_classes):
-    """Turn string into a list of CSS classes."""
-    classes_list = text_value(css_classes).split(" ")
-    return [c for c in classes_list if c]
-
-
-def add_css_class(css_classes, css_class, prepend=False):
-    """Add a CSS class to a string of CSS classes."""
-    classes_list = split_css_classes(css_classes)
-    classes_to_add = [c for c in split_css_classes(css_class) if c not in classes_list]
-    if prepend:
-        classes_list = classes_to_add + classes_list
-    else:
-        classes_list += classes_to_add
-    return " ".join(classes_list)
-
-
-def remove_css_class(css_classes, css_class):
-    """Remove a CSS class from a string of CSS classes."""
-    remove = set(split_css_classes(css_class))
-    classes_list = [c for c in split_css_classes(css_classes) if c not in remove]
-    return " ".join(classes_list)
-
-
-def render_script_tag(url):
-    """Build a script tag."""
-    url_dict = sanitize_url_dict(url)
-    url_dict.setdefault("src", url_dict.pop("url", None))
-    return render_tag("script", url_dict)
-
-
-def render_link_tag(url, rel="stylesheet", media=None):
-    """Build a link tag."""
-    url_dict = sanitize_url_dict(url, url_attr="href")
-    url_dict.setdefault("href", url_dict.pop("url", None))
-    url_dict["rel"] = rel
-    if media:
-        url_dict["media"] = media
-    return render_tag("link", attrs=url_dict, close=False)
-
-
-def render_tag(tag, attrs=None, content=None, close=True):
-    """Render a HTML tag."""
-    builder = "<{tag}{attrs}>{content}"
-    if content or close:
-        builder += "</{tag}>"
-    return format_html(builder, tag=tag, attrs=mark_safe(flatatt(attrs)) if attrs else "", content=text_value(content))
-
-
 def render_template_file(template, context=None):
-    """Render a Template to unicode."""
-    assert isinstance(context, Mapping)
+    """Return rendered template file, with given context as input."""
     template = get_template(template)
     return template.render(context)
 
@@ -138,7 +83,7 @@ def url_replace_param(url, name, value):
 
 
 def sanitize_url_dict(url, url_attr="src"):
-    """Sanitize url dict as used in django-bootstrap4 settings."""
+    """Sanitize url dict as used in django-bootstrap5 settings."""
     if isinstance(url, str):
         return {url_attr: url}
     return url.copy()

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.admin.widgets import AdminSplitDateTime
 from django.forms import BaseFormSet, formset_factory
 
-from bootstrap4.widgets import RadioSelectButtonGroup
+from django_bootstrap5.widgets import RadioSelectButtonGroup
 
 RADIO_CHOICES = (("1", "Radio 1"), ("2", "Radio 2"))
 
@@ -15,7 +15,7 @@ MEDIA_CHOICES = (
 
 
 class TestForm(forms.Form):
-    """Form with a variety of widgets to test bootstrap4 rendering."""
+    """Form with a variety of widgets to test django_bootstrap5 rendering."""
 
     date = forms.DateField(required=False)
     datetime = forms.SplitDateTimeField(widget=AdminSplitDateTime(), required=False)
@@ -48,7 +48,7 @@ class TestForm(forms.Form):
     category5 = forms.ChoiceField(widget=RadioSelectButtonGroup, choices=MEDIA_CHOICES)
     addon = forms.CharField(widget=forms.TextInput(attrs={"addon_before": "before", "addon_after": "after"}))
 
-    required_css_class = "bootstrap4-req"
+    required_css_class = "django_bootstrap5-req"
 
     # Set this to allow tests to work properly in Django 1.10+
     # More information, see issue #337

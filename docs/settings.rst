@@ -2,17 +2,17 @@
 Settings
 ========
 
-The django-bootstrap4 has some pre-configured settings.
+The django-bootstrap5 has some pre-configured settings.
 
-They can be modified by adding a dict variable called ``BOOTSTRAP4`` in your ``settings.py`` and customizing the values ​​you want;
+They can be modified by adding a dict variable called ``BOOTSTRAP5`` in your ``settings.py`` and customizing the values ​​you want;
 
-The ``BOOTSTRAP4`` dict variable contains these settings and defaults:
+The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
 
 
 .. code:: django
 
     # Default settings
-    BOOTSTRAP4 = {
+    BOOTSTRAP5 = {
 
         # The complete URL to the Bootstrap CSS file
         # Note that a URL can be either a string,
@@ -34,26 +34,8 @@ The ``BOOTSTRAP4`` dict variable contains these settings and defaults:
         # The complete URL to the Bootstrap CSS theme file (None means no theme)
         "theme_url": None,
 
-        # The URL to the jQuery JavaScript file (full)
-        "jquery_url": {
-            "url": "https://code.jquery.com/jquery-3.5.1.min.js",
-            "integrity": "sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2",
-            "crossorigin": "anonymous",
-        },
-
-        # The URL to the jQuery JavaScript file (slim)
-        "jquery_slim_url": {
-            "url": "https://code.jquery.com/jquery-3.5.1.slim.min.js",
-            "integrity": "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj",
-            "crossorigin": "anonymous",
-        },
-
-        # Put JavaScript in the HEAD section of the HTML document (only relevant if you use bootstrap4.html)
+        # Put JavaScript in the HEAD section of the HTML document (only relevant if you use bootstrap5.html)
         'javascript_in_head': False,
-
-        # Include jQuery with Bootstrap JavaScript False|falsy|slim|full (default=False)
-        # False - means tag bootstrap_javascript use default value - `falsy` and does not include jQuery)
-        'include_jquery': False,
 
         # Label class to use in horizontal forms
         'horizontal_label_class': 'col-md-3',
@@ -75,13 +57,13 @@ The ``BOOTSTRAP4`` dict variable contains these settings and defaults:
 
         # Renderers (only set these if you have studied the source and understand the inner workings)
         'formset_renderers':{
-            'default': 'bootstrap4.renderers.FormsetRenderer',
+            'default': 'django_bootstrap5.renderers.FormsetRenderer',
         },
         'form_renderers': {
-            'default': 'bootstrap4.renderers.FormRenderer',
+            'default': 'django_bootstrap5.renderers.FormRenderer',
         },
         'field_renderers': {
-            'default': 'bootstrap4.renderers.FieldRenderer',
-            'inline': 'bootstrap4.renderers.InlineFieldRenderer',
+            'default': 'django_bootstrap5.renderers.FieldRenderer',
+            'inline': 'django_bootstrap5.renderers.InlineFieldRenderer',
         },
     }

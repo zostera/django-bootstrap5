@@ -9,7 +9,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at <https://github.com/zostera/django-bootstrap4/issues>.
+Report bugs at <https://github.com/zostera/django-bootstrap5/issues>.
 
 If you are reporting a bug, please include:
 
@@ -27,12 +27,12 @@ Look through the GitHub issues for features. Anything tagged with \"feature\" is
 
 ### Write Documentation
 
-`django-bootstrap4` could always use more documentation, whether as part of the official django-bootstrap4 docs, in docstrings, or even on the web in blog posts, articles, and such.
+`django-bootstrap5` could always use more documentation, whether as part of the official django-bootstrap5 docs, in docstrings, or even on the web in blog posts, articles, and such.
 
 ### Submit Feedback
 
 The best way to send feedback is to file an issue at
-<https://github.com/zostera/django-bootstrap4/issues>.
+<https://github.com/zostera/django-bootstrap5/issues>.
 
 If you are proposing a feature:
 
@@ -41,13 +41,13 @@ If you are proposing a feature:
 
 ## Get Started!
 
-Ready to contribute? Here\'s how to set up `django-bootstrap4` for local development.
+Ready to contribute? Here\'s how to set up `django-bootstrap5` for local development.
 
 You will need some knowledge of git, github, and Python/Django development. Using a Python virtual environment is advised.
 
-1. Fork and clone `django-bootstrap4` repo on GitHub. There is an excellent guide at <https://guides.github.com/activities/forking/>.
+1. Fork and clone `django-bootstrap5` repo on GitHub. There is an excellent guide at <https://guides.github.com/activities/forking/>.
 2. Install [poetry](https://python-poetry.org).
-3. Inside your local `django-bootstrap4` folder, run
+3. Inside your local `django-bootstrap5` folder, run
     ```shell script
     $ poetry install
     ```
@@ -79,4 +79,4 @@ Before you submit a pull request, check that it meets these guidelines:
 
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated. Put your new functionality into a function with a docstring, and add the feature to the list in CHANGELOG.md.
-3. The pull request should pass the Continuous Integration tests. Check <https://travis-ci.org/zostera/django-bootstrap4/pull_requests> and make sure that all tests pass. You can run the tests locally using `tox`.
+3. The pull request should pass the Continuous Integration tests. Check <https://travis-ci.org/zostera/django-bootstrap5/pull_requests> and make sure that all tests pass. You can run the tests locally using `tox`.

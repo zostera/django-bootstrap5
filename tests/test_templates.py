@@ -4,7 +4,7 @@ from django.contrib.gis import forms as gisforms
 from django.template import engines
 from django.test import TestCase
 
-from bootstrap4.widgets import RadioSelectButtonGroup
+from django_bootstrap5.widgets import RadioSelectButtonGroup
 
 RADIO_CHOICES = (("1", "Radio 1"), ("2", "Radio 2"))
 
@@ -16,7 +16,7 @@ MEDIA_CHOICES = (
 
 
 class TestForm(forms.Form):
-    """Form with a variety of widgets to test bootstrap4 rendering."""
+    """Form with a variety of widgets to test django_bootstrap5 rendering."""
 
     date = forms.DateField(required=False)
     datetime = forms.SplitDateTimeField(widget=AdminSplitDateTime(), required=False)
@@ -50,7 +50,7 @@ class TestForm(forms.Form):
     addon = forms.CharField(widget=forms.TextInput(attrs={"addon_before": "before", "addon_after": "after"}))
     polygon = gisforms.PointField()
 
-    required_css_class = "bootstrap4-req"
+    required_css_class = "django_bootstrap5-req"
     non_field_error_message = "This is a non field error."
 
     # Set this to allow tests to work properly in Django 1.10+
@@ -67,7 +67,7 @@ class TestFormWithoutRequiredClass(TestForm):
 
 
 def render_template(text, context=None):
-    """Create a template ``text`` that first loads bootstrap4."""
+    """Create a template ``text`` that first loads django_bootstrap5."""
     template = engines["django"].from_string(text)
     if not context:
         context = {}
@@ -75,15 +75,15 @@ def render_template(text, context=None):
 
 
 def render_template_with_bootstrap(text, context=None):
-    """Create a template ``text`` that first loads bootstrap4."""
+    """Create a template ``text`` that first loads django_bootstrap5."""
     if not context:
         context = {}
-    return render_template("{% load bootstrap4 %}" + text, context)
+    return render_template("{% load django_bootstrap5 %}" + text, context)
 
 
 def render_template_with_form(text, context=None, data=None):
     """
-    Create a template ``text`` that first loads bootstrap4.
+    Create a template ``text`` that first loads django_bootstrap5.
 
     When ``data`` is given, the form will be initialized with data and
     form.is_valid() will be called in order to enable validations.
@@ -107,20 +107,20 @@ class TemplateTest(TestCase):
         res = render_template_with_form("some text")
         self.assertEqual(res.strip(), "some text")
 
-    def test_bootstrap4_html_template_title(self):
+    def test_bootstrap5_html_template_title(self):
         res = render_template(
-            '{% extends "bootstrap4/bootstrap4.html" %}'
-            + "{% block bootstrap4_title %}"
-            + "test_bootstrap4_title"
+            '{% extends "django_bootstrap5/bootstrap5.html" %}'
+            + "{% block bootstrap5_title %}"
+            + "test_bootstrap5_title"
             + "{% endblock %}"
         )
-        self.assertIn("test_bootstrap4_title", res)
+        self.assertIn("test_bootstrap5_title", res)
 
-    def test_bootstrap4_html_template_content(self):
+    def test_bootstrap5_html_template_content(self):
         res = render_template(
-            '{% extends "bootstrap4/bootstrap4.html" %}'
-            + "{% block bootstrap4_content %}"
-            + "test_bootstrap4_content"
+            '{% extends "django_bootstrap5/bootstrap5.html" %}'
+            + "{% block bootstrap5_content %}"
+            + "test_bootstrap5_content"
             + "{% endblock %}"
         )
-        self.assertIn("test_bootstrap4_content", res)
+        self.assertIn("test_bootstrap5_content", res)
