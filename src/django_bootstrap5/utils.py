@@ -82,8 +82,16 @@ def url_replace_param(url, name, value):
     )
 
 
-def sanitize_url_dict(url, url_attr="src"):
-    """Sanitize url dict as used in django-bootstrap5 settings."""
+def get_url_attrs(url, attr_name):
+    """
+    Return dictionary with attributes for HTML tag, where the key for url.
+
+    Parameter `url` is either a string or a dict of attrs with the key `url`.
+    Parameter `attr_key` is the name for the url value in the results.
+    """
+    url_attrs = {}
     if isinstance(url, str):
-        return {url_attr: url}
-    return url.copy()
+        url = {"url": url}
+    url_attrs.update(url)
+    url_attrs[attr_name] = url_attrs.pop("url")
+    return url_attrs
