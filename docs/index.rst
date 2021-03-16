@@ -9,9 +9,9 @@ Contents:
    installation
    quickstart
    migrate
+   forms
    templatetags
    settings
    templates
    widgets
-   authors
    changelog
