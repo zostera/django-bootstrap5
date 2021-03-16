@@ -471,18 +471,6 @@ class FieldTest(TestCase):
         self.assertEqual(attrs, form.fields["addon"].widget.attrs)
 
 
-class ComponentsTest(TestCase):
-    def test_bootstrap_alert(self):
-        res = render_template_with_form('{% bootstrap_alert "content" alert_type="danger" %}')
-        self.assertEqual(
-            res.strip(),
-            '<div class="alert alert-danger alert-dismissible" role="alert">'
-            + '<button type="button" class="close" data-dismiss="alert" '
-            + 'aria-label="close">'
-            + "&times;</button>content</div>",
-        )
-
-
 class MessagesTest(TestCase):
     def test_bootstrap_messages(self):
         class FakeMessage(object):

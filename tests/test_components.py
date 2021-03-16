@@ -7,12 +7,15 @@ from django_bootstrap5.forms import render_button
 
 
 class AlertsTest(TestCase):
+    CLOSE = '<button aria-label="close" class="btn-close" data-bs-dismiss="alert" type="button">'
+
     def test_render_alert_without_type(self):
         self.assertEqual(
             render_alert("content"),
             (
-                '<div class="alert alert-info alert-dismissible" role="alert">'
-                '<button type="button" class="close" data-dismiss="alert" aria-label="close">&times;</button>content'
+                '<div class="alert alert-info alert-dismissible fade show" role="alert">'
+                "content"
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>'
                 "</div>"
             ),
         )
@@ -21,9 +24,9 @@ class AlertsTest(TestCase):
         self.assertEqual(
             render_alert("content", alert_type="danger"),
             (
-                '<div class="alert alert-danger alert-dismissible" role="alert">'
-                '<button type="button" class="close" data-dismiss="alert" aria-label="close">&times;</button>'
+                '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
                 "content"
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>'
                 "</div>"
             ),
         )
@@ -32,9 +35,9 @@ class AlertsTest(TestCase):
         self.assertEqual(
             render_alert(mark_safe('This is <a href="https://example.com" class="alert-link">a safe link</a>!')),
             (
-                '<div class="alert alert-info alert-dismissible" role="alert">'
-                '<button type="button" class="close" data-dismiss="alert" aria-label="close">&times;</button>'
+                '<div class="alert alert-info alert-dismissible fade show" role="alert">'
                 'This is <a href="https://example.com" class="alert-link">a safe link</a>!'
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>'
                 "</div>"
             ),
         )
@@ -43,9 +46,9 @@ class AlertsTest(TestCase):
         self.assertEqual(
             render_alert("This is <b>unsafe</b>!"),
             (
-                '<div class="alert alert-info alert-dismissible" role="alert">'
-                '<button type="button" class="close" data-dismiss="alert" aria-label="close">&times;</button>'
+                '<div class="alert alert-info alert-dismissible fade show" role="alert">'
                 "This is &lt;b&gt;unsafe&lt;/b&gt;!"
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>'
                 "</div>"
             ),
         )

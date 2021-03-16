@@ -1,27 +1,25 @@
-from django.utils.safestring import mark_safe
+from django.utils.html import format_html
 from django.utils.translation import gettext as _
 
+from .css import merge_css_classes
 from .html import render_tag
-from .text import text_value
+
+ALERT_TYPES = ["primary", "secondary", "succes", "danger", "warning", "info", "light", "dark"]
 
 
-def render_alert(content, alert_type=None, dismissible=True):
+def render_alert(content, alert_type="info", dismissible=True):
     """Render a Bootstrap alert."""
     button = ""
-    if not alert_type:
-        alert_type = "info"
-    css_classes = ["alert", "alert-" + text_value(alert_type)]
+    if alert_type not in ALERT_TYPES:
+        raise ValueError(f"Value {alert_type} is not a valid alert type. Please choose from {', '.join(ALERT_TYPES)}.")
+    css_classes = [f"alert alert-{alert_type}"]
     if dismissible:
-        css_classes.append("alert-dismissible")
+        css_classes.append("alert-dismissible fade show")
         close = _("close")
-        button = (
-            '<button type="button" class="close" data-dismiss="alert" aria-label="{close}">&times;</button>'
-        ).format(close=close)
-    button_placeholder = "__BUTTON__"
-    return mark_safe(
-        render_tag(
-            "div",
-            attrs={"class": " ".join(css_classes), "role": "alert"},
-            content=mark_safe(button_placeholder) + text_value(content),
-        ).replace(button_placeholder, button)
+        button = f'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{close}"></button>'
+    css_classes = merge_css_classes(*css_classes)
+    return render_tag(
+        "div",
+        attrs={"class": css_classes, "role": "alert"},
+        content=format_html("{content}" + button, content=content),
     )
