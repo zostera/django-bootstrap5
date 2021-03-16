@@ -437,11 +437,8 @@ class FieldTest(TestCase):
             self.assertNotIn("form-control-md", res)
 
         _test_size("sm", "form-control-sm")
-        _test_size("small", "form-control-sm")
         _test_size("lg", "form-control-lg")
-        _test_size("large", "form-control-lg")
         _test_size_medium("md")
-        _test_size_medium("medium")
         _test_size_medium("")
 
     def test_datetime(self):
@@ -484,12 +481,12 @@ class ShowLabelTest(TestCase):
     def test_show_label_false(self):
         form = TestForm()
         res = render_template_with_form("{% bootstrap_form form show_label=False %}", {"form": form})
-        self.assertIn("sr-only", res)
+        self.assertIn("visually-hidden", res)
 
     def test_show_label_sr_only(self):
         form = TestForm()
-        res = render_template_with_form("{% bootstrap_form form show_label='sr-only' %}", {"form": form})
-        self.assertIn("sr-only", res)
+        res = render_template_with_form("{% bootstrap_form form show_label='visually-hidden' %}", {"form": form})
+        self.assertIn("visually-hidden", res)
 
     def test_show_label_skip(self):
         form = TestForm()
@@ -500,7 +497,7 @@ class ShowLabelTest(TestCase):
         TestFormSet = formset_factory(TestForm, extra=1)
         test_formset = TestFormSet()
         res = render_template_with_form("{% bootstrap_formset formset show_label=False %}", {"formset": test_formset})
-        self.assertIn("sr-only", res)
+        self.assertIn("visually-hidden", res)
 
 
 class PaginatorTest(TestCase):
