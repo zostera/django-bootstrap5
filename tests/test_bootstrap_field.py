@@ -10,6 +10,6 @@ class BootstrapFieldTest(TestCase):
             name = forms.CharField()
 
         test_form = TestForm()
-        test_form.fields["name"].widget.attrs['class'] = "form-control"
+        test_form.fields["name"].widget.attrs["class"] = "form-control"
         html = render_template_with_bootstrap("{{ form.name }}", context={"form": test_form})
         self.assertHTMLEqual(html, '<input type="text" class="form-control" id="id_name" name="name" required>')
