@@ -1,17 +1,11 @@
-import re
-
 from bs4 import BeautifulSoup
-from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.core.paginator import Paginator
 from django.forms import formset_factory
 from django.test import TestCase
 from django.utils.html import escape
 
 from django_bootstrap5.core import get_bootstrap_setting
-from django_bootstrap5.css import merge_css_classes
 from django_bootstrap5.exceptions import BootstrapError
-from django_bootstrap5.html import render_tag
-from django_bootstrap5.text import text_concat, text_value
 from django_bootstrap5.utils import url_replace_param
 from tests.utils import html_39x27
 
@@ -469,109 +463,6 @@ class FieldTest(TestCase):
         form = TestForm()
         attrs = form.fields["addon"].widget.attrs.copy()
         self.assertEqual(attrs, form.fields["addon"].widget.attrs)
-
-
-class MessagesTest(TestCase):
-    def test_bootstrap_messages(self):
-        class FakeMessage(object):
-            """Follows the `django.contrib.messages.storage.base.Message` API."""
-
-            level = None
-            message = None
-            extra_tags = None
-
-            def __init__(self, level, message, extra_tags=None):
-                self.level = level
-                self.extra_tags = extra_tags
-                self.message = message
-
-            def __str__(self):
-                return self.message
-
-        pattern = re.compile(r"\s+")
-        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.WARNING, "hello")]
-        res = render_template_with_form("{% bootstrap_messages messages %}", {"messages": messages})
-        expected = """
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert"
-            aria-label="close">&#215;</button>
-        hello
-    </div>
-"""
-        self.assertEqual(re.sub(pattern, "", res), re.sub(pattern, "", expected))
-
-        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello")]
-        res = render_template_with_form("{% bootstrap_messages messages %}", {"messages": messages})
-        expected = """
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert"
-            aria-label="close">&#215;</button>
-        hello
-    </div>
-        """
-        self.assertEqual(re.sub(pattern, "", res), re.sub(pattern, "", expected))
-
-        messages = [FakeMessage(None, "hello")]
-        res = render_template_with_form("{% bootstrap_messages messages %}", {"messages": messages})
-        expected = """
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert"
-            aria-label="close">&#215;</button>
-        hello
-    </div>
-        """
-
-        self.assertEqual(re.sub(pattern, "", res), re.sub(pattern, "", expected))
-
-        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello http://example.com")]
-        res = render_template_with_form("{% bootstrap_messages messages %}", {"messages": messages})
-        expected = """
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="close">&#215;</button>
-        hello http://example.com
-    </div>        """
-        self.assertEqual(
-            re.sub(pattern, "", res).replace('rel="nofollow"', ""),
-            re.sub(pattern, "", expected).replace('rel="nofollow"', ""),
-        )
-
-        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello\nthere")]
-        res = render_template_with_form("{% bootstrap_messages messages %}", {"messages": messages})
-        expected = """
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <button type="button" class="close" data-dismiss="alert"
-            aria-label="close">&#215;</button>
-        hello there
-    </div>
-        """
-        self.assertEqual(re.sub(pattern, "", res), re.sub(pattern, "", expected))
-
-
-class UtilsTest(TestCase):
-    def test_add_css_class(self):
-        css_classes = "one two"
-        css_class = "three four"
-        classes = merge_css_classes(css_classes, css_class)
-        self.assertEqual(classes, "one two three four")
-
-        classes = merge_css_classes(css_class, css_classes)
-        self.assertEqual(classes, "three four one two")
-
-    def test_text_value(self):
-        self.assertEqual(text_value(""), "")
-        self.assertEqual(text_value(" "), " ")
-        self.assertEqual(text_value(None), "")
-        self.assertEqual(text_value(1), "1")
-
-    def test_text_concat(self):
-        self.assertEqual(text_concat(1, 2), "12")
-        self.assertEqual(text_concat(1, 2, separator="="), "1=2")
-        self.assertEqual(text_concat(None, 2, separator="="), "2")
-
-    def test_render_tag(self):
-        self.assertEqual(render_tag("span"), "<span></span>")
-        self.assertEqual(render_tag("span", content="foo"), "<span>foo</span>")
-        self.assertEqual(render_tag("span", attrs={"bar": 123}, content="foo"), '<span bar="123">foo</span>')
 
 
 class ButtonTest(TestCase):
