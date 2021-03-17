@@ -11,12 +11,12 @@ class BootstrapAlertTest(TestCase):
         )
 
     def test_bootstrap_alert_dismissible(self):
-        self.assertHTMLEqual(
+        self.assertEqual(
             render_template_with_bootstrap('{% bootstrap_alert "content" %}'),
             (
                 '<div class="alert alert-info alert-dismissible fade show" role="alert">'
                 "content"
-                '<button aria-label="close" class="btn-close" data-bs-dismiss="alert" type="button">'
+                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
                 "</div>"
             ),
         )

@@ -23,12 +23,12 @@ from ..forms import (
 from ..html import render_link_tag, render_script_tag
 from ..utils import handle_var, parse_token_contents, render_template_file, url_replace_param
 
-MESSAGE_LEVEL_CLASSES = {
-    message_constants.DEBUG: "alert alert-warning",
-    message_constants.INFO: "alert alert-info",
-    message_constants.SUCCESS: "alert alert-success",
-    message_constants.WARNING: "alert alert-warning",
-    message_constants.ERROR: "alert alert-danger",
+MESSAGE_ALERT_TYPES = {
+    message_constants.DEBUG: "warning",
+    message_constants.INFO: "info",
+    message_constants.SUCCESS: "success",
+    message_constants.WARNING: "warning",
+    message_constants.ERROR: "danger",
 }
 
 register = template.Library()
@@ -46,26 +46,18 @@ def bootstrap_setting(value):
 
 
 @register.filter
-def bootstrap_message_classes(message):
-    """Return the message classes for a message."""
-    extra_tags = None
-    try:
-        extra_tags = message.extra_tags
-    except AttributeError:
-        pass
-    if not extra_tags:
-        extra_tags = ""
-    classes = [extra_tags]
+def bootstrap_message_alert_type(message):
+    """Return the alert type for a bootstrap message, defaults to empty string."""
     try:
         level = message.level
     except AttributeError:
         pass
     else:
         try:
-            classes.append(MESSAGE_LEVEL_CLASSES[level])
+            return MESSAGE_ALERT_TYPES[level]
         except KeyError:
-            classes.append("alert alert-danger")
-    return " ".join(classes).strip()
+            pass
+    return "info"
 
 
 @register.simple_tag
@@ -578,7 +570,7 @@ def bootstrap_button(*args, **kwargs):
 
 
 @register.simple_tag
-def bootstrap_alert(content, alert_type="info", dismissible=True):
+def bootstrap_alert(content, alert_type="info", dismissible=True, extra_classes=""):
     """
     Render an alert.
 
@@ -604,15 +596,20 @@ def bootstrap_alert(content, alert_type="info", dismissible=True):
 
             :default: ``True``
 
+        extra_classes
+            string, extra CSS classes for alert
+
+            :default: ""
+
     **Usage**::
 
         {% bootstrap_alert content %}
 
     **Example**::
 
-        {% bootstrap_alert "Something went wrong" alert_type='error' %}
+        {% bootstrap_alert "Something went wrong" alert_type="error" %}
     """
-    return render_alert(content, alert_type, dismissible)
+    return render_alert(content, alert_type, dismissible, extra_classes)
 
 
 @register.tag("buttons")
