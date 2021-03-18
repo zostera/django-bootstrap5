@@ -219,7 +219,7 @@ class FieldRenderer(BaseRenderer):
         self.widget = field.field.widget
         self.is_multi_widget = isinstance(field.field.widget, MultiWidget)
         self.initial_attrs = self.widget.attrs.copy()
-        self.field_help = text_value(mark_safe(field.help_text)) if self.show_help and field.help_text else ""
+        self.help_text = text_value(field.help_text) if self.show_help and field.help_text else ""
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
         self.form_check_class = kwargs.get("form_check_class", "form-check")
 
@@ -309,14 +309,6 @@ class FieldRenderer(BaseRenderer):
             # TODO: Should this be stripped and/or escaped?
             widget.attrs["placeholder"] = placeholder
 
-    def add_help_attrs(self, widget=None):
-        if widget is None:
-            widget = self.widget
-        if not isinstance(widget, CheckboxInput):
-            title = widget.attrs.get("title", escape(strip_tags(self.field_help)))
-            if title:
-                widget.attrs["title"] = title
-
     def add_widget_attrs(self):
         if self.is_multi_widget:
             widgets = self.widget.widgets
@@ -325,7 +317,6 @@ class FieldRenderer(BaseRenderer):
         for widget in widgets:
             self.add_class_attrs(widget)
             self.add_placeholder_attrs(widget)
-            self.add_help_attrs(widget)
             if isinstance(widget, (RadioSelect, CheckboxSelectMultiple)):
                 widget.template_name = "django_bootstrap5/widgets/radio_select.html"
 
@@ -358,7 +349,6 @@ class FieldRenderer(BaseRenderer):
         return html + render_label(
             content=self.field.label,
             label_for=self.field.id_for_label,
-            label_title=escape(strip_tags(self.field_help)),
             label_class="form-check-label",
         )
 
@@ -413,20 +403,6 @@ class FieldRenderer(BaseRenderer):
             html = '<div class="input-group">{html}</div>'.format(html=html)
         return html
 
-    def append_help(self, html):
-        field_help = self.field_help or None
-        if field_help:
-            help_html = render_template_file(
-                "django_bootstrap5/field_help_text.html",
-                context={
-                    "field": self.field,
-                    "field_help": field_help,
-                    "layout": self.layout,
-                    "show_help": self.show_help,
-                },
-            )
-            html += help_html
-        return html
 
     def append_errors(self, html):
         field_errors = self.field_errors
@@ -504,6 +480,21 @@ class FieldRenderer(BaseRenderer):
         self.restore_widget_attrs()
         return field_html
 
+    def get_help_html(self):
+        """Return HTML for help text, or empty string if there is none."""
+        help_text = self.help_text or ""
+        if help_text:
+            return render_template_file(
+                "django_bootstrap5/field_help_text.html",
+                context={
+                    "field": self.field,
+                    "help_text": help_text,
+                    "layout": self.layout,
+                    "show_help": self.show_help,
+                },
+            )
+        return ""
+
     def get_wrapper_classes(self):
         wrapper_classes = [self.wrapper_class]
         if self.field.errors:
@@ -535,8 +526,9 @@ class FieldRenderer(BaseRenderer):
             field_with_label = format_html('<div class="form-check">{}</div>', field_with_label)
 
         return format_html(
-            '<{tag} class="{wrapper_classes}">{field_with_label}</{tag}>',
+            '<{tag} class="{wrapper_classes}">{field_with_label}{help}</{tag}>',
             tag=WRAPPER_TAG,
             wrapper_classes=self.get_wrapper_classes(),
             field_with_label=field_with_label,
+            help=self.get_help_html(),
         )

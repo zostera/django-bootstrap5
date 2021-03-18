@@ -2,6 +2,7 @@
 
 ## [0.0.1] - In development
 
+- Do not abuse title element for help text.
 - Remove `InlineFieldRenderer`.
 - Simplify size parameters, only accept "sm", "md", "lg".
 - Use `bootstrap_alert` in `bootstrap_messages`.
