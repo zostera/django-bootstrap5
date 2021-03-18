@@ -1,0 +1,15 @@
+{% for group, options, index in widget.optgroups %}
+    {% if group %}<div>{{ group }}</div>{% endif %}
+    {% for option in options %}
+        <div class="form-check">
+            <input class="form-check-input"
+                   type="{{ option.type }}"
+                   name="{{ option.name }}"
+                   id="{{ option.attrs.id }}"
+                    {% if option.value != None %} value="{{ option.value|stringformat:'s' }}"
+                        {% if option.attrs.checked %} checked="checked"{% endif %}{% endif %}>
+            <label class="form-check-label" for="{{ option.attrs.id }}">{{ option.label }}</label>
+        </div>
+    {% endfor %}
+{% endfor %}
+

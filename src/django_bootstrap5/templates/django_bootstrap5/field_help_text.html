@@ -1,3 +1,1 @@
-{% if field_help %}
-    <small class="form-text text-muted">{{ field_help }}</small>
-{% endif %}
+{% if help_text %}<div class="form-text">{{ help_text|safe }}</div>{% endif %}

@@ -354,7 +354,7 @@ def bootstrap_field(*args, **kwargs):
             If set to ``'horizontal'`` then the field and label will be rendered side-by-side, as long as there
             is no ``field_class`` set as well.
 
-        form_group_class
+        wrapper_class
             CSS class of the ``div`` that wraps the field and label.
 
             :default: ``'form-group'``
@@ -377,7 +377,7 @@ def bootstrap_field(*args, **kwargs):
             Whether the show the label of the field.
 
                 * ``True``
-                * ``False``/``'sr-only'``
+                * ``False``/``'visually-hidden'``
                 * ``'skip'``
 
             :default: ``True``
@@ -663,7 +663,7 @@ class ButtonsNode(template.Node):
             buttons.append(bootstrap_button(reset, "reset"))
         buttons = " ".join(buttons) + self.nodelist.render(context)
         output_kwargs.update({"label": None, "field": buttons})
-        css_class = output_kwargs.pop("form_group_class", "form-group")
+        css_class = output_kwargs.pop("wrapper_class", "form-group")
         output = render_form_group(render_field_and_label(**output_kwargs), css_class=css_class)
         if self.asvar:
             context[self.asvar] = output
