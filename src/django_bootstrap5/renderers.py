@@ -19,7 +19,7 @@ from django.forms import (
     TimeInput,
     URLInput,
 )
-from django.utils.html import conditional_escape, escape, format_html, strip_tags
+from django.utils.html import conditional_escape, format_html
 from django.utils.safestring import mark_safe
 
 from .core import get_bootstrap_setting
@@ -402,7 +402,6 @@ class FieldRenderer(BaseRenderer):
             html = self.append_errors("{before}{html}{after}".format(before=before, html=html, after=after))
             html = '<div class="input-group">{html}</div>'.format(html=html)
         return html
-
 
     def append_errors(self, html):
         field_errors = self.field_errors

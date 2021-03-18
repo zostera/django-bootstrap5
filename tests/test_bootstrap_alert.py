@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from .test_templates import render_template_with_bootstrap
+from .utils import render_template_with_bootstrap
 
 
 class BootstrapAlertTest(TestCase):
