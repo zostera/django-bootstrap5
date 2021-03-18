@@ -485,7 +485,7 @@ class ShowLabelTest(TestCase):
 
     def test_show_label_sr_only(self):
         form = TestForm()
-        res = render_template_with_form("{% bootstrap_form form show_label='visually-hidden' %}", {"form": form})
+        res = render_template_with_form("{% bootstrap_form form show_label='' %}", {"form": form})
         self.assertIn("visually-hidden", res)
 
     def test_show_label_skip(self):
