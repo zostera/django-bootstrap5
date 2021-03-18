@@ -7,7 +7,8 @@ from .exceptions import BootstrapError
 from .html import render_tag
 from .text import text_value
 
-FORM_GROUP_CLASS = "form-group"
+WRAPPER_CLASS = ""
+WRAPPER_TAG = "div"
 
 
 def render_formset(formset, **kwargs):
@@ -134,7 +135,7 @@ def render_field_and_label(field, label, field_class="", label_for=None, label_c
     return html
 
 
-def render_form_group(content, css_class=FORM_GROUP_CLASS):
+def render_form_group(content, css_class=WRAPPER_CLASS):
     """Render a Bootstrap form group."""
     return '<div class="{css_class}">{content}</div>'.format(css_class=css_class, content=content)
 

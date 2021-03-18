@@ -26,7 +26,8 @@ from .core import get_bootstrap_setting
 from .css import merge_css_classes
 from .exceptions import BootstrapError
 from .forms import (
-    FORM_GROUP_CLASS,
+    WRAPPER_CLASS,
+    WRAPPER_TAG,
     is_widget_with_placeholder,
     render_field,
     render_form,
@@ -50,7 +51,7 @@ class BaseRenderer(object):
 
     def __init__(self, *args, **kwargs):
         self.layout = kwargs.get("layout", "")
-        self.form_group_class = kwargs.get("form_group_class", FORM_GROUP_CLASS)
+        self.wrapper_class = kwargs.get("wrapper_class", WRAPPER_CLASS)
         self.field_class = kwargs.get("field_class", "")
         self.label_class = kwargs.get("label_class", "")
         self.show_help = kwargs.get("show_help", True)
@@ -105,7 +106,7 @@ class FormsetRenderer(BaseRenderer):
                 self.render_form(
                     form,
                     layout=self.layout,
-                    form_group_class=self.form_group_class,
+                    form_group_class=self.wrapper_class,
                     field_class=self.field_class,
                     label_class=self.label_class,
                     show_label=self.show_label,
@@ -156,7 +157,7 @@ class FormRenderer(BaseRenderer):
                 render_field(
                     field,
                     layout=self.layout,
-                    form_group_class=self.form_group_class,
+                    form_group_class=self.wrapper_class,
                     field_class=self.field_class,
                     label_class=self.label_class,
                     form_check_class=self.form_check_class,
@@ -493,20 +494,6 @@ class FieldRenderer(BaseRenderer):
             label_html = render_label(label_html, label_for=self.field.id_for_label, label_class=self.get_label_class())
         return label_html
 
-    def get_form_group_class(self):
-        form_group_class = self.form_group_class
-        if self.field.errors:
-            if self.error_css_class:
-                form_group_class = merge_css_classes(form_group_class, self.error_css_class)
-        else:
-            if self.field.form.is_bound:
-                form_group_class = merge_css_classes(form_group_class, self.success_css_class)
-        if self.field.field.required and self.required_css_class:
-            form_group_class = merge_css_classes(form_group_class, self.required_css_class)
-        if self.layout == "horizontal":
-            form_group_class = merge_css_classes(form_group_class, "row")
-        return form_group_class
-
     def wrap_label_and_field(self, html):
         return render_form_group(html, self.get_form_group_class())
 
@@ -518,7 +505,16 @@ class FieldRenderer(BaseRenderer):
         return field_html
 
     def get_wrapper_classes(self):
-        return "mb-3"
+        wrapper_classes = [self.wrapper_class]
+        if self.field.errors:
+            wrapper_classes.append(self.error_css_class)
+        elif self.field.form.is_bound:
+            wrapper_classes.append(self.success_css_class)
+        if self.field.field.required:
+            wrapper_classes.append(self.required_css_class)
+        # if self.layout == "horizontal":
+        #     wrapper_classes = merge_css_classes(wrapper_classes, "row")
+        return merge_css_classes(*wrapper_classes)
 
     def field_before_label(self):
         return isinstance(self.widget, (CheckboxInput,))
@@ -539,7 +535,8 @@ class FieldRenderer(BaseRenderer):
             field_with_label = format_html('<div class="form-check">{}</div>', field_with_label)
 
         return format_html(
-            '<div class="{wrapper_classes}">{field_with_label}</div>',
+            '<{tag} class="{wrapper_classes}">{field_with_label}</{tag}>',
+            tag=WRAPPER_TAG,
             wrapper_classes=self.get_wrapper_classes(),
             field_with_label=field_with_label,
         )
