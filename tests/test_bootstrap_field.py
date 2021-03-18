@@ -77,7 +77,9 @@ class FieldTest(TestCase):
     #     # strip out newlines and spaces around newlines
     #     res = "".join(line.strip() for line in res.split("\n"))
     #     res = BeautifulSoup(res, "html.parser")
-    #     form_group = self._select_one_element(res, ".form-group", "RadioSelect should be rendered inside a .form-group")
+    #     form_group = self._select_one_element(
+    #       res,
+    #       ".form-group", "RadioSelect should be rendered inside a .form-group")
     #     radio = self._select_one_element(form_group, ".radio", "There should be a .radio inside .form-group")
     #     self.assertIn("radio-success", radio["class"], "The radio select should have the class 'radio-success'")
     #     elements = radio.find_all("div", class_="form-check")
