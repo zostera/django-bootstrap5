@@ -11,6 +11,10 @@ Bootstrap 5 for Django.
 
 The goal of this project is to seamlessly blend Django and Bootstrap 5.
 
+## Status
+
+Early development, not ready for production. Issues and pull requests welcome.
+
 ## Requirements
 
 Python 3.6 or newer with Django >= 2.2 or newer.
