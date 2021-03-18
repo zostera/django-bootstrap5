@@ -494,6 +494,20 @@ class FieldRenderer(BaseRenderer):
             )
         return ""
 
+    def get_errors_html(self):
+        field_errors = self.field_errors
+        if field_errors:
+            return render_template_file(
+                "django_bootstrap5/field_errors.html",
+                context={
+                    "field": self.field,
+                    "field_errors": field_errors,
+                    "layout": self.layout,
+                    "show_help": self.show_help,
+                },
+            )
+        return ""
+
     def get_wrapper_classes(self):
         wrapper_classes = [self.wrapper_class]
         if self.field.errors:
@@ -502,8 +516,7 @@ class FieldRenderer(BaseRenderer):
             wrapper_classes.append(self.success_css_class)
         if self.field.field.required:
             wrapper_classes.append(self.required_css_class)
-        # if self.layout == "horizontal":
-        #     wrapper_classes = merge_css_classes(wrapper_classes, "row")
+        wrapper_classes.append("mb-3")
         return merge_css_classes(*wrapper_classes)
 
     def field_before_label(self):
@@ -525,9 +538,10 @@ class FieldRenderer(BaseRenderer):
             field_with_label = format_html('<div class="form-check">{}</div>', field_with_label)
 
         return format_html(
-            '<{tag} class="{wrapper_classes}">{field_with_label}{help}</{tag}>',
+            '<{tag} class="{wrapper_classes}">{field_with_label}{help}{errors}</{tag}>',
             tag=WRAPPER_TAG,
             wrapper_classes=self.get_wrapper_classes(),
             field_with_label=field_with_label,
             help=self.get_help_html(),
+            errors=self.get_errors_html(),
         )

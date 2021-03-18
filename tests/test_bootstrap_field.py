@@ -1,10 +1,9 @@
 from django import forms
 from django.test import TestCase
-from django.utils.html import escape
 
 from django_bootstrap5.exceptions import BootstrapError
 
-from .utils import (
+from .base import (
     TestForm,
     html_39x27,
     render_field,
@@ -24,7 +23,7 @@ class BootstrapFieldTest(TestCase):
         self.assertHTMLEqual(
             html,
             (
-                '<div class="mb-3">'
+                '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_name" class="form-label">Name</label>'
                 '<input class="form-control" id="id_name" name="name" placeholder="Name" required type="text">'
                 "</div>"
@@ -48,18 +47,11 @@ class FieldTest(TestCase):
             render_field(field="illegal")
 
     def test_show_help(self):
-        res = render_form_field("subject")
-        self.assertIn("my_help_text", res)
-        self.assertNotIn("<i>my_help_text</i>", res)
-        res = render_template_with_form("{% bootstrap_field form.subject show_help=0 %}")
-        self.assertNotIn("my_help_text", res)
-
-    def test_help_with_quotes(self):
-        # Checkboxes get special handling, so test a checkbox and something else
-        res = render_form_field("sender")
-        self.assertIn('title="{}"'.format(escape(TestForm.base_fields["sender"].help_text)), res)
-        res = render_form_field("cc_myself")
-        self.assertIn('title="{}"'.format(escape(TestForm.base_fields["cc_myself"].help_text)), res)
+        html = render_form_field("subject")
+        self.assertIn("my_help_text", html)
+        self.assertNotIn("<i>my_help_text</i>", html)
+        html = render_template_with_form("{% bootstrap_field form.subject show_help=0 %}")
+        self.assertNotIn("my_help_text", html)
 
     def test_subject(self):
         res = render_form_field("subject")

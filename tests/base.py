@@ -1,6 +1,5 @@
 from django import forms, get_version
 from django.contrib.admin.widgets import AdminSplitDateTime
-from django.contrib.gis import forms as gisforms
 from django.template import engines
 
 from django_bootstrap5.widgets import RadioSelectButtonGroup
@@ -123,7 +122,7 @@ class TestForm(forms.Form):
     )
     category5 = forms.ChoiceField(widget=RadioSelectButtonGroup, choices=MEDIA_CHOICES)
     addon = forms.CharField(widget=forms.TextInput(attrs={"addon_before": "before", "addon_after": "after"}))
-    polygon = gisforms.PointField()
+    # polygon = gisforms.PointField()
 
     required_css_class = "django_bootstrap5-req"
     non_field_error_message = "This is a non field error."
