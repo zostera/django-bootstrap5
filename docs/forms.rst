@@ -46,3 +46,6 @@ Bootstrap 5 offers Input groups to combine fields and add-ons (both before and a
 1. We must support separate rendering of labels, fields, help texts and errors so that users can build their own input groups.
 2. We should offer support for add-ons (before and after) as part of `bootstrap_field`.
 3. We could add support in form, field or widget definition to define add-ons in Python code.
+
+Note: input-group needs has-validation
+https://github.com/twbs/bootstrap/blob/6b3254536bac263c39e3a536c3c13945210d91b2/site/content/docs/5.0/migration.md
