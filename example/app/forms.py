@@ -84,6 +84,8 @@ class FilesForm(forms.Form):
     file5 = forms.ImageField()
     file4 = forms.FileField(required=False, widget=forms.ClearableFileInput)
 
+    use_required_attribute = False
+
 
 class ArticleForm(forms.Form):
     title = forms.CharField()

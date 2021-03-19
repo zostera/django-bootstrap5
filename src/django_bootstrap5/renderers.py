@@ -5,6 +5,7 @@ from django.forms import (
     BoundField,
     CheckboxInput,
     CheckboxSelectMultiple,
+    ClearableFileInput,
     DateInput,
     EmailInput,
     FileInput,
@@ -206,10 +207,6 @@ class FormRenderer(BaseRenderer):
 class FieldRenderer(BaseRenderer):
     """Default field renderer."""
 
-    # These widgets will not be wrapped in a form-control class
-    WIDGETS_FORM_CONTROL = (TextInput, NumberInput, EmailInput, URLInput, DateInput, TimeInput, Textarea, PasswordInput)
-    WIDGETS_NO_FORM_CONTROL = (CheckboxInput, RadioSelect, CheckboxSelectMultiple, FileInput)
-
     def __init__(self, field, *args, **kwargs):
         if not isinstance(field, BoundField):
             raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
@@ -277,9 +274,11 @@ class FieldRenderer(BaseRenderer):
         size_prefix = None
         classes = widget.attrs.get("class", "")
         if ReadOnlyPasswordHashWidget is not None and isinstance(widget, ReadOnlyPasswordHashWidget):
-            # Render this is a static control
             classes = merge_css_classes("form-control-static", classes)
-        elif isinstance(widget, self.WIDGETS_FORM_CONTROL):
+        elif isinstance(
+            widget,
+            (TextInput, NumberInput, EmailInput, URLInput, DateInput, TimeInput, Textarea, PasswordInput, FileInput),
+        ):
             classes = merge_css_classes("form-control", classes)
             size_prefix = "form-control"
         elif isinstance(widget, Select):
@@ -287,8 +286,6 @@ class FieldRenderer(BaseRenderer):
             size_prefix = "form-select"
         elif isinstance(widget, CheckboxInput):
             classes = merge_css_classes("form-check-input", classes)
-        elif isinstance(widget, FileInput):
-            classes = merge_css_classes("form-control-file", classes)
         if size_prefix:
             classes = merge_css_classes(classes, self.get_size_class(prefix=size_prefix))
 
@@ -319,6 +316,8 @@ class FieldRenderer(BaseRenderer):
             self.add_placeholder_attrs(widget)
             if isinstance(widget, (RadioSelect, CheckboxSelectMultiple)):
                 widget.template_name = "django_bootstrap5/widgets/radio_select.html"
+            elif isinstance(widget, ClearableFileInput):
+                widget.template_name = "django_bootstrap5/widgets/clearable_file_input.html"
 
     def list_to_class(self, html, klass):
         classes = merge_css_classes(klass, self.get_size_class())
@@ -359,10 +358,6 @@ class FieldRenderer(BaseRenderer):
         html = html.replace("</select>", "</select>" + div2)
         return '<div class="row django_bootstrap5-multi-input">{html}</div>'.format(html=html)
 
-    def fix_file_input_label(self, html):
-        html = "<br>" + html
-        return html
-
     def post_widget_render(self, html):
         if isinstance(self.widget, RadioSelect):
             html = self.list_to_class(html, "radio radio-success")
@@ -372,8 +367,6 @@ class FieldRenderer(BaseRenderer):
             html = self.fix_date_select_input(html)
         elif isinstance(self.widget, CheckboxInput):
             html = self.add_checkbox_label(html)
-        elif isinstance(self.widget, FileInput):
-            html = self.fix_file_input_label(html)
         return html
 
     def wrap_widget(self, html):
