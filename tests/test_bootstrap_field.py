@@ -1,4 +1,5 @@
 from django import forms
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
 from django_bootstrap5.exceptions import BootstrapError
@@ -16,16 +17,63 @@ from .base import (
 class BootstrapFieldTest(TestCase):
     def test_bootstrap_field_text(self):
         class TestForm(forms.Form):
-            name = forms.CharField()
+            test = forms.CharField()
 
         test_form = TestForm()
-        html = render_template_with_bootstrap("{% bootstrap_field form.name %}", context={"form": test_form})
+        html = render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form})
         self.assertHTMLEqual(
             html,
             (
                 '<div class="django_bootstrap5-req mb-3">'
-                '<label for="id_name" class="form-label">Name</label>'
-                '<input class="form-control" id="id_name" name="name" placeholder="Name" required type="text">'
+                '<label for="id_test" class="form-label">Test</label>'
+                '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
+                "</div>"
+            ),
+        )
+
+    def test_bootstrap_field_file(self):
+        class TestForm(forms.Form):
+            test = forms.FileField()
+
+        test_form = TestForm()
+        html = render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form})
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<label for="id_test" class="form-label">Test</label>'
+                '<input class="form-control" id="id_test" name="test" required type="file">'
+                "</div>"
+            ),
+        )
+
+    def test_bootstrap_field_clearable_file(self):
+        class TestForm(forms.Form):
+            test = forms.FileField(widget=forms.ClearableFileInput, required=False)
+
+        test_form = TestForm()
+        self.assertHTMLEqual(
+            render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}),
+            (
+                '<div class="mb-3">'
+                '<label for="id_test" class="form-label">Test</label>'
+                '<input class="form-control" id="id_test" name="test" type="file">'
+                "</div>"
+            ),
+        )
+
+    def test_bootstrap_field_clearable_file_post(self):
+        class TestForm(forms.Form):
+            test = forms.FileField(widget=forms.ClearableFileInput, required=False)
+
+        test_form = TestForm({}, {"test": SimpleUploadedFile("test.txt", b"test")})
+        print(render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}))
+        self.assertHTMLEqual(
+            render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}),
+            (
+                '<div class="django_bootstrap5-bound mb-3">'
+                '<label class="form-label" for="id_test">Test</label>'
+                '<input type="file" name="test" class="form-control django_bootstrap5-bound" id="id_test">'
                 "</div>"
             ),
         )

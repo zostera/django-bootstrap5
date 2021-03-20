@@ -5,7 +5,7 @@ from django.db.models.fields.files import FieldFile
 from django.views.generic import FormView
 from django.views.generic.base import TemplateView
 
-from app.forms import ContactForm, ContactFormSet, FilesForm
+from .forms import ContactForm, ContactFormSet, FilesForm
 
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
