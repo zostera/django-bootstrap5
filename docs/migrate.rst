@@ -19,4 +19,4 @@ Popper
 
 We use the Bootstrap 5 JavaScript that has bundled Popper.
 
-If you want a separate Popper.js file, do not use the `{% bootstrap_javascript %} tag, but load the JavaScript yourself.
+If you want a separate Popper.js file, do not use the `{% bootstrap_javascript %}` tag, but load the JavaScript yourself.
