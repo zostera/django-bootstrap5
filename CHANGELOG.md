@@ -1,7 +1,8 @@
 # Changelog
 
-## [0.0.1] - In development
+## [0.2.0] - 2021-03-22
 
+- Add floating labels for supported widgets. 
 - Do not abuse title element for help text.
 - Remove `InlineFieldRenderer`.
 - Simplify size parameters, only accept "sm", "md", "lg".
@@ -13,3 +14,7 @@
 - Use `django_bootstrap5` as name for Python package.
 - Started `django-bootstrap5` based on `django-bootstrap4`.
 - Thanks everybody that contributed to `django-bootstrap4` and earlier versions!
+
+## [0.1.0] - 2013-08-13 
+
+- Reserving the name "django-bootstrap5" at PyPI (released as 0.1). 
