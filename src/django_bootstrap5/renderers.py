@@ -18,7 +18,7 @@ from django.forms import (
     TimeInput,
     URLInput,
 )
-from django.utils.html import conditional_escape, format_html
+from django.utils.html import conditional_escape, format_html, strip_tags
 from django.utils.safestring import mark_safe
 
 from .core import get_bootstrap_setting
@@ -295,10 +295,12 @@ class FieldRenderer(BaseRenderer):
         return isinstance(widget, self.FLOATING_WIDGETS)
 
     def add_widget_class_attrs(self, widget=None):
+        """Add class attribute to widget."""
         if widget is None:
             widget = self.widget
         size_prefix = None
         classes = widget.attrs.get("class", "")
+
         if ReadOnlyPasswordHashWidget is not None and isinstance(widget, ReadOnlyPasswordHashWidget):
             classes = merge_css_classes("form-control-static", classes)
         elif self.is_widget_form_control(widget):
@@ -321,14 +323,15 @@ class FieldRenderer(BaseRenderer):
         widget.attrs["class"] = classes
 
     def add_placeholder_attrs(self, widget=None):
+        """Add placeholder attribute to widget."""
         if widget is None:
             widget = self.widget
         placeholder = widget.attrs.get("placeholder", self.placeholder)
         if placeholder and self.set_placeholder and is_widget_with_placeholder(widget):
-            # TODO: Should this be stripped and/or escaped?
-            widget.attrs["placeholder"] = placeholder
+            widget.attrs["placeholder"] = conditional_escape(strip_tags(placeholder))
 
     def add_widget_attrs(self):
+        """Return HTML attributes for widget as dict."""
         if self.is_multi_widget:
             widgets = self.widget.widgets
         else:
@@ -342,6 +345,7 @@ class FieldRenderer(BaseRenderer):
                 widget.template_name = "django_bootstrap5/widgets/clearable_file_input.html"
 
     def get_label_class(self):
+        """Return CSS class for label."""
         label_classes = [text_value(self.label_class)]
         if not self.show_label:
             label_classes.append("visually-hidden")
@@ -368,7 +372,7 @@ class FieldRenderer(BaseRenderer):
         return label_html
 
     def get_help_html(self):
-        """Return HTML for help text, or empty string if there is none."""
+        """Return HTML for help text."""
         help_text = self.help_text or ""
         if help_text:
             return render_template_file(
@@ -383,6 +387,7 @@ class FieldRenderer(BaseRenderer):
         return ""
 
     def get_errors_html(self):
+        """Return HTML for field errors."""
         field_errors = self.field_errors
         if field_errors:
             return render_template_file(
@@ -397,6 +402,7 @@ class FieldRenderer(BaseRenderer):
         return ""
 
     def get_wrapper_classes(self):
+        """Return classes for wrapper."""
         wrapper_classes = [self.wrapper_class]
         if self.is_floating:
             wrapper_classes.append("form-floating")
@@ -410,7 +416,8 @@ class FieldRenderer(BaseRenderer):
         return merge_css_classes(*wrapper_classes)
 
     def field_before_label(self):
-        return self.is_floating or isinstance(self.widget, CheckboxInput)
+        """Return whether field should be placed before label."""
+        return isinstance(self.widget, CheckboxInput) or self.is_floating
 
     def _render(self):
         if self.field.name in self.exclude.replace(" ", "").split(","):
