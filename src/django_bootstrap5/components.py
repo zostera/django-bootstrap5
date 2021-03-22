@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 from .css import merge_css_classes
 from .html import render_tag
 
-ALERT_TYPES = ["primary", "secondary", "succes", "danger", "warning", "info", "light", "dark"]
+ALERT_TYPES = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"]
 
 
 def render_alert(content, alert_type="info", dismissible=True, extra_classes=""):
