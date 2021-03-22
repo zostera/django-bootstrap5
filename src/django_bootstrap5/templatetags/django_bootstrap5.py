@@ -47,7 +47,7 @@ def bootstrap_setting(value):
 
 @register.filter
 def bootstrap_message_alert_type(message):
-    """Return the alert type for a bootstrap message, defaults to empty string."""
+    """Return the alert type for a bootstrap message, defaults to `info`."""
     try:
         level = message.level
     except AttributeError:
@@ -135,7 +135,7 @@ def bootstrap_theme_url():
 @register.simple_tag
 def bootstrap_css():
     """
-    Return HTML for Bootstrap CSS. If no CSS url is available, return empty string.
+    Return HTML for Bootstrap CSS, or empty string if no CSS url is available.
 
     Default value: ``None``
 
@@ -164,7 +164,7 @@ def bootstrap_css():
 @register.simple_tag
 def bootstrap_javascript():
     """
-    Return HTML for Bootstrap JavaScript.
+    Return HTML for Bootstrap JavaScript, or empty string if no JavaScript URL is available.
 
     Adjust url in settings.
     If no url is returned, we don't want this statement to return any HTML. This is intended behavior.
@@ -351,8 +351,10 @@ def bootstrap_field(*args, **kwargs):
             The form field to be rendered
 
         layout
-            If set to ``'horizontal'`` then the field and label will be rendered side-by-side, as long as there
-            is no ``field_class`` set as well.
+            If set to ``'horizontal'`` then the field and label will be rendered side-by-side.
+            If set to ``'floating'`` then support widgets will use floating labels.
+            Layout set in ``'bootstrap_form'`` takes precedence over layout set in ``'bootstrap_formset'``.
+            Layout set in ``'bootstrap_field'`` takes precedence over layout set in ``'bootstrap_form'``.
 
         wrapper_class
             CSS class of the ``div`` that wraps the field and label.

@@ -16,6 +16,8 @@ from .base import (
 
 class BootstrapFieldTest(TestCase):
     def test_bootstrap_field_text(self):
+        """Test field with text widget."""
+
         class TestForm(forms.Form):
             test = forms.CharField()
 
@@ -27,6 +29,26 @@ class BootstrapFieldTest(TestCase):
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
                 '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
+                "</div>"
+            ),
+        )
+
+    def test_bootstrap_field_text_floating(self):
+        """Test field with text widget in floating layout."""
+
+        class TestForm(forms.Form):
+            test = forms.CharField()
+
+        test_form = TestForm()
+        html = render_template_with_bootstrap(
+            "{% bootstrap_field form.test layout='floating' %}", context={"form": test_form}
+        )
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="django_bootstrap5-req mb-3 form-floating">'
+                '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
+                '<label for="id_test" class="form-label">Test</label>'
                 "</div>"
             ),
         )
@@ -67,7 +89,6 @@ class BootstrapFieldTest(TestCase):
             test = forms.FileField(widget=forms.ClearableFileInput, required=False)
 
         test_form = TestForm({}, {"test": SimpleUploadedFile("test.txt", b"test")})
-        print(render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}))
         self.assertHTMLEqual(
             render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}),
             (

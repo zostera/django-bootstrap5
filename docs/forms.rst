@@ -49,3 +49,14 @@ Bootstrap 5 offers Input groups to combine fields and add-ons (both before and a
 
 Note: input-group needs has-validation
 https://github.com/twbs/bootstrap/blob/6b3254536bac263c39e3a536c3c13945210d91b2/site/content/docs/5.0/migration.md
+
+Floating labels
+---------------
+
+Reference: https://getbootstrap.com/docs/5.0/forms/floating-labels/
+
+This behavior can be triggere dby setting `layout="floating"`.
+
+Floating labels are supported for widgets that can use `form-control`. An exception is `FileInput` and its descendants, those labels cannot be floating.
+
+Setting `layout="floating"` has no effect on widgets that are not supported.
