@@ -61,6 +61,11 @@ class BaseRenderer(object):
         self.horizontal_field_class = kwargs.get(
             "horizontal_field_class", get_bootstrap_setting("horizontal_field_class")
         )
+        self.error_css_class = kwargs.get("error_css_class", None)
+        self.required_css_class = kwargs.get("required_css_class", None)
+        self.bound_css_class = kwargs.get("bound_css_class", None)
+        self.alert_error_type = kwargs.get("alert_error_type", "non_fields")
+        self.form_check_class = kwargs.get("form_check_class", "form-check")
 
     @property
     def is_floating(self):
@@ -79,7 +84,7 @@ class BaseRenderer(object):
         """Return size class for given prefix."""
         return f"{prefix}-{self.size}" if self.size in ["sm", "lg"] else ""
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self):
         """Return context data for rendering."""
         context = {
             "layout": self.layout,
@@ -93,8 +98,12 @@ class BaseRenderer(object):
             "size": self.size,
             "horizontal_label_class": self.horizontal_label_class,
             "horizontal_field_class": self.horizontal_field_class,
+            "error_css_class": self.error_css_class,
+            "bound_css_class": self.bound_css_class,
+            "required_css_class": self.required_css_class,
+            "alert_error_type": self.alert_error_type,
+            "form_check_class": self.form_check_class,
         }
-        context.update(kwargs)
         return context
 
     def _render(self):
@@ -114,6 +123,11 @@ class FormsetRenderer(BaseRenderer):
             raise BootstrapError('Parameter "formset" should contain a valid Django Formset.')
         self.formset = formset
         super().__init__(*args, **kwargs)
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context["formset"] = self.formset
+        return context
 
     def render_management_form(self):
         """Return HTML for management form."""
@@ -164,11 +178,11 @@ class FormRenderer(BaseRenderer):
             raise BootstrapError('Parameter "form" should contain a valid Django Form.')
         self.form = form
         super().__init__(*args, **kwargs)
-        self.error_css_class = kwargs.get("error_css_class", None)
-        self.required_css_class = kwargs.get("required_css_class", None)
-        self.bound_css_class = kwargs.get("bound_css_class", None)
-        self.alert_error_type = kwargs.get("alert_error_type", "non_fields")
-        self.form_check_class = kwargs.get("form_check_class", "form-check")
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context["form"] = self.form
+        return context
 
     def render_fields(self):
         rendered_fields = []
