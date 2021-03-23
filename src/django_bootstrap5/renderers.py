@@ -79,6 +79,24 @@ class BaseRenderer(object):
         """Return size class for given prefix."""
         return f"{prefix}-{self.size}" if self.size in ["sm", "lg"] else ""
 
+    def get_context_data(self, **kwargs):
+        """Return context data for rendering."""
+        context = {
+            "layout": self.layout,
+            "wrapper_class": self.wrapper_class,
+            "field_class": self.field_class,
+            "label_class": self.label_class,
+            "show_help": self.show_help,
+            "show_label": self.show_label,
+            "exclude": self.exclude,
+            "set_placeholder": self.set_placeholder,
+            "size": self.size,
+            "horizontal_label_class": self.horizontal_label_class,
+            "horizontal_field_class": self.horizontal_field_class,
+        }
+        context.update(kwargs)
+        return context
+
     def _render(self):
         """Render to string."""
         return ""
