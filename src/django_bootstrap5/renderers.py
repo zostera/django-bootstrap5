@@ -61,6 +61,11 @@ class BaseRenderer(object):
         self.horizontal_field_class = kwargs.get(
             "horizontal_field_class", get_bootstrap_setting("horizontal_field_class")
         )
+        self.error_css_class = kwargs.get("error_css_class", None)
+        self.required_css_class = kwargs.get("required_css_class", None)
+        self.bound_css_class = kwargs.get("bound_css_class", None)
+        self.alert_error_type = kwargs.get("alert_error_type", "non_fields")
+        self.form_check_class = kwargs.get("form_check_class", "form-check")
 
     @property
     def is_floating(self):
@@ -79,13 +84,31 @@ class BaseRenderer(object):
         """Return size class for given prefix."""
         return f"{prefix}-{self.size}" if self.size in ["sm", "lg"] else ""
 
-    def _render(self):
-        """Render to string."""
-        return ""
+    def get_context_data(self):
+        """Return context data for rendering."""
+        context = {
+            "layout": self.layout,
+            "wrapper_class": self.wrapper_class,
+            "field_class": self.field_class,
+            "label_class": self.label_class,
+            "show_help": self.show_help,
+            "show_label": self.show_label,
+            "exclude": self.exclude,
+            "set_placeholder": self.set_placeholder,
+            "size": self.size,
+            "horizontal_label_class": self.horizontal_label_class,
+            "horizontal_field_class": self.horizontal_field_class,
+            "error_css_class": self.error_css_class,
+            "bound_css_class": self.bound_css_class,
+            "required_css_class": self.required_css_class,
+            "alert_error_type": self.alert_error_type,
+            "form_check_class": self.form_check_class,
+        }
+        return context
 
     def render(self):
-        """Render to safe string."""
-        return mark_safe(self._render())
+        """Render to string."""
+        return ""
 
 
 class FormsetRenderer(BaseRenderer):
@@ -97,30 +120,33 @@ class FormsetRenderer(BaseRenderer):
         self.formset = formset
         super().__init__(*args, **kwargs)
 
+    def get_context_data(self):
+        context = super().get_context_data()
+        context["formset"] = self.formset
+        return context
+
     def render_management_form(self):
         """Return HTML for management form."""
         return text_value(self.formset.management_form)
 
     def render_forms(self):
-        rendered_forms = []
+        rendered_forms = mark_safe("")
         for form in self.formset.forms:
-            rendered_forms.append(
-                render_form(
-                    form,
-                    layout=self.layout,
-                    form_group_class=self.wrapper_class,
-                    field_class=self.field_class,
-                    label_class=self.label_class,
-                    show_label=self.show_label,
-                    show_help=self.show_help,
-                    exclude=self.exclude,
-                    set_placeholder=self.set_placeholder,
-                    size=self.size,
-                    horizontal_label_class=self.horizontal_label_class,
-                    horizontal_field_class=self.horizontal_field_class,
-                )
+            rendered_forms += render_form(
+                form,
+                layout=self.layout,
+                form_group_class=self.wrapper_class,
+                field_class=self.field_class,
+                label_class=self.label_class,
+                show_label=self.show_label,
+                show_help=self.show_help,
+                exclude=self.exclude,
+                set_placeholder=self.set_placeholder,
+                size=self.size,
+                horizontal_label_class=self.horizontal_label_class,
+                horizontal_field_class=self.horizontal_field_class,
             )
-        return "\n".join(rendered_forms)
+        return rendered_forms
 
     def get_formset_errors(self):
         return self.formset.non_form_errors()
@@ -132,10 +158,10 @@ class FormsetRenderer(BaseRenderer):
                 "django_bootstrap5/form_errors.html",
                 context={"errors": formset_errors, "form": self.formset, "layout": self.layout},
             )
-        return ""
+        return mark_safe("")
 
-    def _render(self):
-        return "".join([self.render_errors(), self.render_management_form(), self.render_forms()])
+    def render(self):
+        return format_html(self.render_management_form() + "{}{}", self.render_errors(), self.render_forms())
 
 
 class FormRenderer(BaseRenderer):
@@ -146,36 +172,34 @@ class FormRenderer(BaseRenderer):
             raise BootstrapError('Parameter "form" should contain a valid Django Form.')
         self.form = form
         super().__init__(*args, **kwargs)
-        self.error_css_class = kwargs.get("error_css_class", None)
-        self.required_css_class = kwargs.get("required_css_class", None)
-        self.bound_css_class = kwargs.get("bound_css_class", None)
-        self.alert_error_type = kwargs.get("alert_error_type", "non_fields")
-        self.form_check_class = kwargs.get("form_check_class", "form-check")
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context["form"] = self.form
+        return context
 
     def render_fields(self):
-        rendered_fields = []
+        rendered_fields = mark_safe("")
         for field in self.form:
-            rendered_fields.append(
-                render_field(
-                    field,
-                    layout=self.layout,
-                    form_group_class=self.wrapper_class,
-                    field_class=self.field_class,
-                    label_class=self.label_class,
-                    form_check_class=self.form_check_class,
-                    show_label=self.show_label,
-                    show_help=self.show_help,
-                    exclude=self.exclude,
-                    set_placeholder=self.set_placeholder,
-                    size=self.size,
-                    horizontal_label_class=self.horizontal_label_class,
-                    horizontal_field_class=self.horizontal_field_class,
-                    error_css_class=self.error_css_class,
-                    required_css_class=self.required_css_class,
-                    bound_css_class=self.bound_css_class,
-                )
+            rendered_fields += render_field(
+                field,
+                layout=self.layout,
+                form_group_class=self.wrapper_class,
+                field_class=self.field_class,
+                label_class=self.label_class,
+                form_check_class=self.form_check_class,
+                show_label=self.show_label,
+                show_help=self.show_help,
+                exclude=self.exclude,
+                set_placeholder=self.set_placeholder,
+                size=self.size,
+                horizontal_label_class=self.horizontal_label_class,
+                horizontal_field_class=self.horizontal_field_class,
+                error_css_class=self.error_css_class,
+                required_css_class=self.required_css_class,
+                bound_css_class=self.bound_css_class,
             )
-        return "\n".join(rendered_fields)
+        return rendered_fields
 
     def get_fields_errors(self):
         form_errors = []
@@ -199,10 +223,12 @@ class FormRenderer(BaseRenderer):
                 context={"errors": form_errors, "form": self.form, "layout": self.layout, "type": type},
             )
 
-        return ""
+        return mark_safe("")
 
-    def _render(self):
-        return self.render_errors(self.alert_error_type) + self.render_fields()
+    def render(self):
+        errors = self.render_errors(self.alert_error_type)
+        fields = self.render_fields()
+        return errors + fields
 
 
 class FieldRenderer(BaseRenderer):
@@ -419,7 +445,7 @@ class FieldRenderer(BaseRenderer):
         """Return whether field should be placed before label."""
         return isinstance(self.widget, CheckboxInput) or self.is_floating
 
-    def _render(self):
+    def render(self):
         if self.field.name in self.exclude.replace(" ", "").split(","):
             return ""
         if self.field.is_hidden:
