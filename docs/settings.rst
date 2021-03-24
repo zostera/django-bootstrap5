@@ -64,6 +64,5 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
         },
         'field_renderers': {
             'default': 'django_bootstrap5.renderers.FieldRenderer',
-            'inline': 'django_bootstrap5.renderers.InlineFieldRenderer',
         },
     }
