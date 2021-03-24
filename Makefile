@@ -1,7 +1,10 @@
-.PHONY: test tox reformat lint docs porcelain branch build publish
+.PHONY: test tox reformat lint docs porcelain branch build publish example
 
 PROJECT_DIR=src/django_bootstrap5
 PYTHON_SOURCES=${PROJECT_DIR} tests example *.py
+
+example:
+	cd example && python manage.py runserver
 
 test:
 	coverage run manage.py test
