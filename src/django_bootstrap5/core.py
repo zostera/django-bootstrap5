@@ -26,7 +26,6 @@ BOOTSTRAP5_DEFAULTS = {
     "form_renderers": {"default": "django_bootstrap5.renderers.FormRenderer"},
     "field_renderers": {
         "default": "django_bootstrap5.renderers.FieldRenderer",
-        "inline": "django_bootstrap5.renderers.InlineFieldRenderer",
     },
 }
 

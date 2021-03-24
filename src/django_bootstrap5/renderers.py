@@ -61,6 +61,7 @@ class BaseRenderer(object):
         self.horizontal_field_class = kwargs.get(
             "horizontal_field_class", get_bootstrap_setting("horizontal_field_class")
         )
+        self.inline_field_class = kwargs.get("inline_field_class", get_bootstrap_setting("inline_field_class"))
         self.error_css_class = kwargs.get("error_css_class", None)
         self.required_css_class = kwargs.get("required_css_class", None)
         self.bound_css_class = kwargs.get("bound_css_class", None)
@@ -71,6 +72,11 @@ class BaseRenderer(object):
     def is_floating(self):
         """Return whether to render `form-control` widgets as floating."""
         return self.layout == "floating"
+
+    @property
+    def is_inline(self):
+        """Return whether to render widgets with inline layout."""
+        return self.layout == "inline"
 
     def parse_size(self, size):
         """Return size if it is valid, default size if size is empty, or throws exception."""
@@ -98,6 +104,7 @@ class BaseRenderer(object):
             "size": self.size,
             "horizontal_label_class": self.horizontal_label_class,
             "horizontal_field_class": self.horizontal_field_class,
+            "inline_field_class": self.inline_field_class,
             "error_css_class": self.error_css_class,
             "bound_css_class": self.bound_css_class,
             "required_css_class": self.required_css_class,
@@ -378,6 +385,8 @@ class FieldRenderer(BaseRenderer):
         else:
             if isinstance(self.widget, CheckboxInput):
                 widget_label_class = "form-check-label"
+            elif self.is_inline:
+                widget_label_class = "visually-hidden"
             else:
                 widget_label_class = "form-label"
             label_classes = [widget_label_class] + label_classes
@@ -427,6 +436,10 @@ class FieldRenderer(BaseRenderer):
             )
         return ""
 
+    def get_inline_field_class(self):
+        """Return CSS class for inline field."""
+        return self.inline_field_class or "col-12"
+
     def get_wrapper_classes(self):
         """Return classes for wrapper."""
         wrapper_classes = [self.wrapper_class]
@@ -438,7 +451,10 @@ class FieldRenderer(BaseRenderer):
             wrapper_classes.append(self.success_css_class)
         if self.field.field.required:
             wrapper_classes.append(self.required_css_class)
-        wrapper_classes.append("mb-3")
+        if self.is_inline:
+            wrapper_classes.append(self.get_inline_field_class())
+        else:
+            wrapper_classes.append("mb-3")
         return merge_css_classes(*wrapper_classes)
 
     def field_before_label(self):
