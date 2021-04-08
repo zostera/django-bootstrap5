@@ -61,28 +61,24 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 </form>
 ```
 
-Demo
-----
+## Example app
 
-A demo app is provided in `demo`. You can run it from your virtualenv with `python manage.py runserver`.
+An example app is provided in `example`. You can run it from your virtualenv with `python manage.py runserver`.
 
 
-Bugs and suggestions
---------------------
+## Bugs and suggestions
 
 If you have found a bug or if you have a request for additional functionality, please use the issue tracker on GitHub.
 
 https://github.com/zostera/django-bootstrap5/issues
 
 
-License
--------
+## License
 
 You can use this under BSD-3-Clause. See [LICENSE](LICENSE) file for details.
 
 
-Author
-------
+## Author
 
 Developed and maintained by [Zostera](https://zostera.nl).
 
