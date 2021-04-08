@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.3.0] - In development
+
+- Drop support for Django 3.0, extended support stopped on 2021-04-01).
+- Add support for Django 3.2.
+
 ## [0.2.0] - 2021-03-22
 
 - Add floating labels for supported widgets. 
