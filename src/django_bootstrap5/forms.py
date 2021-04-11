@@ -5,7 +5,7 @@ from .core import get_bootstrap_setting, get_field_renderer, get_form_renderer, 
 from .css import merge_css_classes
 from .exceptions import BootstrapError
 from .html import render_tag
-from .text import text_value
+from .size import DEFAULT_SIZE, SIZE_MD, get_size_class
 
 WRAPPER_CLASS = ""
 WRAPPER_TAG = "div"
@@ -57,6 +57,7 @@ def render_button(
     content,
     button_type=None,
     button_class="btn-primary",
+    button_outline=False,
     size="",
     href="",
     name=None,
@@ -67,18 +68,8 @@ def render_button(
 ):
     """Render a button with content."""
     attrs = {}
-    classes = merge_css_classes("btn", button_class)
-    size = text_value(size).lower().strip()
-    if size == "xs":
-        classes = merge_css_classes(classes, "btn-xs")
-    elif size == "sm" or size == "small":
-        classes = merge_css_classes(classes, "btn-sm")
-    elif size == "lg" or size == "large":
-        classes = merge_css_classes(classes, "btn-lg")
-    elif size == "md" or size == "medium":
-        pass
-    elif size:
-        raise BootstrapError('Parameter "size" should be "xs", "sm", "lg" or empty ("{size}" given).'.format(size=size))
+    size_class = get_size_class(size, prefix="btn", skip=SIZE_MD, default=DEFAULT_SIZE)
+    classes = merge_css_classes("btn", button_class, size_class)
 
     if button_type:
         if button_type not in ("submit", "reset", "button", "link"):

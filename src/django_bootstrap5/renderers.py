@@ -25,6 +25,7 @@ from .core import get_bootstrap_setting
 from .css import merge_css_classes
 from .exceptions import BootstrapError
 from .forms import WRAPPER_CLASS, WRAPPER_TAG, is_widget_with_placeholder, render_field, render_form, render_label
+from .size import DEFAULT_SIZE, SIZE_MD, SIZE_XS, get_size_class, parse_size
 from .text import text_value
 from .utils import render_template_file
 
@@ -38,12 +39,6 @@ except RuntimeError:
 class BaseRenderer(object):
     """A content renderer."""
 
-    SIZE_SM = "sm"
-    SIZE_MD = "md"
-    SIZE_LG = "lg"
-    DEFAULT_SIZE = SIZE_MD
-    SIZES = [SIZE_SM, SIZE_MD, SIZE_LG]
-
     def __init__(self, *args, **kwargs):
         self.layout = kwargs.get("layout", "")
         self.wrapper_class = kwargs.get("wrapper_class", WRAPPER_CLASS)
@@ -54,7 +49,7 @@ class BaseRenderer(object):
         self.exclude = kwargs.get("exclude", "")
 
         self.set_placeholder = kwargs.get("set_placeholder", True)
-        self.size = self.parse_size(kwargs.get("size", ""))
+        self.size = parse_size(kwargs.get("size", ""), default=SIZE_MD)
         self.horizontal_label_class = kwargs.get(
             "horizontal_label_class", get_bootstrap_setting("horizontal_label_class")
         )
@@ -80,15 +75,14 @@ class BaseRenderer(object):
 
     def parse_size(self, size):
         """Return size if it is valid, default size if size is empty, or throws exception."""
-        size = text_value(size) or self.DEFAULT_SIZE
-        if size not in self.SIZES:
-            valid_sizes = ", ".join(self.SIZES)
-            raise BootstrapError(f'Invalid value "{size}" for parameter "size" (valid values are {valid_sizes}).')
+        size = parse_size(size, default=DEFAULT_SIZE)
+        if size == SIZE_XS:
+            raise BootstrapError('Size "xs" is not valid for form controls.')
         return size
 
     def get_size_class(self, prefix):
         """Return size class for given prefix."""
-        return f"{prefix}-{self.size}" if self.size in ["sm", "lg"] else ""
+        return get_size_class(self.size, prefix=prefix) if self.size in ["sm", "lg"] else ""
 
     def get_context_data(self):
         """Return context data for rendering."""
@@ -345,7 +339,7 @@ class FieldRenderer(BaseRenderer):
         elif isinstance(widget, CheckboxInput):
             classes = merge_css_classes("form-check-input", classes)
         if size_prefix:
-            classes = merge_css_classes(classes, self.get_size_class(prefix=size_prefix))
+            classes = merge_css_classes(classes, get_size_class(self.size, prefix=size_prefix, skip=["xs", "md"]))
 
         if self.field.errors:
             if self.error_css_class:
