@@ -2,6 +2,7 @@
 
 ## [0.3.0] - In development
 
+- Update Bootstrap to 5.0.0-beta3
 - Remove `buttons` tag.
 - Drop support for Django 3.0, extended support stopped on 2021-04-01).
 - Add support for Django 3.2.
