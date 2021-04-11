@@ -39,7 +39,7 @@ def url_replace_param(url, name, value):
 
 def get_url_attrs(url, attr_name):
     """
-    Return dictionary with attributes for HTML tag, where the key for url.
+    Return dictionary with attributes for HTML tag, updated with key `attr_name` with value `url`.
 
     Parameter `url` is either a string or a dict of attrs with the key `url`.
     Parameter `attr_key` is the name for the url value in the results.
