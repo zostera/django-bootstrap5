@@ -51,12 +51,6 @@ class BootstrapFormTest(TestCase):
     #     self.assertIn("hlabel", res)
     #     self.assertIn("hfield", res)
 
-    def test_buttons_tag(self):
-        form = TestForm()
-        res = render_template_with_form('{% buttons layout="horizontal" %}{% endbuttons %}', {"form": form})
-        self.assertIn("col-md-3", res)
-        self.assertIn("col-md-9", res)
-
     def test_error_class(self):
         form = TestForm({"sender": "sender"})
         res = render_template_with_form("{% bootstrap_form form %}", {"form": form})

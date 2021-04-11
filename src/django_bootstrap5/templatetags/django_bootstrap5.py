@@ -12,16 +12,14 @@ from ..core import css_url, get_bootstrap_setting, javascript_url, theme_url
 from ..forms import (
     render_button,
     render_field,
-    render_field_and_label,
     render_form,
     render_form_errors,
-    render_form_group,
     render_formset,
     render_formset_errors,
     render_label,
 )
 from ..html import render_link_tag, render_script_tag
-from ..utils import handle_var, parse_token_contents, render_template_file, url_replace_param
+from ..utils import render_template_file, url_replace_param
 
 MESSAGE_ALERT_TYPES = {
     message_constants.DEBUG: "warning",
@@ -612,66 +610,6 @@ def bootstrap_alert(content, alert_type="info", dismissible=True, extra_classes=
         {% bootstrap_alert "Something went wrong" alert_type="error" %}
     """
     return render_alert(content, alert_type, dismissible, extra_classes)
-
-
-@register.tag("buttons")
-def bootstrap_buttons(parser, token):
-    """
-    Render buttons for form.
-
-    **Tag name**::
-
-        buttons
-
-    **Parameters**::
-
-        submit
-            Text for a submit button
-
-        reset
-            Text for a reset button
-
-    **Usage**::
-
-        {% buttons %}{% endbuttons %}
-
-    **Example**::
-
-        {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
-    """
-    kwargs = parse_token_contents(parser, token)
-    kwargs["nodelist"] = parser.parse(("endbuttons",))
-    parser.delete_first_token()
-    return ButtonsNode(**kwargs)
-
-
-class ButtonsNode(template.Node):
-    def __init__(self, nodelist, args, kwargs, asvar, **kwargs2):
-        self.nodelist = nodelist
-        self.args = args
-        self.kwargs = kwargs
-        self.asvar = asvar
-
-    def render(self, context):
-        output_kwargs = {}
-        for key in self.kwargs:
-            output_kwargs[key] = handle_var(self.kwargs[key], context)
-        buttons = []
-        submit = output_kwargs.get("submit", None)
-        reset = output_kwargs.get("reset", None)
-        if submit:
-            buttons.append(bootstrap_button(submit, "submit"))
-        if reset:
-            buttons.append(bootstrap_button(reset, "reset"))
-        buttons = " ".join(buttons) + self.nodelist.render(context)
-        output_kwargs.update({"label": None, "field": buttons})
-        css_class = output_kwargs.pop("wrapper_class", "form-group")
-        output = render_form_group(render_field_and_label(**output_kwargs), css_class=css_class)
-        if self.asvar:
-            context[self.asvar] = output
-            return ""
-        else:
-            return output
 
 
 @register.simple_tag(takes_context=True)

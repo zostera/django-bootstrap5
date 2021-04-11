@@ -10,8 +10,11 @@
 
     <form class="row row-cols-lg-auto g-3 align-items-center" method="post">
         {% csrf_token %}
+
         {% bootstrap_form form layout='inline' %}
-        {% buttons submit='OK' reset='Cancel' layout='inline' %}{% endbuttons %}
+
+        {% bootstrap_button button_type="submit" content="OK" %}
+        {% bootstrap_button button_type="reset" content="Cancel" %}
     </form>
 
 {% endblock %}

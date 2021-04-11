@@ -10,8 +10,11 @@
     {% bootstrap_formset_errors form %}
     <form role="form" method="post">
         {% csrf_token %}
+
         {% bootstrap_formset form %}
-        {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
+
+        {% bootstrap_button button_type="submit" content="OK" %}
+        {% bootstrap_button button_type="reset" content="Cancel" %}
     </form>
 
 {% endblock %}
