@@ -1,7 +1,6 @@
-from django.forms import EmailInput, NumberInput, PasswordInput, Textarea, TextInput, URLInput
 from django.utils.safestring import mark_safe
 
-from .core import get_bootstrap_setting, get_field_renderer, get_form_renderer, get_formset_renderer
+from .core import get_field_renderer, get_form_renderer, get_formset_renderer
 from .css import merge_css_classes
 from .exceptions import BootstrapError
 from .html import render_tag
@@ -106,35 +105,3 @@ def render_button(
     if title:
         attrs["title"] = title
     return render_tag(tag, attrs=attrs, content=mark_safe(content))
-
-
-def render_field_and_label(field, label, field_class="", label_for=None, label_class="", layout="", **kwargs):
-    """Render a field with its label."""
-    if layout == "horizontal":
-        if not label_class:
-            label_class = get_bootstrap_setting("horizontal_label_class")
-        if not field_class:
-            field_class = get_bootstrap_setting("horizontal_field_class")
-        if not label:
-            label = mark_safe("&#160;")
-        label_class = merge_css_classes(label_class, "control-label")
-    html = field
-    if field_class:
-        html = '<div class="{field_class}">{html}</div>'.format(field_class=field_class, html=html)
-    if label:
-        html = render_label(label, label_for=label_for, label_class=label_class) + html
-    return html
-
-
-def render_form_group(content, css_class=WRAPPER_CLASS):
-    """Render a Bootstrap form group."""
-    return '<div class="{css_class}">{content}</div>'.format(css_class=css_class, content=content)
-
-
-def is_widget_with_placeholder(widget):
-    """
-    Return whether this widget should have a placeholder.
-
-    Only text, text area, number, e-mail, url, password, number and derived inputs have placeholders.
-    """
-    return isinstance(widget, (TextInput, Textarea, NumberInput, EmailInput, URLInput, PasswordInput))
