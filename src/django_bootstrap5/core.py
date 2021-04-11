@@ -15,7 +15,6 @@ BOOTSTRAP5_DEFAULTS = {
     },
     "theme_url": None,
     "javascript_in_head": False,
-    "use_i18n": False,
     "horizontal_label_class": "col-md-3",
     "horizontal_field_class": "col-md-9",
     "set_placeholder": True,
@@ -37,9 +36,6 @@ def get_bootstrap_setting(name, default=None):
 
     # Override with user settings from settings.py
     BOOTSTRAP5.update(getattr(settings, "BOOTSTRAP5", {}))
-
-    # Update use_i18n
-    BOOTSTRAP5["use_i18n"] = i18n_enabled()
 
     return BOOTSTRAP5.get(name, default)
 

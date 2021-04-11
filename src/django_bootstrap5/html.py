@@ -18,7 +18,7 @@ def render_link_tag(url):
 
 
 def render_tag(tag, attrs=None, content=None, close=True):
-    """Render a HTML tag."""
+    """Render an HTML tag."""
     attrs_string = flatatt(attrs) if attrs else ""
     builder = "<{tag}" + attrs_string + ">{content}"
     content_string = text_value(content)
