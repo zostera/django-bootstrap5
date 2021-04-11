@@ -10,8 +10,11 @@
 
     <form role="form" class="form-horizontal" method="post">
         {% csrf_token %}
+
         {% bootstrap_form form layout="horizontal" %}
-        {% buttons submit='OK' reset='Cancel' layout='horizontal' %}{% endbuttons %}
+
+        {% bootstrap_button button_type="submit" content="OK" %}
+        {% bootstrap_button button_type="reset" content="Cancel" %}
     </form>
 
 {% endblock %}

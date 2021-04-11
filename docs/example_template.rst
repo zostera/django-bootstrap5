@@ -13,12 +13,12 @@
   {# Display a form #}
   <form action="/url/to/submit/" method="post" class="form">
     {% csrf_token %}
+
     {% bootstrap_form form %}
-    {% buttons %}
-      <button type="submit" class="btn btn-primary">
-        Submit
-      </button>
-    {% endbuttons %}
+
+    {% bootstrap_button button_type="submit" content="OK" %}
+    {% bootstrap_button button_type="reset" content="Cancel" %}
+
   </form>
 
   {# Read the documentation for more information #}

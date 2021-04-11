@@ -10,8 +10,11 @@
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
         {% bootstrap_form form layout=layout %}
-        {% buttons submit='OK' reset="Cancel" %}{% endbuttons %}
+
+        {% bootstrap_button button_type="submit" content="OK" %}
+        {% bootstrap_button button_type="reset" content="Cancel" %}
     </form>
 
 {% endblock %}
