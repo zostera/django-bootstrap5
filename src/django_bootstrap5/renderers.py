@@ -28,13 +28,7 @@ from .forms import WRAPPER_CLASS, WRAPPER_TAG, render_field, render_form, render
 from .size import DEFAULT_SIZE, SIZE_MD, SIZE_XS, get_size_class, parse_size
 from .text import text_value
 from .utils import render_template_file
-from .widgets import is_widget_with_placeholder
-
-try:
-    # If Django is set up without a database, importing this widget gives RuntimeError
-    from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
-except RuntimeError:
-    ReadOnlyPasswordHashWidget = None
+from .widgets import ReadOnlyPasswordHashWidget, is_widget_with_placeholder
 
 
 class BaseRenderer(object):
