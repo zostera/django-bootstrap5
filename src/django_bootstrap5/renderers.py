@@ -44,6 +44,9 @@ class BaseRenderer(object):
         )
         self.checkbox_layout = kwargs.get("checkbox_layout", get_bootstrap_setting("checkbox_layout"))
         self.checkbox_style = kwargs.get("checkbox_style", get_bootstrap_setting("checkbox_style"))
+        self.horizontal_field_offset_class = kwargs.get(
+            "horizontal_field_offset_class", get_bootstrap_setting("horizontal_field_offset_class")
+        )
         self.inline_field_class = kwargs.get("inline_field_class", get_bootstrap_setting("inline_field_class"))
         self.error_css_class = kwargs.get("error_css_class", None)
         self.required_css_class = kwargs.get("required_css_class", None)
@@ -54,6 +57,11 @@ class BaseRenderer(object):
     def is_floating(self):
         """Return whether to render `form-control` widgets as floating."""
         return self.layout == "floating"
+
+    @property
+    def is_horizontal(self):
+        """Return whether to render form horizontally."""
+        return self.layout == "horizontal"
 
     @property
     def is_inline(self):
@@ -215,17 +223,7 @@ class FieldRenderer(BaseRenderer):
         self.help_text = text_value(field.help_text) if self.show_help and field.help_text else ""
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
 
-        if "placeholder" in kwargs:
-            # Find the placeholder in kwargs, even if it's empty
-            self.placeholder = kwargs["placeholder"]
-        elif get_bootstrap_setting("set_placeholder"):
-            # If not found, see if we set the label
-            self.placeholder = field.label
-        else:
-            # Or just set it to empty
-            self.placeholder = ""
-        if self.placeholder:
-            self.placeholder = text_value(self.placeholder)
+        self.placeholder = text_value(kwargs.get("placeholder", self.default_placeholder))
 
         self.addon_before = kwargs.get("addon_before", self.widget.attrs.pop("addon_before", ""))
         self.addon_after = kwargs.get("addon_after", self.widget.attrs.pop("addon_after", ""))
@@ -263,6 +261,11 @@ class FieldRenderer(BaseRenderer):
     @property
     def is_floating(self):
         return super().is_floating and self.can_widget_float(self.widget) and self.is_widget_form_control(self.widget)
+
+    @property
+    def default_placeholder(self):
+        """Return default placeholder for field."""
+        return self.field.label if get_bootstrap_setting("set_placeholder") else ""
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs.copy()
@@ -341,7 +344,7 @@ class FieldRenderer(BaseRenderer):
             elif isinstance(widget, ClearableFileInput):
                 widget.template_name = "django_bootstrap5/widgets/clearable_file_input.html"
 
-    def get_label_class(self):
+    def get_label_class(self, horizontal=False):
         """Return CSS class for label."""
         label_classes = [text_value(self.label_class)]
         if not self.show_label:
@@ -351,6 +354,8 @@ class FieldRenderer(BaseRenderer):
                 widget_label_class = "form-check-label"
             elif self.is_inline:
                 widget_label_class = "visually-hidden"
+            elif horizontal:
+                widget_label_class = merge_css_classes(self.horizontal_label_class, "col-form-label")
             else:
                 widget_label_class = "form-label"
             label_classes = [widget_label_class] + label_classes
@@ -363,11 +368,15 @@ class FieldRenderer(BaseRenderer):
         self.restore_widget_attrs()
         return field_html
 
-    def get_label_html(self):
+    def get_label_html(self, horizontal=False):
         """Return value for label."""
         label_html = "" if self.show_label == "skip" else self.field.label
         if label_html:
-            label_html = render_label(label_html, label_for=self.field.id_for_label, label_class=self.get_label_class())
+            label_html = render_label(
+                label_html,
+                label_for=self.field.id_for_label,
+                label_class=self.get_label_class(horizontal=horizontal),
+            )
         return label_html
 
     def get_help_html(self):
@@ -427,6 +436,8 @@ class FieldRenderer(BaseRenderer):
         if self.is_inline:
             wrapper_classes.append(self.get_inline_field_class())
         else:
+            if self.is_horizontal:
+                wrapper_classes.append("row")
             wrapper_classes.append("mb-3")
         return merge_css_classes(*wrapper_classes)
 
@@ -441,21 +452,32 @@ class FieldRenderer(BaseRenderer):
             return text_value(self.field)
 
         field = self.get_field_html()
-        label = self.get_label_html()
-        field_with_label = field + label if self.field_before_label() else label + field
+        if self.field_before_label():
+            label = self.get_label_html()
+            field = field + label
+            label = mark_safe("")
+            horizontal_class = merge_css_classes(self.horizontal_field_class, self.horizontal_field_offset_class)
+        else:
+            label = self.get_label_html(horizontal=self.is_horizontal)
+            horizontal_class = self.horizontal_field_class
 
         if isinstance(self.widget, CheckboxInput):
-            field_with_label = format_html(
-                '<div class="{form_check_class}">{field_with_label}</div>',
+            field = format_html(
+                '<div class="{form_check_class}">{field}</div>',
                 form_check_class=self.get_checkbox_classes(),
-                field_with_label=field_with_label,
+                field=field,
+            )
+
+        field_with_help_and_errors = format_html("{}{}{}", field, self.get_help_html(), self.get_errors_html())
+        if self.is_horizontal:
+            field_with_help_and_errors = format_html(
+                '<div class="{}">{}</div>', horizontal_class, field_with_help_and_errors
             )
 
         return format_html(
-            '<{tag} class="{wrapper_classes}">{field_with_label}{help}{errors}</{tag}>',
+            '<{tag} class="{wrapper_classes}">{label}{field_with_help_and_errors}</{tag}>',
             tag=WRAPPER_TAG,
             wrapper_classes=self.get_wrapper_classes(),
-            field_with_label=field_with_label,
-            help=self.get_help_html(),
-            errors=self.get_errors_html(),
+            label=label,
+            field_with_help_and_errors=field_with_help_and_errors,
         )

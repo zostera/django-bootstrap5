@@ -99,19 +99,19 @@ class BootstrapFieldTest(TestCase):
         """Test field with text widget in floating layout."""
 
         class TestForm(forms.Form):
-            test = forms.CharField()
+            test = forms.BooleanField()
 
         test_form = TestForm()
-        html = render_template_with_bootstrap(
-            "{% bootstrap_field form.test layout='floating' %}", context={"form": test_form}
-        )
+        html = render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form})
         self.assertHTMLEqual(
             html,
             (
-                '<div class="django_bootstrap5-req mb-3 form-floating">'
-                '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
-                '<label for="id_test" class="form-label">Test</label>'
-                "</div>"
+                '<div class="django_bootstrap5-req mb-3">'
+                '<div class="form-check">'
+                '<input class="form-check-input" id="id_test" name="test" required type="checkbox">'
+                '<label class="form-check-label" for="id_test">'
+                "Test"
+                "</label>"
             ),
         )
 
