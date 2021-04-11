@@ -27,12 +27,10 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 
 1. Install using pip:
 
-    ```shell script
+    ```bash
     pip install django-bootstrap5
     ```
-   
-   Alternatively, you can install download or clone this repo and call ``pip install -e .``.
-
+    
 2. Add to `INSTALLED_APPS` in your `settings.py`:
 
    ```python
@@ -41,13 +39,13 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
        "django_bootstrap5",
        # ...
    )
-   ````
+   ```
 
-3. In your templates, load the `django_bootstrap5` library and use the `bootstrap_*` tags:
+3. In your templates, load the `django_bootstrap5` library and use the `bootstrap_*` tags. See example below.
 
 ## Example template
 
-```djangotemplate
+```jinja2
 {% load django_bootstrap5 %}
 
 {# Display a form #}
