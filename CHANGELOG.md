@@ -2,6 +2,7 @@
 
 ## [0.3.0] - In development
 
+- Set PyPI Development Status to 4 - Beta.
 - Remove use_i18n setting because it duplicates standard Django functionality.
 - Update Bootstrap to 5.0.0-beta3
 - Remove `buttons` tag.
