@@ -21,35 +21,10 @@ class BootstrapFormTest(TestCase):
             else:
                 self.assertIn('name="%s"' % field.name, res)
 
-    # def test_field_addons(self):
-    #     form = TestForm()
-    #     res = render_form(form)
-    #     self.assertIn(
-    #         '<div class="input-group">'
-    #         '<div class="input-group-prepend">'
-    #         '<span class="input-group-text">before</span></div><input',
-    #         res,
-    #     )
-    #     self.assertIn('><div class="input-group-append"><span class="input-group-text">after</span></div></div>', res)
-
     def test_exclude(self):
         form = TestForm()
         res = render_template_with_form('{% bootstrap_form form exclude="cc_myself" %}', {"form": form})
         self.assertNotIn("cc_myself", res)
-
-    # def test_layout_horizontal(self):
-    #     form = TestForm()
-    #     res = render_template_with_form('{% bootstrap_form form layout="horizontal" %}', {"form": form})
-    #     self.assertIn("col-md-3", res)
-    #     self.assertIn("col-md-9", res)
-    #     res = render_template_with_form(
-    #         '{% bootstrap_form form layout="horizontal" '
-    #         + 'horizontal_label_class="hlabel" '
-    #         + 'horizontal_field_class="hfield" %}',
-    #         {"form": form},
-    #     )
-    #     self.assertIn("hlabel", res)
-    #     self.assertIn("hfield", res)
 
     def test_error_class(self):
         form = TestForm({"sender": "sender"})
