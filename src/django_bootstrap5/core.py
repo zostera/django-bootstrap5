@@ -2,6 +2,7 @@ from importlib import import_module
 
 from django.conf import settings
 
+BOOTSTRAP5 = {"foo": "bar"}
 BOOTSTRAP5_DEFAULTS = {
     "css_url": {
         "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css",
@@ -18,6 +19,8 @@ BOOTSTRAP5_DEFAULTS = {
     "horizontal_label_class": "col-md-3",
     "horizontal_field_class": "col-md-9",
     "set_placeholder": True,
+    "checkbox_layout": None,
+    "checkbox_style": None,
     "required_css_class": "",
     "error_css_class": "is-invalid",
     "success_css_class": "is-valid",

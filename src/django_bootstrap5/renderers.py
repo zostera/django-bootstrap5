@@ -42,7 +42,6 @@ class BaseRenderer(object):
         self.show_help = kwargs.get("show_help", True)
         self.show_label = kwargs.get("show_label", True)
         self.exclude = kwargs.get("exclude", "")
-
         self.set_placeholder = kwargs.get("set_placeholder", True)
         self.size = parse_size(kwargs.get("size", ""), default=SIZE_MD)
         self.horizontal_label_class = kwargs.get(
@@ -51,12 +50,13 @@ class BaseRenderer(object):
         self.horizontal_field_class = kwargs.get(
             "horizontal_field_class", get_bootstrap_setting("horizontal_field_class")
         )
+        self.checkbox_layout = kwargs.get("checkbox_layout", get_bootstrap_setting("checkbox_layout"))
+        self.checkbox_style = kwargs.get("checkbox_style", get_bootstrap_setting("checkbox_style"))
         self.inline_field_class = kwargs.get("inline_field_class", get_bootstrap_setting("inline_field_class"))
         self.error_css_class = kwargs.get("error_css_class", None)
         self.required_css_class = kwargs.get("required_css_class", None)
         self.bound_css_class = kwargs.get("bound_css_class", None)
         self.alert_error_type = kwargs.get("alert_error_type", "non_fields")
-        self.form_check_class = kwargs.get("form_check_class", "form-check")
 
     @property
     def is_floating(self):
@@ -79,8 +79,8 @@ class BaseRenderer(object):
         """Return size class for given prefix."""
         return get_size_class(self.size, prefix=prefix) if self.size in ["sm", "lg"] else ""
 
-    def get_context_data(self):
-        """Return context data for rendering."""
+    def get_kwargs(self):
+        """Return kwargs to pass on to child renderers."""
         context = {
             "layout": self.layout,
             "wrapper_class": self.wrapper_class,
@@ -93,14 +93,19 @@ class BaseRenderer(object):
             "size": self.size,
             "horizontal_label_class": self.horizontal_label_class,
             "horizontal_field_class": self.horizontal_field_class,
+            "checkbox_layout": self.checkbox_layout,
+            "checkbox_style": self.checkbox_style,
             "inline_field_class": self.inline_field_class,
             "error_css_class": self.error_css_class,
             "bound_css_class": self.bound_css_class,
             "required_css_class": self.required_css_class,
             "alert_error_type": self.alert_error_type,
-            "form_check_class": self.form_check_class,
         }
         return context
+
+    def get_context_data(self):
+        """Return context data for rendering."""
+        return self.get_kwargs()
 
     def render(self):
         """Render to string."""
@@ -127,21 +132,9 @@ class FormsetRenderer(BaseRenderer):
 
     def render_forms(self):
         rendered_forms = mark_safe("")
+        kwargs = self.get_kwargs()
         for form in self.formset.forms:
-            rendered_forms += render_form(
-                form,
-                layout=self.layout,
-                form_group_class=self.wrapper_class,
-                field_class=self.field_class,
-                label_class=self.label_class,
-                show_label=self.show_label,
-                show_help=self.show_help,
-                exclude=self.exclude,
-                set_placeholder=self.set_placeholder,
-                size=self.size,
-                horizontal_label_class=self.horizontal_label_class,
-                horizontal_field_class=self.horizontal_field_class,
-            )
+            rendered_forms += render_form(form, **kwargs)
         return rendered_forms
 
     def get_formset_errors(self):
@@ -152,7 +145,11 @@ class FormsetRenderer(BaseRenderer):
         if formset_errors:
             return render_template_file(
                 "django_bootstrap5/form_errors.html",
-                context={"errors": formset_errors, "form": self.formset, "layout": self.layout},
+                context={
+                    "errors": formset_errors,
+                    "form": self.formset,
+                    "layout": self.layout,
+                },
             )
         return mark_safe("")
 
@@ -176,25 +173,9 @@ class FormRenderer(BaseRenderer):
 
     def render_fields(self):
         rendered_fields = mark_safe("")
+        kwargs = self.get_kwargs()
         for field in self.form:
-            rendered_fields += render_field(
-                field,
-                layout=self.layout,
-                form_group_class=self.wrapper_class,
-                field_class=self.field_class,
-                label_class=self.label_class,
-                form_check_class=self.form_check_class,
-                show_label=self.show_label,
-                show_help=self.show_help,
-                exclude=self.exclude,
-                set_placeholder=self.set_placeholder,
-                size=self.size,
-                horizontal_label_class=self.horizontal_label_class,
-                horizontal_field_class=self.horizontal_field_class,
-                error_css_class=self.error_css_class,
-                required_css_class=self.required_css_class,
-                bound_css_class=self.bound_css_class,
-            )
+            rendered_fields += render_field(field, **kwargs)
         return rendered_fields
 
     def get_fields_errors(self):
@@ -254,7 +235,6 @@ class FieldRenderer(BaseRenderer):
         self.initial_attrs = self.widget.attrs.copy()
         self.help_text = text_value(field.help_text) if self.show_help and field.help_text else ""
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
-        self.form_check_class = kwargs.get("form_check_class", "form-check")
 
         if "placeholder" in kwargs:
             # Find the placeholder in kwargs, even if it's empty
@@ -429,6 +409,15 @@ class FieldRenderer(BaseRenderer):
         """Return CSS class for inline field."""
         return self.inline_field_class or "col-12"
 
+    def get_checkbox_classes(self):
+        """Return CSS classes for checkbox."""
+        classes = ["form-check"]
+        if self.checkbox_style == "switch":
+            classes.append("form-switch")
+        if self.checkbox_layout == "inline":
+            classes.append("form-check-inline")
+        return merge_css_classes(*classes)
+
     def get_wrapper_classes(self):
         """Return classes for wrapper."""
         wrapper_classes = [self.wrapper_class]
@@ -457,13 +446,15 @@ class FieldRenderer(BaseRenderer):
             return text_value(self.field)
 
         field = self.get_field_html()
-
         label = self.get_label_html()
-
         field_with_label = field + label if self.field_before_label() else label + field
 
         if isinstance(self.widget, CheckboxInput):
-            field_with_label = format_html('<div class="form-check">{}</div>', field_with_label)
+            field_with_label = format_html(
+                '<div class="{form_check_class}">{field_with_label}</div>',
+                form_check_class=self.get_checkbox_classes(),
+                field_with_label=field_with_label,
+            )
 
         return format_html(
             '<{tag} class="{wrapper_classes}">{field_with_label}{help}{errors}</{tag}>',

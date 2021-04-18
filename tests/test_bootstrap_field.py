@@ -33,6 +33,48 @@ class BootstrapFieldTest(TestCase):
             ),
         )
 
+    def test_bootstrap_field_checkbox(self):
+        """Test field with text widget."""
+
+        class TestForm(forms.Form):
+            test = forms.BooleanField()
+
+        test_form = TestForm()
+        html = render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form})
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<div class="form-check">'
+                '<input class="form-check-input" id="id_test" name="test" required type="checkbox">'
+                '<label class="form-check-label" for="id_test">'
+                "Test"
+                "</label>"
+            ),
+        )
+
+    def test_bootstrap_field_checkbox_switch(self):
+        """Test field with text widget."""
+
+        class TestForm(forms.Form):
+            test = forms.BooleanField()
+
+        test_form = TestForm()
+        html = render_template_with_bootstrap(
+            '{% bootstrap_field form.test checkbox_style="switch" %}', context={"form": test_form}
+        )
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<div class="form-check form-switch">'
+                '<input class="form-check-input" id="id_test" name="test" required type="checkbox">'
+                '<label class="form-check-label" for="id_test">'
+                "Test"
+                "</label>"
+            ),
+        )
+
     def test_bootstrap_field_text_floating(self):
         """Test field with text widget in floating layout."""
 
@@ -140,64 +182,6 @@ class FieldTest(TestCase):
         self.assertIn('type="password"', res)
         self.assertIn('placeholder="Password"', res)
 
-    # def test_radio_select(self):
-    #     """Test RadioSelect rendering, because it is special."""
-    #     res = render_form_field("category1")
-    #     # strip out newlines and spaces around newlines
-    #     res = "".join(line.strip() for line in res.split("\n"))
-    #     res = BeautifulSoup(res, "html.parser")
-    #     form_group = self._select_one_element(
-    #       res,
-    #       ".form-group", "RadioSelect should be rendered inside a .form-group")
-    #     radio = self._select_one_element(form_group, ".radio", "There should be a .radio inside .form-group")
-    #     self.assertIn("radio-success", radio["class"], "The radio select should have the class 'radio-success'")
-    #     elements = radio.find_all("div", class_="form-check")
-    #     self.assertIsNotNone(elements, "Radio should have at least one div with class 'form-check'")
-    #     for idx, form_check in enumerate(elements, start=1):
-    #         label = form_check.next_element
-    #         self.assertIsNotNone(label, "The label should be rendered after the form-check div")
-    #         self.assertEqual(label.name, "label", "After the form-check div there should be a label")
-    #         self.assertIn("form-check-label", label["class"], "The label should have the class 'form-check-label'")
-    #         self.assertEqual(
-    #             "Radio {idx}".format(idx=idx), label.text, "The label should have text 'Radio {idx}'".format(idx=idx)
-    #         )
-    #         input_ = label.next_element
-    #         self.assertIsNotNone(input_, "The input should be rendered after the label")
-    #         self.assertEqual(input_.name, "input", "After the label there should be an input")
-    #         self.assertIn("form-check-input", input_["class"], "The input should have the class 'form-check-input'")
-    #         self.assertEqual(
-    #             str(idx),
-    #             input_["value"],
-    #             "The input should have value '{idx}'".format(idx=idx),
-    #         )
-    #         self.assertEqual(
-    #             label["for"], input_["id"], "The for attribute of the label should be the id of the radio input"
-    #         )
-    #
-    # def test_checkbox(self):
-    #     """Test Checkbox rendering, because it is special."""
-    #     res = render_form_field("cc_myself")
-    #     # strip out newlines and spaces around newlines
-    #     res = "".join(line.strip() for line in res.split("\n"))
-    #     res = BeautifulSoup(res, "html.parser")
-    #     form_group = self._select_one_element(res, ".form-group", "Checkbox should be rendered inside a .form-group.")
-    #     form_check = self._select_one_element(
-    #         form_group, ".form-check", "There should be a .form-check inside .form-group"
-    #     )
-    #     checkbox = self._select_one_element(form_check, "input", "The checkbox should be inside the .form-check")
-    #     self.assertIn("form-check-input", checkbox["class"], "The checkbox should have the class 'form-check-input'.")
-    #     label = checkbox.nextSibling
-    #     self.assertIsNotNone(label, "The label should be rendered after the checkbox.")
-    #     self.assertEqual(label.name, "label", "After the checkbox there should be a label.")
-    #     self.assertEqual(
-    #         label["for"], checkbox["id"], "The for attribute of the label should be the id of the checkbox."
-    #     )
-    #     help_text = label.nextSibling
-    #     self.assertIsNotNone(help_text, "The help text should be rendered after the label.")
-    #     self.assertEqual(help_text.name, "small", "The help text should be rendered as <small> tag.")
-    #     self.assertIn("form-text", help_text["class"], "The help text should have the class 'form-text'.")
-    #     self.assertIn("text-muted", help_text["class"], "The help text should have the class 'text-muted'.")
-
     def test_required_field(self):
         required_css_class = "django_bootstrap5-req"
         required_field = render_form_field("subject")
@@ -220,63 +204,6 @@ class FieldTest(TestCase):
         form.empty_permitted = True
         res = render_form_field("subject", {"form": form})
         self.assertNotIn(required_css_class, res)
-
-    # def test_input_group(self):
-    #     res = render_template_with_form('{% bootstrap_field form.subject addon_before="$"  addon_after=".00" %}')
-    #     self.assertIn('class="input-group"', res)
-    #     self.assertIn('class="input-group-prepend"><span class="input-group-text">$', res)
-    #     self.assertIn('class="input-group-append"><span class="input-group-text">.00', res)
-    #
-    # def test_input_group_addon_button(self):
-    #     res = render_template_with_form(
-    #         # Jumping through hoops to keep flake8 and black happy here
-    #         "{% bootstrap_field "
-    #         'form.subject addon_before="$" addon_before_class=None addon_after=".00" addon_after_class=None'
-    #         " %}"
-    #     )
-    #     self.assertIn('class="input-group"', res)
-    #     self.assertIn('<div class="input-group-prepend">$</div>', res)
-    #     self.assertIn('<div class="input-group-append">.00</div>', res)
-    #
-    # def test_input_group_addon_empty(self):
-    #     res = render_template_with_form(
-    #         '{% bootstrap_field form.subject addon_before=None addon_after="after" %}'
-    #     )  # noqa
-    #     self.assertIn('class="input-group"', res)
-    #     self.assertNotIn("input-group-prepend", res)
-    #     self.assertIn('<div class="input-group-append"><span class="input-group-text">after</span></div>', res)
-
-    # def test_input_group_addon_validation(self):
-    #     """
-    #     Test that invalid-feedback messages are placed inside input-groups.
-    #
-    #     See issue #89.
-    #     """
-    #     # invalid form data:
-    #     data = {"subject": ""}
-    #     res = render_template_with_form(
-    #         '{% bootstrap_field form.subject addon_before=None addon_after="after" %}', data=data
-    #     )  # noqa
-    #     res = BeautifulSoup(res, "html.parser")
-    #     self._select_one_element(
-    #         res,
-    #         ".input-group > .invalid-feedback",
-    #         "The invalid-feedback message, complaining that this field is "
-    #         "required, must be placed inside the input-group",
-    #     )
-    #     self._select_one_element(
-    #         res, ".form-group > .form-text", "The form-text message must be placed inside the form-group"
-    #     )
-    #     self.assertEqual(
-    #         len(res.select(".form-group > .invalid-feedback")),
-    #         0,
-    #         "The invalid-feedback message must be placed inside the " "input-group and not inside the form-group",
-    #     )
-    #     self.assertEqual(
-    #         len(res.select(".input-group > .form-text")),
-    #         0,
-    #         "The form-text message must be placed inside the form-group and " "not inside the input-group",
-    #     )
 
     def test_size(self):
         def _test_size(param, klass):
