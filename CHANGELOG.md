@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.3.0] - In development
+## [0.3.0] - 2021-04-18
 
 - Fix suport for `Textarea` widgets.
 - Add support for horizontal forms.
