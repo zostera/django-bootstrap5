@@ -16,7 +16,7 @@ from .base import (
 
 
 class BootstrapFieldTest(TestCase):
-    def test_bootstrap_field_text(self):
+    def test_input_type_text(self):
         """Test field with text widget."""
 
         class TestForm(forms.Form):
@@ -34,7 +34,7 @@ class BootstrapFieldTest(TestCase):
             ),
         )
 
-    def test_bootstrap_field_color(self):
+    def test_input_type_color(self):
         """Test field with text widget."""
 
         class TestForm(forms.Form):
@@ -53,7 +53,7 @@ class BootstrapFieldTest(TestCase):
             ),
         )
 
-    def test_bootstrap_field_checkbox(self):
+    def test_input_type_checkbox(self):
         """Test field with text widget."""
 
         class TestForm(forms.Form):
@@ -73,7 +73,7 @@ class BootstrapFieldTest(TestCase):
             ),
         )
 
-    def test_bootstrap_field_checkbox_switch(self):
+    def test_input_type_checkbox_style_switch(self):
         """Test field with text widget."""
 
         class TestForm(forms.Form):
@@ -95,7 +95,7 @@ class BootstrapFieldTest(TestCase):
             ),
         )
 
-    def test_bootstrap_field_text_floating(self):
+    def test_input_type_text_floating(self):
         """Test field with text widget in floating layout."""
 
         class TestForm(forms.Form):
@@ -115,7 +115,47 @@ class BootstrapFieldTest(TestCase):
             ),
         )
 
-    def test_bootstrap_field_file(self):
+    def test_textarea(self):
+        """Test field with textarea widget."""
+
+        class TestForm(forms.Form):
+            test = forms.CharField(widget=forms.Textarea)
+
+        test_form = TestForm()
+        html = render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form})
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<label for="id_test" class="form-label">Test</label>'
+                '<textarea class="form-control" cols="40" id="id_test" name="test" placeholder="Test"'
+                ' required rows="10"></textarea>'
+                "</div>"
+            ),
+        )
+
+    def test_textarea_floating(self):
+        """Test field with textarea widget and floating label."""
+
+        class TestForm(forms.Form):
+            test = forms.CharField(widget=forms.Textarea)
+
+        test_form = TestForm()
+        html = render_template_with_bootstrap(
+            '{% bootstrap_field form.test layout="floating" %}', context={"form": test_form}
+        )
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="django_bootstrap5-req form-floating mb-3">'
+                '<textarea class="form-control" cols="40" id="id_test" name="test" placeholder="Test"'
+                ' required rows="10"></textarea>'
+                '<label for="id_test" class="form-label">Test</label>'
+                "</div>"
+            ),
+        )
+
+    def test_input_type_file(self):
         class TestForm(forms.Form):
             test = forms.FileField()
 
@@ -131,7 +171,7 @@ class BootstrapFieldTest(TestCase):
             ),
         )
 
-    def test_bootstrap_field_clearable_file(self):
+    def test_clearable_file_input(self):
         class TestForm(forms.Form):
             test = forms.FileField(widget=forms.ClearableFileInput, required=False)
 
@@ -146,7 +186,7 @@ class BootstrapFieldTest(TestCase):
             ),
         )
 
-    def test_bootstrap_field_clearable_file_post(self):
+    def test_clearable_file_input_post(self):
         class TestForm(forms.Form):
             test = forms.FileField(widget=forms.ClearableFileInput, required=False)
 
