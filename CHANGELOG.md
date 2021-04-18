@@ -2,6 +2,7 @@
 
 ## [0.3.0] - In development
 
+- Fix suport for `Textarea` widgets.
 - Add support for horizontal forms.
 - Add support for `checkbox_type="switch"`.
 - Set PyPI Development Status to 4 - Beta.
