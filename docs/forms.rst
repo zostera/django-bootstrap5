@@ -66,3 +66,18 @@ Floating labels are supported for widgets that can use `form-control`, with the 
 
 The `Select` widget is supported by Bootstrap 5 (with restrictions), but not yet supported by this package.
 
+
+Horizontal forms
+----------------
+
+Reference: https://getbootstrap.com/docs/5.0/forms/layout/#horizontal-form
+
+This behavior can be triggered by setting `layout="horizontal"`.
+
+In a horizontal layout, labels and field will receive different styling, resulting in a horizontal layout on supported viewports.
+
+These parameters contain the classes for labels and fields:
+
+- `horizontal_label_class` The class for the label
+- `horizontal_field_class` The class for the section with field, help text and errors
+- `horizontal_field_offset_class` The offset for fields that have no label, or that use the label as part of their field function (such as checkbox)
