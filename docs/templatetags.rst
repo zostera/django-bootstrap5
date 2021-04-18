@@ -58,11 +58,6 @@ bootstrap_alert
 
 .. autofunction:: django_bootstrap5.templatetags.django_bootstrap5.bootstrap_alert
 
-buttons
-~~~~~~~
-
-.. autofunction:: django_bootstrap5.templatetags.django_bootstrap5.bootstrap_buttons
-
 
 bootstrap_messages
 ~~~~~~~~~~~~~~~~~~
