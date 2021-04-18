@@ -59,12 +59,12 @@ This behavior can be triggered by setting `layout="floating"`.
 
 Setting `layout="floating"` has no effect on widgets that are not supported.
 
-Floating labels are supported for widgets that can use `form-control`, with the exception of widgets that have special markup:
+Floating labels are supported for widgets that can use `form-control`, with the exception of widgets that have special markup. Floating labels are not supported on:
 
 - `FileInput` and its descendants
 - `TextInput` with type `color`
 
-The `Select` widget is supported by Bootstrap 5 (with restrictions), but not yet supported by this package.
+The `Select` widget can only float if it has the default size, does not support multiple selects, and has no special markup.
 
 
 Horizontal forms
