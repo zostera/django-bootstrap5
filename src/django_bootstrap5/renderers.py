@@ -9,7 +9,7 @@ from django.forms import (
     RadioSelect,
     Select,
 )
-from django.forms.widgets import FileInput, Input
+from django.forms.widgets import FileInput, Input, Textarea
 from django.utils.html import conditional_escape, format_html, strip_tags
 from django.utils.safestring import mark_safe
 
@@ -272,7 +272,7 @@ class FieldRenderer(BaseRenderer):
 
     def is_widget_form_control(self, widget):
         """Return whether given widget is of type `form-control`."""
-        return isinstance(widget, Input) and not isinstance(widget, CheckboxInput)
+        return (isinstance(widget, Input) and not isinstance(widget, CheckboxInput)) or isinstance(widget, Textarea)
 
     def get_widget_input_type(self, widget):
         """Return input type of widget, or None."""
@@ -301,7 +301,7 @@ class FieldRenderer(BaseRenderer):
             before.append("form-control-static")
         elif self.is_widget_form_control(widget):
             before.append("form-control")
-            if widget.input_type == "color":
+            if self.get_widget_input_type(widget) == "color":
                 before.append("form-control-color")
             size_prefix = "form-control"
         elif isinstance(widget, Select):
