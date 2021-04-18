@@ -1,5 +1,6 @@
 from django import forms
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.forms import TextInput
 from django.test import TestCase
 
 from django_bootstrap5.exceptions import BootstrapError
@@ -29,6 +30,25 @@ class BootstrapFieldTest(TestCase):
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
                 '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
+                "</div>"
+            ),
+        )
+
+    def test_bootstrap_field_color(self):
+        """Test field with text widget."""
+
+        class TestForm(forms.Form):
+            test = forms.CharField(widget=TextInput(attrs={"type": "color"}))
+
+        test_form = TestForm()
+        html = render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form})
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<label for="id_test" class="form-label">Test</label>'
+                '<input class="form-control form-control-color" '
+                'id="id_test" name="test" placeholder="Test" required type="color">'
                 "</div>"
             ),
         )

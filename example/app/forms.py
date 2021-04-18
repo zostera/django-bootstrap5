@@ -1,11 +1,10 @@
 from django import forms
 from django.contrib.admin.widgets import AdminSplitDateTime
-from django.forms import BaseFormSet, formset_factory
+from django.forms import BaseFormSet, TextInput, formset_factory
 
 from django_bootstrap5.widgets import RadioSelectButtonGroup
 
 RADIO_CHOICES = (("1", "Radio 1"), ("2", "Radio 2"))
-
 
 MEDIA_CHOICES = (
     ("Audio", (("vinyl", "Vinyl"), ("cd", "CD"))),
@@ -27,7 +26,7 @@ class TestForm(forms.Form):
     )
     xss_field = forms.CharField(label='XSS" onmouseover="alert(\'Hello, XSS\')" foo="', max_length=100)
     password = forms.CharField(widget=forms.PasswordInput)
-    message = forms.CharField(required=False, help_text="<i>my_help_text</i>")
+    message = forms.CharField(required=False, help_text="<i>my_help_text</i>", widget=forms.Textarea)
     sender = forms.EmailField(label="Sender © unicode", help_text='E.g., "me@example.com"')
     secret = forms.CharField(initial=42, widget=forms.HiddenInput)
     cc_myself = forms.BooleanField(
@@ -46,6 +45,7 @@ class TestForm(forms.Form):
         choices=MEDIA_CHOICES, widget=forms.CheckboxSelectMultiple, help_text="Check as many as you like."
     )
     category5 = forms.ChoiceField(widget=RadioSelectButtonGroup, choices=MEDIA_CHOICES)
+    color = forms.CharField(widget=TextInput(attrs={"type": "color"}))
     addon = forms.CharField(widget=forms.TextInput(attrs={"addon_before": "before", "addon_after": "after"}))
 
     required_css_class = "django_bootstrap5-req"

@@ -5,19 +5,11 @@ from django.forms import (
     CheckboxInput,
     CheckboxSelectMultiple,
     ClearableFileInput,
-    DateInput,
-    EmailInput,
-    FileInput,
     MultiWidget,
-    NumberInput,
-    PasswordInput,
     RadioSelect,
     Select,
-    Textarea,
-    TextInput,
-    TimeInput,
-    URLInput,
 )
+from django.forms.widgets import FileInput, Input
 from django.utils.html import conditional_escape, format_html, strip_tags
 from django.utils.safestring import mark_safe
 
@@ -211,19 +203,6 @@ class FormRenderer(BaseRenderer):
 class FieldRenderer(BaseRenderer):
     """Default field renderer."""
 
-    FORM_CONTROL_WIDGETS = (
-        TextInput,
-        NumberInput,
-        EmailInput,
-        URLInput,
-        DateInput,
-        TimeInput,
-        Textarea,
-        PasswordInput,
-        FileInput,
-    )
-    FLOATING_WIDGETS = (TextInput, NumberInput, EmailInput, URLInput, DateInput, TimeInput, Textarea, PasswordInput)
-
     def __init__(self, field, *args, **kwargs):
         if not isinstance(field, BoundField):
             raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
@@ -290,39 +269,55 @@ class FieldRenderer(BaseRenderer):
 
     def is_widget_form_control(self, widget):
         """Return whether given widget is of type `form-control`."""
-        return isinstance(widget, self.FORM_CONTROL_WIDGETS)
+        return isinstance(widget, Input) and not isinstance(widget, CheckboxInput)
+
+    def get_widget_input_type(self, widget):
+        """Return input type of widget, or None."""
+        return widget.input_type if isinstance(widget, Input) else None
 
     def can_widget_float(self, widget):
         """Return whether given widget can be set to `form-floating` behavior."""
-        return isinstance(widget, self.FLOATING_WIDGETS)
+        # TODO: Add support for select widgets, within Bootstrap 5 restrictions
+        # TODO: Add support for textarea widgets
+        # TODO: Check support for date, time and other types
+        return (
+            not isinstance(widget, FileInput)
+            and self.is_widget_form_control(widget)
+            and self.get_widget_input_type(widget) != "color"
+        )
 
     def add_widget_class_attrs(self, widget=None):
         """Add class attribute to widget."""
         if widget is None:
             widget = self.widget
         size_prefix = None
-        classes = widget.attrs.get("class", "")
 
+        before = []
+        classes = [widget.attrs.get("class", "")]
         if ReadOnlyPasswordHashWidget is not None and isinstance(widget, ReadOnlyPasswordHashWidget):
-            classes = merge_css_classes("form-control-static", classes)
+            before.append("form-control-static")
         elif self.is_widget_form_control(widget):
-            classes = merge_css_classes("form-control", classes)
+            before.append("form-control")
+            if widget.input_type == "color":
+                before.append("form-control-color")
             size_prefix = "form-control"
         elif isinstance(widget, Select):
-            classes = merge_css_classes("form-select", classes)
+            before.append("form-select")
             size_prefix = "form-select"
         elif isinstance(widget, CheckboxInput):
-            classes = merge_css_classes("form-check-input", classes)
+            before.append("form-check-input")
+
         if size_prefix:
-            classes = merge_css_classes(classes, get_size_class(self.size, prefix=size_prefix, skip=["xs", "md"]))
+            classes.append(get_size_class(self.size, prefix=size_prefix, skip=["xs", "md"]))
 
         if self.field.errors:
             if self.error_css_class:
-                classes = merge_css_classes(classes, self.error_css_class)
+                classes.append(self.error_css_class)
         elif self.field.form.is_bound:
-            classes = merge_css_classes(classes, self.success_css_class)
+            classes.append(self.success_css_class)
 
-        widget.attrs["class"] = classes
+        classes = before + classes
+        widget.attrs["class"] = merge_css_classes(*classes)
 
     def add_placeholder_attrs(self, widget=None):
         """Add placeholder attribute to widget."""

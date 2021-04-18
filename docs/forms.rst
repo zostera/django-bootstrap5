@@ -55,8 +55,14 @@ Floating labels
 
 Reference: https://getbootstrap.com/docs/5.0/forms/floating-labels/
 
-This behavior can be triggere dby setting `layout="floating"`.
-
-Floating labels are supported for widgets that can use `form-control`. An exception is `FileInput` and its descendants, those labels cannot be floating.
+This behavior can be triggered by setting `layout="floating"`.
 
 Setting `layout="floating"` has no effect on widgets that are not supported.
+
+Floating labels are supported for widgets that can use `form-control`, with the exception of widgets that have special markup:
+
+- `FileInput` and its descendants
+- `TextInput` with type `color`
+
+The `Select` widget is supported by Bootstrap 5 (with restrictions), but not yet supported by this package.
+
