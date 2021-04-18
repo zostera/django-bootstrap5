@@ -409,8 +409,8 @@ class FieldRenderer(BaseRenderer):
         """Return CSS class for inline field."""
         return self.inline_field_class or "col-12"
 
-    def get_form_check_classes(self):
-        """return CSS classes for checkbox."""
+    def get_checkbox_classes(self):
+        """Return CSS classes for checkbox."""
         classes = ["form-check"]
         if self.checkbox_style == "switch":
             classes.append("form-switch")
@@ -452,7 +452,7 @@ class FieldRenderer(BaseRenderer):
         if isinstance(self.widget, CheckboxInput):
             field_with_label = format_html(
                 '<div class="{form_check_class}">{field_with_label}</div>',
-                form_check_class=self.get_form_check_classes(),
+                form_check_class=self.get_checkbox_classes(),
                 field_with_label=field_with_label,
             )
 
