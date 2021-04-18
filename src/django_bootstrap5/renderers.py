@@ -9,7 +9,7 @@ from django.forms import (
     RadioSelect,
     Select,
 )
-from django.forms.widgets import FileInput, Input, Textarea
+from django.forms.widgets import FileInput, Input, SelectMultiple, Textarea
 from django.utils.html import conditional_escape, format_html, strip_tags
 from django.utils.safestring import mark_safe
 
@@ -260,7 +260,7 @@ class FieldRenderer(BaseRenderer):
 
     @property
     def is_floating(self):
-        return super().is_floating and self.can_widget_float(self.widget) and self.is_widget_form_control(self.widget)
+        return super().is_floating and self.can_widget_float(self.widget)
 
     @property
     def default_placeholder(self):
@@ -283,11 +283,13 @@ class FieldRenderer(BaseRenderer):
         # TODO: Add support for select widgets, within Bootstrap 5 restrictions
         # TODO: Add support for textarea widgets
         # TODO: Check support for date, time and other types
-        return (
-            not isinstance(widget, FileInput)
-            and self.is_widget_form_control(widget)
-            and self.get_widget_input_type(widget) != "color"
-        )
+        if isinstance(widget, FileInput):
+            return False
+        if self.is_widget_form_control(widget):
+            return self.get_widget_input_type(widget) != "color"
+        if isinstance(widget, Select):
+            return self.size == DEFAULT_SIZE and not isinstance(widget, (SelectMultiple, RadioSelect))
+        return False
 
     def add_widget_class_attrs(self, widget=None):
         """Add class attribute to widget."""
@@ -425,20 +427,25 @@ class FieldRenderer(BaseRenderer):
     def get_wrapper_classes(self):
         """Return classes for wrapper."""
         wrapper_classes = [self.wrapper_class]
+
         if self.is_floating:
             wrapper_classes.append("form-floating")
+
         if self.field.errors:
             wrapper_classes.append(self.error_css_class)
         elif self.field.form.is_bound:
             wrapper_classes.append(self.success_css_class)
+
         if self.field.field.required:
             wrapper_classes.append(self.required_css_class)
+
         if self.is_inline:
             wrapper_classes.append(self.get_inline_field_class())
         else:
             if self.is_horizontal:
                 wrapper_classes.append("row")
             wrapper_classes.append("mb-3")
+
         return merge_css_classes(*wrapper_classes)
 
     def field_before_label(self):
