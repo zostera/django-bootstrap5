@@ -1,7 +1,7 @@
 from django import forms
 from django.test import TestCase
 
-from .base import TestForm, render_template_with_bootstrap
+from .base import render_template_with_bootstrap
 
 
 class TestForm(forms.Form):
