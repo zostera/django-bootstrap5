@@ -271,10 +271,20 @@ class FieldRenderer(BaseRenderer):
         """Return whether given widget is of type `form-control`."""
         return isinstance(widget, Input) and not isinstance(widget, CheckboxInput)
 
+    def get_widget_input_type(self, widget):
+        """Return input type of widget, or None."""
+        return widget.input_type if isinstance(widget, Input) else None
+
     def can_widget_float(self, widget):
         """Return whether given widget can be set to `form-floating` behavior."""
-        # TODO: Add support for Select widgets, within Bootstrap 5 restrictions
-        return self.is_widget_form_control(widget) and not isinstance(widget, FileInput)
+        # TODO: Add support for select widgets, within Bootstrap 5 restrictions
+        # TODO: Add support for textarea widgets
+        # TODO: Check support for date, time and other types
+        return (
+            not isinstance(widget, FileInput)
+            and self.is_widget_form_control(widget)
+            and self.get_widget_input_type(widget) != "color"
+        )
 
     def add_widget_class_attrs(self, widget=None):
         """Add class attribute to widget."""
