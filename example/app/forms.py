@@ -6,14 +6,11 @@ from django_bootstrap5.widgets import RadioSelectButtonGroup
 
 RADIO_CHOICES = (("1", "Radio 1"), ("2", "Radio 2"))
 
-
 MEDIA_CHOICES = (
     ("Audio", (("vinyl", "Vinyl"), ("cd", "CD"))),
     ("Video", (("vhs", "VHS Tape"), ("dvd", "DVD"))),
     ("unknown", "Unknown"),
 )
-
-
 
 
 class TestForm(forms.Form):
