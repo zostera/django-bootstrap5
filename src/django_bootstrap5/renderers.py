@@ -279,10 +279,6 @@ class FieldRenderer(BaseRenderer):
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs.copy()
 
-    def is_widget_form_control(self, widget):
-        """Return whether given widget is of type `form-control`."""
-        return (isinstance(widget, Input) and not isinstance(widget, CheckboxInput)) or isinstance(widget, Textarea)
-
     def get_widget_input_type(self, widget):
         """Return input type of widget, or None."""
         return widget.input_type if isinstance(widget, Input) else None
@@ -305,18 +301,23 @@ class FieldRenderer(BaseRenderer):
 
         before = []
         classes = [widget.attrs.get("class", "")]
+
         if ReadOnlyPasswordHashWidget is not None and isinstance(widget, ReadOnlyPasswordHashWidget):
             before.append("form-control-static")
-        elif self.is_widget_form_control(widget):
-            before.append("form-control")
-            if self.get_widget_input_type(widget) == "color":
-                before.append("form-control-color")
-            size_prefix = "form-control"
         elif isinstance(widget, Select):
             before.append("form-select")
             size_prefix = "form-select"
         elif isinstance(widget, CheckboxInput):
             before.append("form-check-input")
+        elif isinstance(widget, (Input, Textarea)):
+            input_type = self.get_widget_input_type(widget)
+            if input_type == "range":
+                before.append("form-range")
+            else:
+                before.append("form-control")
+                if input_type == "color":
+                    before.append("form-control-color")
+                size_prefix = "form-control"
 
         if size_prefix:
             classes.append(get_size_class(self.size, prefix=size_prefix, skip=["xs", "md"]))
