@@ -9,7 +9,16 @@ from django.forms import (
     RadioSelect,
     Select,
 )
-from django.forms.widgets import FileInput, Input, SelectMultiple, Textarea
+from django.forms.widgets import (
+    EmailInput,
+    Input,
+    NumberInput,
+    PasswordInput,
+    SelectMultiple,
+    Textarea,
+    TextInput,
+    URLInput,
+)
 from django.utils.html import conditional_escape, format_html, strip_tags
 from django.utils.safestring import mark_safe
 
@@ -280,13 +289,10 @@ class FieldRenderer(BaseRenderer):
 
     def can_widget_float(self, widget):
         """Return whether given widget can be set to `form-floating` behavior."""
-        # TODO: Add support for select widgets, within Bootstrap 5 restrictions
-        # TODO: Add support for textarea widgets
-        # TODO: Check support for date, time and other types
-        if isinstance(widget, FileInput):
-            return False
-        if self.is_widget_form_control(widget):
-            return self.get_widget_input_type(widget) != "color"
+        if isinstance(widget, (TextInput, NumberInput, EmailInput, URLInput, PasswordInput)):
+            return self.get_widget_input_type(widget) in ["text", "number", "email", "url", "password"]
+        if isinstance(widget, Textarea):
+            return True
         if isinstance(widget, Select):
             return self.size == DEFAULT_SIZE and not isinstance(widget, (SelectMultiple, RadioSelect))
         return False
