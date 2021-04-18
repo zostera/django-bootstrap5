@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.4.0] - In development
+
+- Add support for floating labels on `Select` widgets.
+
 ## [0.3.0] - 2021-04-18
 
 - Fix suport for `Textarea` widgets.
