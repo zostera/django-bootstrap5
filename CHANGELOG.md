@@ -2,6 +2,8 @@
 
 ## [0.4.0] - In development
 
+- Add support for input "range".
+- Add support for input "color".
 - Add support for floating labels on `Select` widgets.
 
 ## [0.3.0] - 2021-04-18
