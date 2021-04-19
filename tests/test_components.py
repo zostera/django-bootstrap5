@@ -6,7 +6,7 @@ from django_bootstrap5.exceptions import BootstrapError
 from django_bootstrap5.forms import render_button
 
 
-class AlertsTest(TestCase):
+class AlertsTestCase(TestCase):
     def test_render_alert_without_type(self):
         self.assertEqual(
             render_alert("content"),
@@ -52,7 +52,7 @@ class AlertsTest(TestCase):
         )
 
 
-class ButtonsTest(TestCase):
+class ButtonsTestCase(TestCase):
     def test_button(self):
         self.assertEqual(render_button("button"), '<button class="btn btn-primary">button</button>')
 

@@ -1,10 +1,8 @@
-from django.test import TestCase
-
 from django_bootstrap5.exceptions import BootstrapError
-from tests.base import render_formset
+from tests.base import BootstrapTestCase
 
 
-class BootstrapFormSetTest(TestCase):
+class BootstrapFormSetTestCase(BootstrapTestCase):
     def test_illegal_formset(self):
         with self.assertRaises(BootstrapError):
-            render_formset(formset="illegal")
+            self.render("{% bootstrap_formset formset %}", {"formset": "illegal"})

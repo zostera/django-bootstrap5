@@ -1,13 +1,16 @@
 from django import forms
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.forms import TextInput
-from django.test import TestCase
 
-from .base import render_template_with_bootstrap
+from tests.base import BootstrapTestCase
 
 
 class TextTestForm(forms.Form):
     test = forms.CharField()
+
+
+class PasswordTestForm(forms.Form):
+    test = forms.CharField(widget=forms.PasswordInput)
 
 
 class FileFieldTestForm(forms.Form):
@@ -30,13 +33,11 @@ class RangeTestForm(forms.Form):
     test = forms.IntegerField(widget=TextInput(attrs={"type": "range"}))
 
 
-class InputTypeTextTestCase(TestCase):
+class InputTypeTextTestCase(BootstrapTestCase):
     def test_input_type_text(self):
         """Test field with text widget."""
-
-        test_form = TextTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}),
+            self.render("{% bootstrap_field form.test %}", context={"form": TextTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
@@ -47,12 +48,8 @@ class InputTypeTextTestCase(TestCase):
 
     def test_bootstrap_field_text_horizontal(self):
         """Test field with text widget."""
-
-        test_form = TextTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap(
-                "{% bootstrap_field form.test layout='horizontal' %}", context={"form": test_form}
-            ),
+            self.render("{% bootstrap_field form.test layout='horizontal' %}", context={"form": TextTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3 row">'
                 '<label class="col-form-label col-sm-2" for="id_test">'
@@ -66,12 +63,8 @@ class InputTypeTextTestCase(TestCase):
 
     def test_input_type_text_floating(self):
         """Test field with text widget in floating layout."""
-
-        test_form = TextTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap(
-                "{% bootstrap_field form.test layout='floating' %}", context={"form": test_form}
-            ),
+            self.render("{% bootstrap_field form.test layout='floating' %}", context={"form": TextTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3 form-floating">'
                 '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
@@ -80,14 +73,51 @@ class InputTypeTextTestCase(TestCase):
             ),
         )
 
+    def test_input_type_password(self):
+        """Test field with password widget."""
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_field form.test %}", context={"form": PasswordTestForm()}),
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<label for="id_test" class="form-label">Test</label>'
+                '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="password">'
+                "</div>"
+            ),
+        )
 
-class InputTypeColorTestCase(TestCase):
+    def test_bootstrap_field_password_horizontal(self):
+        """Test field with password widget."""
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_field form.test layout='horizontal' %}", context={"form": PasswordTestForm()}),
+            (
+                '<div class="django_bootstrap5-req mb-3 row">'
+                '<label class="col-form-label col-sm-2" for="id_test">'
+                "Test"
+                '</label><div class="col-sm-10">'
+                '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="password">'
+                "</div>"
+                "</div>"
+            ),
+        )
+
+    def test_input_type_password_floating(self):
+        """Test field with password widget in floating layout."""
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_field form.test layout='floating' %}", context={"form": PasswordTestForm()}),
+            (
+                '<div class="django_bootstrap5-req mb-3 form-floating">'
+                '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="password">'
+                '<label for="id_test" class="form-label">Test</label>'
+                "</div>"
+            ),
+        )
+
+
+class InputTypeColorTestCase(BootstrapTestCase):
     def test_input_type_color(self):
         """Test field with input widget with type `color`."""
-
-        test_form = ColorTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}),
+            self.render("{% bootstrap_field form.test %}", context={"form": ColorTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
@@ -99,12 +129,8 @@ class InputTypeColorTestCase(TestCase):
 
     def test_input_type_color_horizontal(self):
         """Test field with input widget with type `color` in horizontal layout."""
-
-        test_form = ColorTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap(
-                '{% bootstrap_field form.test layout="horizontal" %}', context={"form": test_form}
-            ),
+            self.render('{% bootstrap_field form.test layout="horizontal" %}', context={"form": ColorTestForm()}),
             (
                 '<div class="django_bootstrap5-req row mb-3">'
                 '<label for="id_test" class="col-form-label col-sm-2">Test</label>'
@@ -118,12 +144,8 @@ class InputTypeColorTestCase(TestCase):
 
     def test_input_type_color_floating(self):
         """Test field with input widget with type `color` in floating layout."""
-
-        test_form = ColorTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap(
-                '{% bootstrap_field form.test layout="floating" %}', context={"form": test_form}
-            ),
+            self.render('{% bootstrap_field form.test layout="floating" %}', context={"form": ColorTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
@@ -134,14 +156,11 @@ class InputTypeColorTestCase(TestCase):
         )
 
 
-class InputTypeRangeTestCase(TestCase):
+class InputTypeRangeTestCase(BootstrapTestCase):
     def test_input_type_range(self):
         """Test field with input widget with type `range`."""
-
-        test_form = RangeTestForm()
-
         self.assertHTMLEqual(
-            render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}),
+            self.render("{% bootstrap_field form.test %}", context={"form": RangeTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
@@ -152,12 +171,8 @@ class InputTypeRangeTestCase(TestCase):
 
     def test_input_type_range_horizontal(self):
         """Test field with input widget with type `range` in horizontal layout."""
-
-        test_form = RangeTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap(
-                '{% bootstrap_field form.test layout="horizontal" %}', context={"form": test_form}
-            ),
+            self.render('{% bootstrap_field form.test layout="horizontal" %}', context={"form": RangeTestForm()}),
             (
                 '<div class="django_bootstrap5-req row mb-3">'
                 '<label for="id_test" class="col-form-label col-sm-2">Test</label>'
@@ -170,12 +185,8 @@ class InputTypeRangeTestCase(TestCase):
 
     def test_input_type_range_floating(self):
         """Test field with input widget with type `range` in floating layout."""
-
-        test_form = RangeTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap(
-                '{% bootstrap_field form.test layout="floating" %}', context={"form": test_form}
-            ),
+            self.render('{% bootstrap_field form.test layout="floating" %}', context={"form": RangeTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
@@ -185,13 +196,11 @@ class InputTypeRangeTestCase(TestCase):
         )
 
 
-class InputTypeCheckboxTestCase(TestCase):
+class InputTypeCheckboxTestCase(BootstrapTestCase):
     def test_input_type_checkbox(self):
         """Test field with checkbox widget."""
-
-        test_form = CheckboxTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}),
+            self.render("{% bootstrap_field form.test %}", context={"form": CheckboxTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<div class="form-check">'
@@ -204,11 +213,9 @@ class InputTypeCheckboxTestCase(TestCase):
 
     def test_input_type_checkbox_style_switch(self):
         """Test field with checkbox widget, style switch."""
-
-        test_form = CheckboxTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap(
-                '{% bootstrap_field form.test checkbox_style="switch" %}', context={"form": test_form}
+            self.render(
+                '{% bootstrap_field form.test checkbox_style="switch" %}', context={"form": CheckboxTestForm()}
             ),
             (
                 '<div class="django_bootstrap5-req mb-3">'
@@ -222,12 +229,8 @@ class InputTypeCheckboxTestCase(TestCase):
 
     def test_bootstrap_field_checkbox_horizontal(self):
         """Test field with checkbox widget, layout horizontal."""
-
-        test_form = CheckboxTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap(
-                "{% bootstrap_field form.test layout='horizontal' %}", context={"form": test_form}
-            ),
+            self.render("{% bootstrap_field form.test layout='horizontal' %}", context={"form": CheckboxTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3 row">'
                 '<div class="col-sm-10 offset-sm-2">'
@@ -241,12 +244,10 @@ class InputTypeCheckboxTestCase(TestCase):
         )
 
 
-class InputTypeFileTestCase(TestCase):
+class InputTypeFileTestCase(BootstrapTestCase):
     def test_input_type_file(self):
-
-        test_form = FileFieldTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}),
+            self.render("{% bootstrap_field form.test %}", context={"form": FileFieldTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
@@ -256,10 +257,8 @@ class InputTypeFileTestCase(TestCase):
         )
 
     def test_clearable_file_input(self):
-
-        test_form = ClearableFileInputTestForm()
         self.assertHTMLEqual(
-            render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}),
+            self.render("{% bootstrap_field form.test %}", context={"form": ClearableFileInputTestForm()}),
             (
                 '<div class="mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
@@ -269,10 +268,11 @@ class InputTypeFileTestCase(TestCase):
         )
 
     def test_clearable_file_input_post(self):
-
-        test_form = ClearableFileInputTestForm({}, {"test": SimpleUploadedFile("test.txt", b"test")})
         self.assertHTMLEqual(
-            render_template_with_bootstrap("{% bootstrap_field form.test %}", context={"form": test_form}),
+            self.render(
+                "{% bootstrap_field form.test %}",
+                context={"form": ClearableFileInputTestForm({}, {"test": SimpleUploadedFile("test.txt", b"test")})},
+            ),
             (
                 '<div class="django_bootstrap5-bound mb-3">'
                 '<label class="form-label" for="id_test">Test</label>'

@@ -46,7 +46,6 @@ TEMPLATES = [
 ]
 
 BOOTSTRAP5 = {
-    "theme_url": "//example.com/theme.css",
     "javascript_in_head": True,
     "required_css_class": "django_bootstrap5-req",
     "error_css_class": "django_bootstrap5-err",

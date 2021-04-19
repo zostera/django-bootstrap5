@@ -3,7 +3,7 @@ from django.test import TestCase
 from django_bootstrap5.html import render_tag
 
 
-class HtmlTest(TestCase):
+class HtmlTestCase(TestCase):
     def test_render_tag(self):
         self.assertEqual(render_tag("span"), "<span></span>")
         self.assertEqual(render_tag("span", content="foo"), "<span>foo</span>")
