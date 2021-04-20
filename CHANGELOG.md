@@ -2,6 +2,7 @@
 
 ## [0.4.0] - In development
 
+- Refactor tests.
 - Add support for input "range".
 - Add support for input "color".
 - Add support for floating labels on `Select` widgets.
