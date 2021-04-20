@@ -3,7 +3,7 @@ from django.test import TestCase
 from django_bootstrap5.text import text_concat, text_value
 
 
-class TextTest(TestCase):
+class TextTestCase(TestCase):
     def test_text_value(self):
         self.assertEqual(text_value(""), "")
         self.assertEqual(text_value(" "), " ")

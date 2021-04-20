@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 
-class VersionTest(TestCase):
+class VersionTestCase(TestCase):
     """Test presence of package version."""
 
     def test_version(self):

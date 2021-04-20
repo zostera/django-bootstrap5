@@ -1,31 +1,23 @@
-from django.test import TestCase
-
-from tests.base import render_template, render_template_with_form
+from tests.base import BootstrapTestCase
 
 
-class TemplateTest(TestCase):
+class TemplateTestCase(BootstrapTestCase):
     def test_empty_template(self):
-        res = render_template_with_form("")
-        self.assertEqual(res.strip(), "")
+        self.assertEqual(self.render("").strip(), "")
 
     def test_text_template(self):
-        res = render_template_with_form("some text")
-        self.assertEqual(res.strip(), "some text")
+        self.assertEqual(self.render("some text").strip(), "some text")
 
     def test_bootstrap5_html_template_title(self):
-        res = render_template(
-            '{% extends "django_bootstrap5/bootstrap5.html" %}'
-            + "{% block bootstrap5_title %}"
-            + "test_bootstrap5_title"
-            + "{% endblock %}"
+        html = self.render(
+            '{% extends "django_bootstrap5/bootstrap5.html" %}{% block bootstrap5_title %}x-title-x{% endblock %}',
+            load_bootstrap=False,
         )
-        self.assertIn("test_bootstrap5_title", res)
+        self.assertIn("x-title-x", html)
 
     def test_bootstrap5_html_template_content(self):
-        res = render_template(
-            '{% extends "django_bootstrap5/bootstrap5.html" %}'
-            + "{% block bootstrap5_content %}"
-            + "test_bootstrap5_content"
-            + "{% endblock %}"
+        html = self.render(
+            '{% extends "django_bootstrap5/bootstrap5.html" %}{% block bootstrap5_content %}x-content-x{% endblock %}',
+            load_bootstrap=False,
         )
-        self.assertIn("test_bootstrap5_content", res)
+        self.assertIn("x-content-x", html)

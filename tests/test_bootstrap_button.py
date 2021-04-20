@@ -1,19 +1,24 @@
-from django.test import TestCase
-
 from django_bootstrap5.exceptions import BootstrapError
-from tests.base import render_template_with_form
+from tests.base import BootstrapTestCase
 
 
-class ButtonTest(TestCase):
+class ButtonTestCase(BootstrapTestCase):
     def test_button(self):
-        res = render_template_with_form("{% bootstrap_button 'button' size='lg' %}")
-        self.assertEqual(res.strip(), '<button class="btn btn-primary btn-lg">button</button>')
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_button 'button' size='lg' %}"),
+            '<button class="btn btn-primary btn-lg">button</button>',
+        )
 
+    def test_button_type_link(self):
         link_button = '<a class="btn btn-primary btn-lg" href="#" role="button">button</a>'
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_button 'button' size='lg' href='#' %}"),
+            link_button,
+        )
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_button 'button' button_type='link' size='lg' href='#' %}"),
+            link_button,
+        )
 
-        res = render_template_with_form("{% bootstrap_button 'button' size='lg' href='#' %}")
-        self.assertIn(res.strip(), link_button)
-        res = render_template_with_form("{% bootstrap_button 'button' button_type='link' size='lg' href='#' %}")
-        self.assertIn(res.strip(), link_button)
         with self.assertRaises(BootstrapError):
-            res = render_template_with_form("{% bootstrap_button 'button' button_type='button' href='#' %}")
+            self.render("{% bootstrap_button 'button' button_type='button' href='#' %}")
