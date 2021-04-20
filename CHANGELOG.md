@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.5.0] - In development
+
+- Fix pagination support.
+
 ## [0.4.0] - 2021-04-20
 
 - Refactor tests.

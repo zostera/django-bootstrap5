@@ -19,6 +19,7 @@ from ..forms import (
     render_label,
 )
 from ..html import render_link_tag, render_script_tag
+from ..size import get_size_class
 from ..utils import render_template_file, url_replace_param
 
 MESSAGE_ALERT_TYPES = {
@@ -707,11 +708,7 @@ def get_pagination_context(
     """Generate Bootstrap pagination context from a page object."""
     pages_to_show = int(pages_to_show)
     if pages_to_show < 1:
-        raise ValueError(
-            "Pagination pages_to_show should be a positive integer, you specified {pages_to_show}.".format(
-                pages_to_show=pages_to_show
-            )
-        )
+        raise ValueError(f"Pagination pages_to_show should be a positive integer, you specified {pages_to_show}.")
     num_pages = page.paginator.num_pages
     current_page = page.number
     half_page_num = int(floor(pages_to_show / 2))
@@ -747,32 +744,30 @@ def get_pagination_context(
     for i in range(first_page, last_page + 1):
         pages_shown.append(i)
 
-    # parse the url
     parts = urlparse(url or "")
     params = parse_qs(parts.query)
-
-    # append extra querystring parameters to the url.
     if extra:
         params.update(parse_qs(extra))
-
-    # build url again.
     url = urlunparse(
         [parts.scheme, parts.netloc, parts.path, parts.params, urlencode(params, doseq=True), parts.fragment]
     )
 
-    # Set CSS classes, see http://getbootstrap.com/components/#pagination
     pagination_css_classes = ["pagination"]
-    if size == "small":
-        pagination_css_classes.append("pagination-sm")
-    elif size == "large":
-        pagination_css_classes.append("pagination-lg")
+    if size:
+        pagination_size_class = get_size_class(size, prefix="pagination", skip="md")
+        if pagination_size_class:
+            if pagination_size_class not in ["pagination-sm", "pagination-lg"]:
+                raise ValueError("Invalid size for pagination, only 'sm' and 'lg' are allowed, '{size}' given.")
+            pagination_css_classes.append(pagination_size_class)
 
-    if justify_content == "start":
-        pagination_css_classes.append("justify-content-start")
-    elif justify_content == "center":
-        pagination_css_classes.append("justify-content-center")
-    elif justify_content == "end":
-        pagination_css_classes.append("justify-content-end")
+    if justify_content:
+        if justify_content in ["start", "center", "end"]:
+            pagination_css_classes.append(f"justify-content-{justify_content}")
+        else:
+            raise ValueError(
+                f"Invalid value '{justify_content}' for pagination justification."
+                " Valid values are 'start', 'center', 'end'."
+            )
 
     return {
         "bootstrap_pagination_url": url,
