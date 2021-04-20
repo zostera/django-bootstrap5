@@ -19,6 +19,19 @@ class PaginatorTestCase(BootstrapTestCase):
         paginator = Paginator(objects, 2)
 
         html = self.bootstrap_pagination(paginator.page(2), extra='url="/projects/?foo=bar"')
+        self.assertHTMLEqual(
+            html,
+            """
+<nav>
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="/projects/?foo=bar&page=1">&laquo;</a></li>
+        <li class="page-item"><a class="page-link" href="/projects/?foo=bar&page=1">1</a></li>
+        <li class="page-item active"><a class="page-link" href="#">2</a></li>
+        <li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>
+    </ul>
+</nav>
+    """,
+        )
         self.assertIn("/projects/?foo=bar&page=1", html)
         self.assertNotIn("/projects/?foo=bar&page=2", html)
 
