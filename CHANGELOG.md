@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.4.0] - In development
+## [0.4.0] - 2021-04-20
 
 - Refactor tests.
 - Add support for input "range".
