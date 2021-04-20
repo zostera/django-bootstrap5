@@ -2,12 +2,20 @@ from bs4 import BeautifulSoup
 from django import forms
 
 from django_bootstrap5.exceptions import BootstrapError
-from tests.base import BootstrapTestCase, TestForm
+from tests.base import BootstrapTestCase
 
 
 class FormTestForm(forms.Form):
     required_text = forms.CharField(required=True, help_text="<i>required_text_help</i>")
     optional_text = forms.CharField(required=False, help_text="<i>required_text_help</i>")
+
+
+class NonFieldErrorTestForm(FormTestForm):
+    non_field_error_message = "This is a non field error."
+
+    def clean(self):
+        super().clean()
+        raise forms.ValidationError(self.non_field_error_message)
 
 
 class BootstrapFormTestCase(BootstrapTestCase):
@@ -20,7 +28,7 @@ class BootstrapFormTestCase(BootstrapTestCase):
         self.assertNotIn("optional_text", html)
 
     def test_error_class(self):
-        form = TestForm({"optional_text": "my_message"})
+        form = FormTestForm({"optional_text": "my_message"})
 
         html = self.render("{% bootstrap_form form %}", {"form": form})
         self.assertIn("django_bootstrap5-err", html)
@@ -32,7 +40,7 @@ class BootstrapFormTestCase(BootstrapTestCase):
         self.assertNotIn("django_bootstrap5-err", html)
 
     def test_required_class(self):
-        form = TestForm({"sender": "sender"})
+        form = FormTestForm({"subject": "subject"})
         html = self.render("{% bootstrap_form form %}", {"form": form})
         self.assertIn("django_bootstrap5-req", html)
 
@@ -43,23 +51,23 @@ class BootstrapFormTestCase(BootstrapTestCase):
         self.assertNotIn("django_bootstrap5-req", html)
 
     def test_bound_class(self):
-        form = TestForm({"sender": "sender"})
+        form = FormTestForm({"subject": "subject"})
 
         html = self.render("{% bootstrap_form form %}", {"form": form})
         self.assertIn("django_bootstrap5-bound", html)
 
-        form = TestForm({"sender": "sender"})
+        form = FormTestForm({"subject": "subject"})
 
         html = self.render('{% bootstrap_form form bound_css_class="successful-test" %}', {"form": form})
         self.assertIn("successful-test", html)
 
-        form = TestForm({"sender": "sender"})
+        form = FormTestForm({"subject": "subject"})
 
         html = self.render('{% bootstrap_form form bound_css_class="" %}', {"form": form})
         self.assertNotIn("django_bootstrap5-bound", html)
 
     def test_alert_error_type(self):
-        form = TestForm({"sender": "sender"})
+        form = NonFieldErrorTestForm({"subject": "subject"})
 
         html = self.render("{% bootstrap_form form alert_error_type='all' %}", {"form": form})
         soup = BeautifulSoup(html, "html.parser")

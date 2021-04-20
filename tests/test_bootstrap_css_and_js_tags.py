@@ -1,5 +1,5 @@
 from django_bootstrap5.core import get_bootstrap_setting
-from tests.base import BootstrapTestCase, TestForm
+from tests.base import BootstrapTestCase
 
 
 class MediaTestCase(BootstrapTestCase):
@@ -35,16 +35,4 @@ class MediaTestCase(BootstrapTestCase):
         self.assertEqual(self.render('{{ "required_css_class"|bootstrap_setting }}'), "django_bootstrap5-req")
         self.assertEqual(
             self.render('{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}'), "head"
-        )
-
-    def test_bootstrap_required_class(self):
-        self.assertIn("django_bootstrap5-req", self.render("{% bootstrap_form form %}", {"form": TestForm()}))
-
-    def test_bootstrap_error_class(self):
-        self.assertIn("django_bootstrap5-err", self.render("{% bootstrap_form form %}", {"form": TestForm(data={})}))
-
-    def test_bootstrap_bound_class(self):
-        self.assertIn(
-            "django_bootstrap5-bound",
-            self.render("{% bootstrap_form form %}", {"form": TestForm(data={"sender": "sender"})}),
         )
