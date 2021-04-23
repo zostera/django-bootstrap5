@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.5.0] - In development
+## [0.5.0] - 2021-04-23
 
 - Fix pagination support.
 
