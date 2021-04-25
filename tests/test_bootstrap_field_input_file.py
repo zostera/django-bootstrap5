@@ -1,7 +1,11 @@
+import tempfile
+
 from django import forms
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import override_settings
 
 from tests.base import BootstrapTestCase
+from tests.image import get_test_image
 
 
 class FileFieldTestForm(forms.Form):
@@ -10,6 +14,10 @@ class FileFieldTestForm(forms.Form):
 
 class ClearableFileInputTestForm(forms.Form):
     test = forms.FileField(widget=forms.ClearableFileInput, required=False)
+
+
+class ImageFieldTestForm(forms.Form):
+    test = forms.ImageField()
 
 
 class InputTypeFileTestCase(BootstrapTestCase):
@@ -45,6 +53,34 @@ class InputTypeFileTestCase(BootstrapTestCase):
                 '<div class="django_bootstrap5-bound mb-3">'
                 '<label class="form-label" for="id_test">Test</label>'
                 '<input type="file" name="test" class="form-control django_bootstrap5-bound" id="id_test">'
+                "</div>"
+            ),
+        )
+
+    def test_image_field(self):
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_field form.test %}", context={"form": ImageFieldTestForm()}),
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<label for="id_test" class="form-label">Test</label>'
+                '<input accept="image/*" class="form-control" id="id_test" name="test" required type="file">'
+                "</div>"
+            ),
+        )
+
+    @override_settings(MEDIA_ROOT=tempfile.gettempdir())
+    def test_image_field_post(self):
+        form = ImageFieldTestForm({}, {"test": get_test_image()})
+        self.assertHTMLEqual(
+            self.render(
+                "{% bootstrap_field form.test %}",
+                context={"form": form},
+            ),
+            (
+                '<div class="django_bootstrap5-bound django_bootstrap5-req mb-3">'
+                '<label class="form-label" for="id_test">Test</label>'
+                '<input type="file" name="test" accept="image/*" class="form-control django_bootstrap5-bound"'
+                ' required id="id_test">'
                 "</div>"
             ),
         )

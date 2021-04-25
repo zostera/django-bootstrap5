@@ -8,6 +8,10 @@ class BootstrapAlertTestCase(BootstrapTestCase):
             '<div class="alert alert-info" role="alert">content</div>',
         )
 
+    def test_bootstrap_alert_type_invalid(self):
+        with self.assertRaises(ValueError):
+            self.render('{% bootstrap_alert "content" alert_type="nope" %}', None)
+
     def test_bootstrap_alert_dismissible(self):
         self.assertEqual(
             self.render('{% bootstrap_alert "content" %}'),
