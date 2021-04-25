@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.6.0] - In development
+
+- Add support for floating labels on input types `date`, `time`, `url`, `email`, `tel`.
+
 ## [0.5.0] - 2021-04-23
 
 - Fix pagination support.

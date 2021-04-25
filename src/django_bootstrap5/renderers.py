@@ -286,7 +286,16 @@ class FieldRenderer(BaseRenderer):
     def can_widget_float(self, widget):
         """Return whether given widget can be set to `form-floating` behavior."""
         if isinstance(widget, (TextInput, NumberInput, EmailInput, URLInput, PasswordInput)):
-            return self.get_widget_input_type(widget) in ["text", "number", "email", "url", "password", "date"]
+            return self.get_widget_input_type(widget) in [
+                "text",
+                "number",
+                "email",
+                "url",
+                "tel",
+                "date",
+                "time",
+                "password",
+            ]
         if isinstance(widget, Textarea):
             return True
         if isinstance(widget, Select):
