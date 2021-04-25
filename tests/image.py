@@ -3,6 +3,8 @@ from io import BytesIO
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
+# Source: https://gist.github.com/drillbits/5432699
+
 TEST_IMAGE = """
 iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBI
 WXMAAABIAAAASABGyWs+AAAACXZwQWcAAAAQAAAAEABcxq3DAAABfElEQVQ4y52TvUuCURTGf5Zg
