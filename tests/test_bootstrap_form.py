@@ -96,3 +96,11 @@ class BootstrapFormTestCase(BootstrapTestCase):
         html = self.render("{% bootstrap_form form alert_error_type='none' %}", {"form": form})
         soup = BeautifulSoup(html, "html.parser")
         self.assertFalse(soup.select(".text-danger"))
+
+    def test_form_errors(self):
+        form = FormTestForm({"subject": "subject"})
+        html = self.render("{% bootstrap_form_errors form %}", {"form": form})
+        self.assertHTMLEqual(
+            html,
+            '<ul class="list-unstyled text-danger"><li>This field is required.</li></ul>',
+        )
