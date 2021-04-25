@@ -59,11 +59,6 @@ def theme_url():
     return get_bootstrap_setting("theme_url")
 
 
-def i18n_enabled():
-    """Return the projects i18n setting."""
-    return getattr(settings, "USE_I18N", False)
-
-
 def get_renderer(renderers, **kwargs):
     layout = kwargs.get("layout", "")
     path = renderers.get(layout, renderers["default"])
