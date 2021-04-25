@@ -11,7 +11,7 @@
     <form role="form" method="post">
         {% csrf_token %}
 
-        {% bootstrap_formset form %}
+        {% bootstrap_formset form layout=layout %}
 
         {% bootstrap_button button_type="submit" content="OK" %}
         {% bootstrap_button button_type="reset" content="Cancel" %}
