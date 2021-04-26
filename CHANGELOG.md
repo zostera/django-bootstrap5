@@ -1,8 +1,9 @@
 # Changelog
 
-## [0.6.0] - In development
+## [0.6.0] - 2021-04-26
 
 - Add support for floating labels on input types `date`, `time`, `url`, `email`, `tel`.
+- Improve code coverage and tests.
 
 ## [0.5.0] - 2021-04-23
 
