@@ -1,10 +1,14 @@
 # Changelog
 
+## [1.0.0] - 2021-04-30
+
+- Set PyPI classifier for Development Status to Production/Stable.
+- Support addons for `form-control` widgets.
+
 ## [0.6.0] - 2021-04-26
 
 - Add support for floating labels on input types `date`, `time`, `url`, `email`, `tel`.
 - Improve code coverage and tests.
-- Support addons for `form-control` widgets.
 
 ## [0.5.0] - 2021-04-23
 

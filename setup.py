@@ -13,7 +13,7 @@ README = (HERE / "README.md").read_text()
 setup(
     name="django-bootstrap5",
     zip_safe=False,
-    version="0.6.0",
+    version="1.0.0",
     description="Bootstrap 5 for Django",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -25,7 +25,7 @@ setup(
     package_dir={"": "src"},
     include_package_data=True,
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Django",
         "Framework :: Django :: 2.2",
