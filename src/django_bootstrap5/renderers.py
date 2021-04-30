@@ -9,16 +9,7 @@ from django.forms import (
     RadioSelect,
     Select,
 )
-from django.forms.widgets import (
-    EmailInput,
-    Input,
-    NumberInput,
-    PasswordInput,
-    SelectMultiple,
-    Textarea,
-    TextInput,
-    URLInput,
-)
+from django.forms.widgets import Input, SelectMultiple, Textarea
 from django.utils.html import conditional_escape, format_html, strip_tags
 from django.utils.safestring import mark_safe
 
@@ -269,7 +260,12 @@ class FieldRenderer(BaseRenderer):
 
     @property
     def is_floating(self):
-        return super().is_floating and self.can_widget_float(self.widget)
+        return (
+            super().is_floating
+            and self.can_widget_float(self.widget)
+            and not self.addon_before
+            and not self.addon_after
+        )
 
     @property
     def default_placeholder(self):
@@ -283,9 +279,9 @@ class FieldRenderer(BaseRenderer):
         """Return input type of widget, or None."""
         return widget.input_type if isinstance(widget, Input) else None
 
-    def can_widget_float(self, widget):
-        """Return whether given widget can be set to `form-floating` behavior."""
-        if isinstance(widget, (TextInput, NumberInput, EmailInput, URLInput, PasswordInput)):
+    def is_form_control_widget(self, widget=None):
+        widget = widget or self.widget
+        if isinstance(widget, Input):
             return self.get_widget_input_type(widget) in [
                 "text",
                 "number",
@@ -296,7 +292,12 @@ class FieldRenderer(BaseRenderer):
                 "time",
                 "password",
             ]
-        if isinstance(widget, Textarea):
+
+        return isinstance(widget, Textarea)
+
+    def can_widget_float(self, widget):
+        """Return whether given widget can be set to `form-floating` behavior."""
+        if self.is_form_control_widget(widget):
             return True
         if isinstance(widget, Select):
             return self.size == DEFAULT_SIZE and not isinstance(widget, (SelectMultiple, RadioSelect))
@@ -490,6 +491,16 @@ class FieldRenderer(BaseRenderer):
                 form_check_class=self.get_checkbox_classes(),
                 field=field,
             )
+
+        if self.is_form_control_widget():
+            addon_before = (
+                format_html('<span class="input-group-text">{}</span>', self.addon_before) if self.addon_before else ""
+            )
+            addon_after = (
+                format_html('<span class="input-group-text">{}</span>', self.addon_after) if self.addon_after else ""
+            )
+            if addon_before or addon_after:
+                field = format_html('<div class="input-group mb-3">{}{}{}</div>', addon_before, field, addon_after)
 
         field_with_help_and_errors = format_html("{}{}{}", field, self.get_help_html(), self.get_errors_html())
         if self.is_horizontal:
