@@ -65,7 +65,8 @@ class InputTypeTextTestCase(BootstrapTestCase):
         )
 
         self.assertHTMLEqual(
-            self.render('{% bootstrap_field form.test addon_before="foo" %}', context={"form": form}), addon_html
+            self.render('{% bootstrap_field form.test addon_before="foo" %}', context={"form": form}),
+            addon_html,
         )
 
         self.assertHTMLEqual(
