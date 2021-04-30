@@ -63,6 +63,7 @@ Floating labels are supported for widgets that can use `form-control`, with the 
 
 - `FileInput` and its descendants
 - `TextInput` with type `color`
+- Fields that have `addon_before` or `addon_after` defined
 
 The `Select` widget can only float if it has the default size, does not support multiple selects, and has no special markup.
 

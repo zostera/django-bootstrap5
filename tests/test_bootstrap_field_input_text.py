@@ -54,6 +54,26 @@ class InputTypeTextTestCase(BootstrapTestCase):
             self._html_default("text"),
         )
 
+        addon_html = (
+            '<div class="django_bootstrap5-req mb-3">'
+            '<label for="id_test" class="form-label">Test</label>'
+            '<div class="input-group mb-3">'
+            '<span class="input-group-text">foo</span>'
+            '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
+            "</div>"
+            "</div>"
+        )
+
+        self.assertHTMLEqual(
+            self.render('{% bootstrap_field form.test addon_before="foo" %}', context={"form": form}),
+            addon_html,
+        )
+
+        self.assertHTMLEqual(
+            self.render('{% bootstrap_field form.test addon_before="foo" layout="floating" %}', context={"form": form}),
+            addon_html,
+        )
+
         self.assertHTMLEqual(
             self.render("{% bootstrap_field form.test layout='horizontal' %}", context={"form": form}),
             self._html_horizontal("text"),
