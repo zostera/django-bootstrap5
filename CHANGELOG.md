@@ -4,6 +4,7 @@
 
 - Add support for floating labels on input types `date`, `time`, `url`, `email`, `tel`.
 - Improve code coverage and tests.
+- Support addons for `form-control` widgets.
 
 ## [0.5.0] - 2021-04-23
 
