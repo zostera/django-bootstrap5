@@ -1,6 +1,6 @@
 # Migration Guide
 
-Below is a list of caveats when migrating from `django-bootstrap4` (Bootstrap 4) to `django-bootstrap5` (Bootstrap 5).
+Below is a list of warnings when migrating from `django-bootstrap4` (Bootstrap 4) to `django-bootstrap5` (Bootstrap 5).
 
 This document only considers the differences between `django-bootstrap4` and `django-bootstrap5`. For the migration
 guide from Bootstrap 3 to 4, please look at the Bootstrap docs, especially the `Migration section <https://getbootstrap.com/docs/4.6/migration/>`_.
