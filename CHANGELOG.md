@@ -1,5 +1,9 @@
 # Changelog
 
+## In development
+
+- Add size parameter to example forms.
+
 ## [1.0.0] - 2021-04-30
 
 - Set PyPI classifier for Development Status to Production/Stable.
