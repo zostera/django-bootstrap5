@@ -1,7 +1,6 @@
 from .css import merge_css_classes
 from .text import text_value
 
-SIZE_XS = "xs"
 SIZE_SM = "sm"
 SIZE_MD = "md"
 SIZE_LG = "lg"

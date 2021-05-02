@@ -38,7 +38,7 @@ def bootstrap_setting(value):
 
 @register.filter
 def bootstrap_message_alert_type(message):
-    """Return the alert type for a bootstrap message, defaults to `info`."""
+    """Return the alert type for a message, defaults to `info`."""
     try:
         level = message.level
     except AttributeError:
@@ -627,7 +627,6 @@ def bootstrap_messages(context, *args, **kwargs):
 
         {% bootstrap_messages %}
     """
-    # Force Context to dict
     if isinstance(context, Context):
         context = context.flatten()
     context.update({"message_constants": message_constants})
@@ -703,29 +702,23 @@ def get_pagination_context(
     pages_to_show = int(pages_to_show)
     if pages_to_show < 1:
         raise ValueError(f"Pagination pages_to_show should be a positive integer, you specified {pages_to_show}.")
+
     num_pages = page.paginator.num_pages
     current_page = page.number
-    half_page_num = int(floor(pages_to_show / 2))
-    if half_page_num < 0:
-        half_page_num = 0
-    first_page = current_page - half_page_num
-    if first_page <= 1:
-        first_page = 1
-    if first_page > 1:
-        pages_back = first_page - half_page_num
-        if pages_back < 1:
-            pages_back = 1
-    else:
-        pages_back = None
+
+    delta_pages = int(floor(pages_to_show / 2))
+
+    first_page = max(1, current_page - delta_pages)
+    pages_back = max(1, first_page - delta_pages) if first_page > 1 else None
+
     last_page = first_page + pages_to_show - 1
     if pages_back is None:
         last_page += 1
     if last_page > num_pages:
         last_page = num_pages
+
     if last_page < num_pages:
-        pages_forward = last_page + half_page_num
-        if pages_forward > num_pages:
-            pages_forward = num_pages
+        pages_forward = min(last_page + delta_pages, num_pages)
     else:
         pages_forward = None
         if first_page > 1:
@@ -734,6 +727,7 @@ def get_pagination_context(
             pages_back -= 1
         else:
             pages_back = None
+
     pages_shown = []
     for i in range(first_page, last_page + 1):
         pages_shown.append(i)
@@ -750,8 +744,6 @@ def get_pagination_context(
     if size:
         pagination_size_class = get_size_class(size, prefix="pagination", skip="md")
         if pagination_size_class:
-            if pagination_size_class not in ["pagination-sm", "pagination-lg"]:
-                raise ValueError("Invalid size for pagination, only 'sm' and 'lg' are allowed, '{size}' given.")
             pagination_css_classes.append(pagination_size_class)
 
     if justify_content:

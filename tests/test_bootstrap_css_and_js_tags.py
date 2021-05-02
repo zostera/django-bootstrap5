@@ -17,12 +17,22 @@ class MediaTestCase(BootstrapTestCase):
             self.render("{% bootstrap_javascript %}"),
             self.expected_bootstrap_js,
         )
+        with self.settings(BOOTSTRAP5={"javascript_url": "//example.com/bootstrap.js"}):
+            self.assertHTMLEqual(
+                self.render("{% bootstrap_javascript %}"),
+                '<script src="//example.com/bootstrap.js">',
+            )
 
     def test_bootstrap_css_tag(self):
         self.assertHTMLEqual(
             self.render("{% bootstrap_css %}"),
             self.expected_bootstrap_css,
         )
+        with self.settings(BOOTSTRAP5={"css_url": "//example.com/bootstrap.css"}):
+            self.assertHTMLEqual(
+                self.render("{% bootstrap_css %}"),
+                '<link href="//example.com/bootstrap.css" rel="stylesheet">',
+            )
 
     def test_bootstrap_css_tag_with_theme(self):
         with self.settings(BOOTSTRAP5={"theme_url": "//example.com/theme.css"}):

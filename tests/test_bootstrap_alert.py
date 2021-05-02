@@ -4,13 +4,13 @@ from .base import BootstrapTestCase
 class BootstrapAlertTestCase(BootstrapTestCase):
     def test_bootstrap_alert(self):
         self.assertEqual(
-            self.render('{% bootstrap_alert "content" dismissible=False %}', None),
+            self.render('{% bootstrap_alert "content" dismissible=False %}'),
             '<div class="alert alert-info" role="alert">content</div>',
         )
 
     def test_bootstrap_alert_type_invalid(self):
         with self.assertRaises(ValueError):
-            self.render('{% bootstrap_alert "content" alert_type="nope" %}', None)
+            self.render('{% bootstrap_alert "content" alert_type="nope" %}')
 
     def test_bootstrap_alert_dismissible(self):
         self.assertEqual(
