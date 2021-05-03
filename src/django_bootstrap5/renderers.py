@@ -212,7 +212,7 @@ class FieldRenderer(BaseRenderer):
 
     def __init__(self, field, *args, **kwargs):
         if not isinstance(field, BoundField):
-            raise ValueError('Parameter "field" should contain a valid Django BoundField.')
+            raise TypeError('Parameter "field" should contain a valid Django BoundField.')
         self.field = field
         super().__init__(*args, **kwargs)
 

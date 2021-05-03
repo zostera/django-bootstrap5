@@ -18,7 +18,7 @@ class SubjectTestForm(forms.Form):
 
 class FieldTestCase(BootstrapTestCase):
     def test_illegal_field(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TypeError):
             self.render("{% bootstrap_field field %}", {"field": "illegal"})
 
     def test_show_help(self):
