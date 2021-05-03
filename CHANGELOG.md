@@ -3,10 +3,12 @@
 ## In development
 
 - Add size parameter to example forms.
+- Add keyword arguments to `bootstrap_button` tag.
+- Do not apply `mark_safe` to content for `bootstrap_button`.
 
 ## [1.0.0] - 2021-04-30
 
-- Set PyPI classifier for Development Status to Production/Stable.
+- Set PyPI classifier "Development Status :: 5 - Production/Stable".
 - Support addons for `form-control` widgets.
 
 ## [0.6.0] - 2021-04-26
