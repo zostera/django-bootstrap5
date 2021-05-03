@@ -15,7 +15,6 @@ from django.utils.safestring import mark_safe
 
 from .core import get_bootstrap_setting
 from .css import merge_css_classes
-from .exceptions import BootstrapError
 from .forms import WRAPPER_CLASS, WRAPPER_TAG, render_field, render_form, render_label
 from .size import DEFAULT_SIZE, SIZE_MD, SIZE_XS, get_size_class, parse_size
 from .text import text_value
@@ -72,7 +71,7 @@ class BaseRenderer(object):
         """Return size if it is valid, default size if size is empty, or throws exception."""
         size = parse_size(size, default=DEFAULT_SIZE)
         if size == SIZE_XS:
-            raise BootstrapError('Size "xs" is not valid for form controls.')
+            raise ValueError('Size "xs" is not valid for form controls.')
         return size
 
     def get_size_class(self, prefix):
@@ -117,7 +116,7 @@ class FormsetRenderer(BaseRenderer):
 
     def __init__(self, formset, *args, **kwargs):
         if not isinstance(formset, BaseFormSet):
-            raise BootstrapError('Parameter "formset" should contain a valid Django Formset.')
+            raise TypeError('Parameter "formset" should contain a valid Django Formset.')
         self.formset = formset
         super().__init__(*args, **kwargs)
 
@@ -162,7 +161,7 @@ class FormRenderer(BaseRenderer):
 
     def __init__(self, form, *args, **kwargs):
         if not isinstance(form, BaseForm):
-            raise BootstrapError('Parameter "form" should contain a valid Django Form.')
+            raise TypeError('Parameter "form" should contain a valid Django Form.')
         self.form = form
         super().__init__(*args, **kwargs)
 
@@ -213,7 +212,7 @@ class FieldRenderer(BaseRenderer):
 
     def __init__(self, field, *args, **kwargs):
         if not isinstance(field, BoundField):
-            raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
+            raise ValueError('Parameter "field" should contain a valid Django BoundField.')
         self.field = field
         super().__init__(*args, **kwargs)
 

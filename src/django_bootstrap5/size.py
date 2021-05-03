@@ -1,6 +1,5 @@
-from django_bootstrap5.css import merge_css_classes
-from django_bootstrap5.exceptions import BootstrapError
-from django_bootstrap5.text import text_value
+from .css import merge_css_classes
+from .text import text_value
 
 SIZE_XS = "xs"
 SIZE_SM = "sm"
@@ -15,7 +14,7 @@ def parse_size(value, default=None):
     size = text_value(value or default)
     if size not in SIZES:
         valid_sizes = ", ".join(SIZES)
-        raise BootstrapError(f'Invalid value "{size}" for parameter "size" (valid values are {valid_sizes}).')
+        raise ValueError(f'Invalid value "{size}" for parameter "size" (valid values are {valid_sizes}).')
     return size
 
 

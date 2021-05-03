@@ -3,7 +3,6 @@ from django.utils.html import format_html
 from django.utils.translation import gettext as _
 
 from .css import merge_css_classes
-from .exceptions import BootstrapError
 from .html import render_tag
 from .size import DEFAULT_SIZE, SIZE_MD, get_size_class
 
@@ -46,7 +45,7 @@ def render_button(
 
     if button_type:
         if button_type not in ("submit", "reset", "button", "link"):
-            raise BootstrapError(
+            raise ValueError(
                 (
                     'Parameter "button_type" should be "submit", "reset", "button", "link" or empty '
                     f'("{button_type}" given).'
@@ -57,7 +56,7 @@ def render_button(
 
     if href:
         if button_type and button_type != "link":
-            raise BootstrapError(f'Button of type "{button_type}" is not allowed a "href" parameter.')
+            raise ValueError(f'Button of type "{button_type}" is not allowed a "href" parameter.')
         tag = "a"
         attrs["href"] = href
         attrs.setdefault("role", "button")
