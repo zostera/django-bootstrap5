@@ -1,9 +1,8 @@
 from django.test import TestCase
 from django.utils.safestring import mark_safe
 
-from django_bootstrap5.components import render_alert
+from django_bootstrap5.components import render_alert, render_button
 from django_bootstrap5.exceptions import BootstrapError
-from django_bootstrap5.forms import render_button
 
 
 class AlertsTestCase(TestCase):

@@ -7,17 +7,9 @@ from django.template import Context
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
-from ..components import render_alert
+from ..components import render_alert, render_button
 from ..core import css_url, get_bootstrap_setting, javascript_url, theme_url
-from ..forms import (
-    render_button,
-    render_field,
-    render_form,
-    render_form_errors,
-    render_formset,
-    render_formset_errors,
-    render_label,
-)
+from ..forms import render_field, render_form, render_form_errors, render_formset, render_formset_errors, render_label
 from ..html import render_link_tag, render_script_tag
 from ..size import get_size_class
 from ..utils import render_template_file, url_replace_param
@@ -544,7 +536,6 @@ def bootstrap_button(*args, **kwargs):
                 * ``'lg'``
                 * ``'large'``
 
-
         href
             Render the button as an ``<a>`` element. The ``href`` attribute is set with this value.
             If a ``button_type`` other than ``link`` is defined, specifying a ``href`` will throw a
@@ -555,6 +546,9 @@ def bootstrap_button(*args, **kwargs):
 
         value
             Value of the ``value`` attribute of the rendered element.
+
+        **kwargs
+            All other keywords arguments will be passed on as HTML attributes.
 
     **Usage**::
 
