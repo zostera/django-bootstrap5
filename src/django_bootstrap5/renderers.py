@@ -16,7 +16,7 @@ from django.utils.safestring import mark_safe
 from .core import get_bootstrap_setting
 from .css import merge_css_classes
 from .forms import WRAPPER_CLASS, WRAPPER_TAG, render_field, render_form, render_label
-from .size import DEFAULT_SIZE, SIZE_MD, SIZE_XS, get_size_class, parse_size
+from .size import DEFAULT_SIZE, SIZE_MD, get_size_class, parse_size
 from .text import text_value
 from .utils import render_template_file
 from .widgets import ReadOnlyPasswordHashWidget, is_widget_with_placeholder
@@ -66,13 +66,6 @@ class BaseRenderer(object):
     def is_inline(self):
         """Return whether to render widgets with inline layout."""
         return self.layout == "inline"
-
-    def parse_size(self, size):
-        """Return size if it is valid, default size if size is empty, or throws exception."""
-        size = parse_size(size, default=DEFAULT_SIZE)
-        if size == SIZE_XS:
-            raise ValueError('Size "xs" is not valid for form controls.')
-        return size
 
     def get_size_class(self, prefix):
         """Return size class for given prefix."""
