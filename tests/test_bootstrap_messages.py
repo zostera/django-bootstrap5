@@ -3,7 +3,7 @@ from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from tests.base import BootstrapTestCase
 
 
-class FakeMessage(object):
+class MockMessage(object):
     """Follows the `django.contrib.messages.storage.base.Message` API."""
 
     level = None
@@ -20,53 +20,55 @@ class FakeMessage(object):
 
 
 class MessagesTestCase(BootstrapTestCase):
+    def _html(self, content, css_class):
+        return (
+            f'<div class="alert {css_class} alert-dismissible fade show" role="alert">'
+            f"{content}"
+            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
+            "</div>"
+        )
+
     def test_bootstrap_messages(self):
-        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.WARNING, "hello")]
-        html = self.render("{% bootstrap_messages messages %}", {"messages": messages})
-        expected = (
-            '<div class="alert alert-warning alert-dismissible fade show" role="alert">'
-            "hello"
-            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
-            "</div>"
+        messages = [MockMessage(DEFAULT_MESSAGE_LEVELS.WARNING, "hello")]
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_messages messages %}", {"messages": messages}),
+            self._html(content="hello", css_class="alert-warning"),
         )
-        self.assertHTMLEqual(html, expected)
 
-        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello")]
-        html = self.render("{% bootstrap_messages messages %}", {"messages": messages})
-        expected = (
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
-            "hello"
-            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
-            "</div>"
+        messages = [MockMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello")]
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_messages messages %}", {"messages": messages}),
+            self._html(content="hello", css_class="alert-danger"),
         )
-        self.assertHTMLEqual(html, expected)
 
-        messages = [FakeMessage(None, "hello")]
-        html = self.render("{% bootstrap_messages messages %}", {"messages": messages})
-        expected = (
-            '<div class="alert alert-info alert-dismissible fade show" role="alert">'
-            "hello"
-            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
-            "</div>"
+    def test_bootstrap_messages_with_other_levels(self):
+        messages = [MockMessage(None, "hello")]
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_messages messages %}", {"messages": messages}),
+            self._html(content="hello", css_class="alert-info"),
         )
-        self.assertHTMLEqual(html, expected)
+        messages = [MockMessage(999, "hello")]
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_messages messages %}", {"messages": messages}),
+            self._html(content="hello", css_class="alert-info"),
+        )
 
-        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello http://example.com")]
-        html = self.render("{% bootstrap_messages messages %}", {"messages": messages})
-        expected = (
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
-            "hello http://example.com"
-            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
-            "</div>"
+    def test_bootstrap_messages_with_other_content(self):
+        messages = [MockMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello http://example.com")]
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_messages messages %}", {"messages": messages}),
+            self._html(content="hello http://example.com", css_class="alert-danger"),
         )
-        self.assertHTMLEqual(html, expected)
 
-        messages = [FakeMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello\nthere")]
-        html = self.render("{% bootstrap_messages messages %}", {"messages": messages})
-        expected = (
-            '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
-            "hello there"
-            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>'
-            "</div>"
+        messages = [MockMessage(DEFAULT_MESSAGE_LEVELS.ERROR, "hello\nthere")]
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_messages messages %}", {"messages": messages}),
+            self._html(content="hello there", css_class="alert-danger"),
         )
-        self.assertHTMLEqual(html, expected)
+
+    def test_bootstrap_messages_with_invalid_message(self):
+        messages = [None]
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_messages messages %}", {"messages": messages}),
+            self._html(content="", css_class="alert-info"),
+        )
