@@ -20,8 +20,7 @@ def render_alert(content, alert_type="info", dismissible=True, extra_classes="")
         css_classes.append("alert-dismissible fade show")
         close = capfirst(_("close"))
         button = f'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{close}"></button>'
-    # TODO: use extra_classes
-    css_classes = merge_css_classes(*css_classes)
+    css_classes = merge_css_classes(*css_classes, extra_classes)
     return render_tag(
         "div",
         attrs={"class": css_classes, "role": "alert"},
