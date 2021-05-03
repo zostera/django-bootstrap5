@@ -15,9 +15,8 @@ from django.utils.safestring import mark_safe
 
 from .core import get_bootstrap_setting
 from .css import merge_css_classes
-from .exceptions import BootstrapError
 from .forms import WRAPPER_CLASS, WRAPPER_TAG, render_field, render_form, render_label
-from .size import DEFAULT_SIZE, SIZE_MD, SIZE_XS, get_size_class, parse_size
+from .size import DEFAULT_SIZE, SIZE_MD, get_size_class, parse_size
 from .text import text_value
 from .utils import render_template_file
 from .widgets import ReadOnlyPasswordHashWidget, is_widget_with_placeholder
@@ -68,13 +67,6 @@ class BaseRenderer(object):
         """Return whether to render widgets with inline layout."""
         return self.layout == "inline"
 
-    def parse_size(self, size):
-        """Return size if it is valid, default size if size is empty, or throws exception."""
-        size = parse_size(size, default=DEFAULT_SIZE)
-        if size == SIZE_XS:
-            raise BootstrapError('Size "xs" is not valid for form controls.')
-        return size
-
     def get_size_class(self, prefix):
         """Return size class for given prefix."""
         return get_size_class(self.size, prefix=prefix) if self.size in ["sm", "lg"] else ""
@@ -103,10 +95,6 @@ class BaseRenderer(object):
         }
         return context
 
-    def get_context_data(self):
-        """Return context data for rendering."""
-        return self.get_kwargs()
-
     def render(self):
         """Render to string."""
         return ""
@@ -117,14 +105,9 @@ class FormsetRenderer(BaseRenderer):
 
     def __init__(self, formset, *args, **kwargs):
         if not isinstance(formset, BaseFormSet):
-            raise BootstrapError('Parameter "formset" should contain a valid Django Formset.')
+            raise TypeError('Parameter "formset" should contain a valid Django Formset.')
         self.formset = formset
         super().__init__(*args, **kwargs)
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context["formset"] = self.formset
-        return context
 
     def render_management_form(self):
         """Return HTML for management form."""
@@ -162,14 +145,9 @@ class FormRenderer(BaseRenderer):
 
     def __init__(self, form, *args, **kwargs):
         if not isinstance(form, BaseForm):
-            raise BootstrapError('Parameter "form" should contain a valid Django Form.')
+            raise TypeError('Parameter "form" should contain a valid Django Form.')
         self.form = form
         super().__init__(*args, **kwargs)
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context["form"] = self.form
-        return context
 
     def render_fields(self):
         rendered_fields = mark_safe("")
@@ -213,7 +191,7 @@ class FieldRenderer(BaseRenderer):
 
     def __init__(self, field, *args, **kwargs):
         if not isinstance(field, BoundField):
-            raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
+            raise TypeError('Parameter "field" should contain a valid Django BoundField.')
         self.field = field
         super().__init__(*args, **kwargs)
 

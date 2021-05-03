@@ -2,7 +2,6 @@ from bs4 import BeautifulSoup
 from django import forms
 from django.forms import formset_factory
 
-from django_bootstrap5.exceptions import BootstrapError
 from tests.base import BootstrapTestCase
 
 
@@ -25,7 +24,7 @@ class NonFieldErrorTestForm(FormTestForm):
 
 class BootstrapFormTestCase(BootstrapTestCase):
     def test_illegal_form(self):
-        with self.assertRaises(BootstrapError):
+        with self.assertRaises(TypeError):
             self.render("{% bootstrap_form form %}", {"form": "illegal"})
 
     def test_exclude(self):

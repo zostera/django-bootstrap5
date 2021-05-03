@@ -1,4 +1,3 @@
-from django_bootstrap5.exceptions import BootstrapError
 from tests.base import BootstrapTestCase
 
 
@@ -65,5 +64,5 @@ class ButtonTestCase(BootstrapTestCase):
             link_button,
         )
 
-        with self.assertRaises(BootstrapError):
+        with self.assertRaises(ValueError):
             self.render("{% bootstrap_button 'button' button_type='button' href='#' %}")

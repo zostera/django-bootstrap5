@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.utils.safestring import mark_safe
 
 from django_bootstrap5.components import render_alert, render_button
-from django_bootstrap5.exceptions import BootstrapError
 
 
 class AlertsTestCase(TestCase):
@@ -60,7 +59,7 @@ class ButtonsTestCase(TestCase):
             self.assertEqual(
                 render_button("button", button_type="illegal"), '<button class="btn btn-primary">button</button>'
             )
-        except BootstrapError as e:
+        except ValueError as e:
             self.assertEqual(
                 str(e),
                 'Parameter "button_type" should be "submit", "reset", "button", "link" or empty ("illegal" given).',

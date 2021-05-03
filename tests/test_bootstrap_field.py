@@ -1,7 +1,5 @@
 from django import forms
 
-from django_bootstrap5.exceptions import BootstrapError
-
 from .base import BootstrapTestCase, html_39x27
 
 
@@ -20,7 +18,7 @@ class SubjectTestForm(forms.Form):
 
 class FieldTestCase(BootstrapTestCase):
     def test_illegal_field(self):
-        with self.assertRaises(BootstrapError):
+        with self.assertRaises(TypeError):
             self.render("{% bootstrap_field field %}", {"field": "illegal"})
 
     def test_show_help(self):
