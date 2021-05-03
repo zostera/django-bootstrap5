@@ -2,6 +2,7 @@
 
 ## In development
 
+- Use standard Exception classes.
 - Support `extra_classes` in `render_alert`.
 - Do not apply `mark_safe` to content for `bootstrap_button`.
 - Add keyword arguments to `bootstrap_button` tag.
