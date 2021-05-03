@@ -2,9 +2,10 @@
 
 ## In development
 
-- Add size parameter to example forms.
-- Add keyword arguments to `bootstrap_button` tag.
+- Support `extra_classes` in `render_alert`.
 - Do not apply `mark_safe` to content for `bootstrap_button`.
+- Add keyword arguments to `bootstrap_button` tag.
+- Add size parameter to example forms.
 
 ## [1.0.0] - 2021-04-30
 

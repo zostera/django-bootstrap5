@@ -3,8 +3,8 @@ from django.test import TestCase
 from django_bootstrap5.css import merge_css_classes
 
 
-class CssTestCase(TestCase):
-    def test_merge_css_classes(self):
+class MergeCssClassesTestCase(TestCase):
+    def test_merge(self):
         css_classes = "one two"
         css_class = "three four"
 
@@ -13,3 +13,13 @@ class CssTestCase(TestCase):
 
         classes = merge_css_classes(css_class, css_classes)
         self.assertEqual(classes, "three four one two")
+
+    def test_merge_no_parameters(self):
+        self.assertEqual(merge_css_classes(), "")
+
+    def test_merge_empty_parameters(self):
+        self.assertEqual(merge_css_classes("", None), "")
+        self.assertEqual(merge_css_classes("", "foo", "bar", None), "foo bar")
+
+    def test_merge_non_string_parameters(self):
+        self.assertEqual(merge_css_classes("", False), "False")
