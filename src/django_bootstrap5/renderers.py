@@ -95,10 +95,6 @@ class BaseRenderer(object):
         }
         return context
 
-    def get_context_data(self):
-        """Return context data for rendering."""
-        return self.get_kwargs()
-
     def render(self):
         """Render to string."""
         return ""
@@ -112,11 +108,6 @@ class FormsetRenderer(BaseRenderer):
             raise TypeError('Parameter "formset" should contain a valid Django Formset.')
         self.formset = formset
         super().__init__(*args, **kwargs)
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context["formset"] = self.formset
-        return context
 
     def render_management_form(self):
         """Return HTML for management form."""
@@ -157,11 +148,6 @@ class FormRenderer(BaseRenderer):
             raise TypeError('Parameter "form" should contain a valid Django Form.')
         self.form = form
         super().__init__(*args, **kwargs)
-
-    def get_context_data(self):
-        context = super().get_context_data()
-        context["form"] = self.form
-        return context
 
     def render_fields(self):
         rendered_fields = mark_safe("")
