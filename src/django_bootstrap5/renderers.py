@@ -1,25 +1,42 @@
+from bs4 import BeautifulSoup
 from django.forms import (
     BaseForm,
     BaseFormSet,
     BoundField,
     CheckboxInput,
     CheckboxSelectMultiple,
-    ClearableFileInput,
+    DateInput,
+    EmailInput,
+    FileInput,
     MultiWidget,
+    NumberInput,
+    PasswordInput,
     RadioSelect,
     Select,
+    SelectDateWidget,
+    TextInput,
 )
-from django.forms.widgets import Input, SelectMultiple, Textarea
-from django.utils.html import conditional_escape, format_html, strip_tags
+from django.utils.html import conditional_escape, escape, strip_tags
 from django.utils.safestring import mark_safe
 
-from .core import get_bootstrap_setting
-from .css import merge_css_classes
-from .forms import WRAPPER_CLASS, WRAPPER_TAG, render_field, render_form, render_label
-from .size import DEFAULT_SIZE, SIZE_MD, get_size_class, parse_size
+from .bootstrap import get_bootstrap_setting
+from .exceptions import BootstrapError
+from .forms import (
+    FORM_GROUP_CLASS,
+    is_widget_with_placeholder,
+    render_field,
+    render_form,
+    render_form_group,
+    render_label,
+)
 from .text import text_value
-from .utils import render_template_file
-from .widgets import ReadOnlyPasswordHashWidget, is_widget_with_placeholder
+from .utils import add_css_class, render_template_file
+import re
+try:
+    # If Django is set up without a database, importing this widget gives RuntimeError
+    from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
+except RuntimeError:
+    ReadOnlyPasswordHashWidget = None
 
 
 class BaseRenderer(object):
@@ -27,77 +44,44 @@ class BaseRenderer(object):
 
     def __init__(self, *args, **kwargs):
         self.layout = kwargs.get("layout", "")
-        self.wrapper_class = kwargs.get("wrapper_class", WRAPPER_CLASS)
+        self.form_group_class = kwargs.get("form_group_class", FORM_GROUP_CLASS)
         self.field_class = kwargs.get("field_class", "")
         self.label_class = kwargs.get("label_class", "")
         self.show_help = kwargs.get("show_help", True)
         self.show_label = kwargs.get("show_label", True)
         self.exclude = kwargs.get("exclude", "")
+
         self.set_placeholder = kwargs.get("set_placeholder", True)
-        self.size = parse_size(kwargs.get("size", ""), default=SIZE_MD)
+        self.size = self.parse_size(kwargs.get("size", ""))
         self.horizontal_label_class = kwargs.get(
             "horizontal_label_class", get_bootstrap_setting("horizontal_label_class")
         )
         self.horizontal_field_class = kwargs.get(
             "horizontal_field_class", get_bootstrap_setting("horizontal_field_class")
         )
-        self.checkbox_layout = kwargs.get("checkbox_layout", get_bootstrap_setting("checkbox_layout"))
-        self.checkbox_style = kwargs.get("checkbox_style", get_bootstrap_setting("checkbox_style"))
-        self.horizontal_field_offset_class = kwargs.get(
-            "horizontal_field_offset_class", get_bootstrap_setting("horizontal_field_offset_class")
-        )
-        self.inline_field_class = kwargs.get("inline_field_class", get_bootstrap_setting("inline_field_class"))
-        self.error_css_class = kwargs.get("error_css_class", None)
-        self.required_css_class = kwargs.get("required_css_class", None)
-        self.bound_css_class = kwargs.get("bound_css_class", None)
-        self.alert_error_type = kwargs.get("alert_error_type", "non_fields")
 
-    @property
-    def is_floating(self):
-        """Return whether to render `form-control` widgets as floating."""
-        return self.layout == "floating"
+    def parse_size(self, size):
+        size = text_value(size).lower().strip()
+        if size in ("sm", "small"):
+            return "small"
+        if size in ("lg", "large"):
+            return "large"
+        if size in ("md", "medium", ""):
+            return "medium"
+        raise BootstrapError('Invalid value "%s" for parameter "size" (expected "sm", "md", "lg" or "").' % size)
 
-    @property
-    def is_horizontal(self):
-        """Return whether to render form horizontally."""
-        return self.layout == "horizontal"
+    def get_size_class(self, prefix="form-control"):
+        if self.size == "small":
+            return prefix + "-sm"
+        if self.size == "large":
+            return prefix + "-lg"
+        return ""
 
-    @property
-    def is_inline(self):
-        """Return whether to render widgets with inline layout."""
-        return self.layout == "inline"
-
-    def get_size_class(self, prefix):
-        """Return size class for given prefix."""
-        return get_size_class(self.size, prefix=prefix) if self.size in ["sm", "lg"] else ""
-
-    def get_kwargs(self):
-        """Return kwargs to pass on to child renderers."""
-        context = {
-            "layout": self.layout,
-            "wrapper_class": self.wrapper_class,
-            "field_class": self.field_class,
-            "label_class": self.label_class,
-            "show_help": self.show_help,
-            "show_label": self.show_label,
-            "exclude": self.exclude,
-            "set_placeholder": self.set_placeholder,
-            "size": self.size,
-            "horizontal_label_class": self.horizontal_label_class,
-            "horizontal_field_class": self.horizontal_field_class,
-            "checkbox_layout": self.checkbox_layout,
-            "checkbox_style": self.checkbox_style,
-            "inline_field_class": self.inline_field_class,
-            "error_css_class": self.error_css_class,
-            "bound_css_class": self.bound_css_class,
-            "required_css_class": self.required_css_class,
-            "alert_error_type": self.alert_error_type,
-        }
-        return context
+    def _render(self):
+        return ""
 
     def render(self):
-        """Render to string."""
-        return ""
+        return mark_safe(self._render())
 
 
 class FormsetRenderer(BaseRenderer):
@@ -105,20 +89,36 @@ class FormsetRenderer(BaseRenderer):
 
     def __init__(self, formset, *args, **kwargs):
         if not isinstance(formset, BaseFormSet):
-            raise TypeError('Parameter "formset" should contain a valid Django Formset.')
+            raise BootstrapError('Parameter "formset" should contain a valid Django Formset.')
         self.formset = formset
         super().__init__(*args, **kwargs)
 
     def render_management_form(self):
-        """Return HTML for management form."""
         return text_value(self.formset.management_form)
 
+    def render_form(self, form, **kwargs):
+        return render_form(form, **kwargs)
+
     def render_forms(self):
-        rendered_forms = mark_safe("")
-        kwargs = self.get_kwargs()
+        rendered_forms = []
         for form in self.formset.forms:
-            rendered_forms += render_form(form, **kwargs)
-        return rendered_forms
+            rendered_forms.append(
+                self.render_form(
+                    form,
+                    layout=self.layout,
+                    form_group_class=self.form_group_class,
+                    field_class=self.field_class,
+                    label_class=self.label_class,
+                    show_label=self.show_label,
+                    show_help=self.show_help,
+                    exclude=self.exclude,
+                    set_placeholder=self.set_placeholder,
+                    size=self.size,
+                    horizontal_label_class=self.horizontal_label_class,
+                    horizontal_field_class=self.horizontal_field_class,
+                )
+            )
+        return "\n".join(rendered_forms)
 
     def get_formset_errors(self):
         return self.formset.non_form_errors()
@@ -127,17 +127,13 @@ class FormsetRenderer(BaseRenderer):
         formset_errors = self.get_formset_errors()
         if formset_errors:
             return render_template_file(
-                "django_bootstrap5/form_errors.html",
-                context={
-                    "errors": formset_errors,
-                    "form": self.formset,
-                    "layout": self.layout,
-                },
+                "bootstrap5/form_errors.html",
+                context={"errors": formset_errors, "form": self.formset, "layout": self.layout},
             )
-        return mark_safe("")
+        return ""
 
-    def render(self):
-        return format_html(self.render_management_form() + "{}{}", self.render_errors(), self.render_forms())
+    def _render(self):
+        return "".join([self.render_errors(), self.render_management_form(), self.render_forms()])
 
 
 class FormRenderer(BaseRenderer):
@@ -145,16 +141,39 @@ class FormRenderer(BaseRenderer):
 
     def __init__(self, form, *args, **kwargs):
         if not isinstance(form, BaseForm):
-            raise TypeError('Parameter "form" should contain a valid Django Form.')
+            raise BootstrapError('Parameter "form" should contain a valid Django Form.')
         self.form = form
         super().__init__(*args, **kwargs)
+        self.error_css_class = kwargs.get("error_css_class", None)
+        self.required_css_class = kwargs.get("required_css_class", None)
+        self.bound_css_class = kwargs.get("bound_css_class", None)
+        self.alert_error_type = kwargs.get("alert_error_type", "non_fields")
+        self.form_check_class = kwargs.get("form_check_class", "form-check")
 
     def render_fields(self):
-        rendered_fields = mark_safe("")
-        kwargs = self.get_kwargs()
+        rendered_fields = []
         for field in self.form:
-            rendered_fields += render_field(field, **kwargs)
-        return rendered_fields
+            rendered_fields.append(
+                render_field(
+                    field,
+                    layout=self.layout,
+                    form_group_class=self.form_group_class,
+                    field_class=self.field_class,
+                    label_class=self.label_class,
+                    form_check_class=self.form_check_class,
+                    show_label=self.show_label,
+                    show_help=self.show_help,
+                    exclude=self.exclude,
+                    set_placeholder=self.set_placeholder,
+                    size=self.size,
+                    horizontal_label_class=self.horizontal_label_class,
+                    horizontal_field_class=self.horizontal_field_class,
+                    error_css_class=self.error_css_class,
+                    required_css_class=self.required_css_class,
+                    bound_css_class=self.bound_css_class,
+                )
+            )
+        return "\n".join(rendered_fields)
 
     def get_fields_errors(self):
         form_errors = []
@@ -174,34 +193,46 @@ class FormRenderer(BaseRenderer):
 
         if form_errors:
             return render_template_file(
-                "django_bootstrap5/form_errors.html",
+                "bootstrap5/form_errors.html",
                 context={"errors": form_errors, "form": self.form, "layout": self.layout, "type": type},
             )
 
-        return mark_safe("")
+        return ""
 
-    def render(self):
-        errors = self.render_errors(self.alert_error_type)
-        fields = self.render_fields()
-        return errors + fields
+    def _render(self):
+        return self.render_errors(self.alert_error_type) + self.render_fields()
 
 
 class FieldRenderer(BaseRenderer):
     """Default field renderer."""
 
+    # These widgets will not be wrapped in a form-control class
+    WIDGETS_NO_FORM_CONTROL = (CheckboxInput, RadioSelect, CheckboxSelectMultiple, Select)
+
     def __init__(self, field, *args, **kwargs):
         if not isinstance(field, BoundField):
-            raise TypeError('Parameter "field" should contain a valid Django BoundField.')
+            raise BootstrapError('Parameter "field" should contain a valid Django BoundField.')
         self.field = field
         super().__init__(*args, **kwargs)
 
         self.widget = field.field.widget
         self.is_multi_widget = isinstance(field.field.widget, MultiWidget)
         self.initial_attrs = self.widget.attrs.copy()
-        self.help_text = text_value(field.help_text) if self.show_help and field.help_text else ""
+        self.field_help = text_value(mark_safe(field.help_text)) if self.show_help and field.help_text else ""
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
+        self.form_check_class = kwargs.get("form_check_class", "form-check")
 
-        self.placeholder = text_value(kwargs.get("placeholder", self.default_placeholder))
+        if "placeholder" in kwargs:
+            # Find the placeholder in kwargs, even if it's empty
+            self.placeholder = kwargs["placeholder"]
+        elif get_bootstrap_setting("set_placeholder"):
+            # If not found, see if we set the label
+            self.placeholder = field.label
+        else:
+            # Or just set it to empty
+            self.placeholder = ""
+        if self.placeholder:
+            self.placeholder = text_value(self.placeholder)
 
         self.addon_before = kwargs.get("addon_before", self.widget.attrs.pop("addon_before", ""))
         self.addon_after = kwargs.get("addon_after", self.widget.attrs.pop("addon_after", ""))
@@ -212,191 +243,195 @@ class FieldRenderer(BaseRenderer):
             "addon_after_class", self.widget.attrs.pop("addon_after_class", "input-group-text")
         )
 
-        # These are set in Django or in the global BOOTSTRAP5 settings, and can be overwritten in the template
+        # These are set in Django or in the global BOOTSTRAP5 settings, and
+        # they can be overwritten in the template
         error_css_class = kwargs.get("error_css_class", None)
-        self.error_css_class = (
-            getattr(field.form, "error_css_class", get_bootstrap_setting("error_css_class"))
-            if error_css_class is None
-            else error_css_class
-        )
-
         required_css_class = kwargs.get("required_css_class", None)
-        self.required_css_class = (
-            getattr(field.form, "required_css_class", get_bootstrap_setting("required_css_class"))
-            if required_css_class is None
-            else required_css_class
-        )
+        bound_css_class = kwargs.get("bound_css_class", None)
+        if error_css_class is not None:
+            self.error_css_class = error_css_class
+        else:
+            self.error_css_class = getattr(field.form, "error_css_class", get_bootstrap_setting("error_css_class"))
+        if required_css_class is not None:
+            self.required_css_class = required_css_class
+        else:
+            self.required_css_class = getattr(
+                field.form, "required_css_class", get_bootstrap_setting("required_css_class")
+            )
+        if bound_css_class is not None:
+            self.success_css_class = bound_css_class
+        else:
+            self.success_css_class = getattr(field.form, "bound_css_class", get_bootstrap_setting("success_css_class"))
+
+        # If the form is marked as form.empty_permitted, do not set required class
         if self.field.form.empty_permitted:
             self.required_css_class = ""
-
-        bound_css_class = kwargs.get("bound_css_class", None)
-        self.success_css_class = (
-            getattr(field.form, "bound_css_class", get_bootstrap_setting("success_css_class"))
-            if bound_css_class is None
-            else bound_css_class
-        )
-
-    @property
-    def is_floating(self):
-        return (
-            super().is_floating
-            and self.can_widget_float(self.widget)
-            and not self.addon_before
-            and not self.addon_after
-        )
-
-    @property
-    def default_placeholder(self):
-        """Return default placeholder for field."""
-        return self.field.label if get_bootstrap_setting("set_placeholder") else ""
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs.copy()
 
-    def get_widget_input_type(self, widget):
-        """Return input type of widget, or None."""
-        return widget.input_type if isinstance(widget, Input) else None
-
-    def is_form_control_widget(self, widget=None):
-        widget = widget or self.widget
-        if isinstance(widget, Input):
-            return self.get_widget_input_type(widget) in [
-                "text",
-                "number",
-                "email",
-                "url",
-                "tel",
-                "date",
-                "time",
-                "password",
-            ]
-
-        return isinstance(widget, Textarea)
-
-    def can_widget_float(self, widget):
-        """Return whether given widget can be set to `form-floating` behavior."""
-        if self.is_form_control_widget(widget):
-            return True
-        if isinstance(widget, Select):
-            return self.size == DEFAULT_SIZE and not isinstance(widget, (SelectMultiple, RadioSelect))
-        return False
-
-    def add_widget_class_attrs(self, widget=None):
-        """Add class attribute to widget."""
+    def add_class_attrs(self, widget=None):
         if widget is None:
             widget = self.widget
-        size_prefix = None
-
-        before = []
-        classes = [widget.attrs.get("class", "")]
-
+        classes = widget.attrs.get("class", "")
         if ReadOnlyPasswordHashWidget is not None and isinstance(widget, ReadOnlyPasswordHashWidget):
-            before.append("form-control-static")
-        elif isinstance(widget, Select):
-            before.append("form-select")
-            size_prefix = "form-select"
+            # Render this is a static control
+            classes = add_css_class(classes, "form-control-static", prepend=True)
+        elif not isinstance(widget, self.WIDGETS_NO_FORM_CONTROL):
+            classes = add_css_class(classes, "form-control", prepend=True)
+            # For these widget types, add the size class here
+            classes = add_css_class(classes, self.get_size_class())
         elif isinstance(widget, CheckboxInput):
-            before.append("form-check-input")
-        elif isinstance(widget, (Input, Textarea)):
-            input_type = self.get_widget_input_type(widget)
-            if input_type == "range":
-                before.append("form-range")
-            else:
-                before.append("form-control")
-                if input_type == "color":
-                    before.append("form-control-color")
-                size_prefix = "form-control"
-
-        if size_prefix:
-            classes.append(get_size_class(self.size, prefix=size_prefix, skip=["xs", "md"]))
+            classes = add_css_class(classes, "form-check-input", prepend=True)
+        elif isinstance(widget, CheckboxSelectMultiple):
+            classes = add_css_class(classes, "form-group", prepend=True)
+        elif isinstance(widget, Select):
+            classes = add_css_class(classes, "form-select", prepend=True)
 
         if self.field.errors:
             if self.error_css_class:
-                classes.append(self.error_css_class)
-        elif self.field.form.is_bound:
-            classes.append(self.success_css_class)
+                classes = add_css_class(classes, self.error_css_class)
+        else:
+            if self.field.form.is_bound:
+                classes = add_css_class(classes, self.success_css_class)
 
-        classes = before + classes
-        widget.attrs["class"] = merge_css_classes(*classes)
+        widget.attrs["class"] = classes
 
     def add_placeholder_attrs(self, widget=None):
-        """Add placeholder attribute to widget."""
         if widget is None:
             widget = self.widget
         placeholder = widget.attrs.get("placeholder", self.placeholder)
         if placeholder and self.set_placeholder and is_widget_with_placeholder(widget):
-            widget.attrs["placeholder"] = conditional_escape(strip_tags(placeholder))
+            # TODO: Should this be stripped and/or escaped?
+            widget.attrs["placeholder"] = placeholder
+
+    def add_help_attrs(self, widget=None):
+        if widget is None:
+            widget = self.widget
+        if not isinstance(widget, CheckboxInput):
+            widget.attrs["title"] = widget.attrs.get("title", escape(strip_tags(self.field_help)))
 
     def add_widget_attrs(self):
-        """Return HTML attributes for widget as dict."""
         if self.is_multi_widget:
             widgets = self.widget.widgets
         else:
             widgets = [self.widget]
         for widget in widgets:
-            self.add_widget_class_attrs(widget)
+            self.add_class_attrs(widget)
             self.add_placeholder_attrs(widget)
-            if isinstance(widget, (RadioSelect, CheckboxSelectMultiple)):
-                widget.template_name = "django_bootstrap5/widgets/radio_select.html"
-            elif isinstance(widget, ClearableFileInput):
-                widget.template_name = "django_bootstrap5/widgets/clearable_file_input.html"
+            self.add_help_attrs(widget)
 
-    def get_label_class(self, horizontal=False):
-        """Return CSS class for label."""
-        label_classes = [text_value(self.label_class)]
+    def list_to_class(self, html, klass):
+        classes = add_css_class(klass, self.get_size_class())
+        mapping = [
+            ("<ul", '<div class="{classes}"'.format(classes=classes)),
+            ("</ul>", "</div>"),
+            ("<li", '<div class="{form_check_class}"'.format(form_check_class=self.form_check_class)),
+            ("</li>", "</div>"),
+        ]
+        for k, v in mapping:
+            html = html.replace(k, v)
+
+        # Apply bootstrap5 classes to labels and inputs.
+        # A simple 'replace' isn't enough as we don't want to have several 'class' attr definition, which would happen
+        # if we tried to 'html.replace("input", "input class=...")'
+        soup = BeautifulSoup(html, features="html.parser")
+        enclosing_div = soup.find("div", {"class": classes})
+        if enclosing_div:
+            for label in enclosing_div.find_all("label"):
+                label.attrs["class"] = label.attrs.get("class", []) + ["form-check-label"]
+            for curinput in enclosing_div.find_all("input"):
+                try:
+                    if not 'form-check-input' in curinput.attrs.get("class"):
+                        curinput.attrs["class"] = curinput.attrs.get("class", []) + ["form-check-input"]
+                except AttributeError:
+                    pass
+        return str(soup)
+
+    def add_checkbox_label(self, html):
         if not self.show_label:
-            label_classes.append("visually-hidden")
-        else:
-            if isinstance(self.widget, CheckboxInput):
-                widget_label_class = "form-check-label"
-            elif self.is_inline:
-                widget_label_class = "visually-hidden"
-            elif horizontal:
-                widget_label_class = merge_css_classes(self.horizontal_label_class, "col-form-label")
-            else:
-                widget_label_class = "form-label"
-            label_classes = [widget_label_class] + label_classes
-        return merge_css_classes(*label_classes)
+            return html
+        return html + render_label(
+            content=self.field.label,
+            label_for=self.field.id_for_label,
+            label_title=escape(strip_tags(self.field_help)),
+            label_class="form-check-label",
+        )
 
-    def get_field_html(self):
-        """Return HTML for field."""
-        self.add_widget_attrs()
-        field_html = self.field.as_widget(attrs=self.widget.attrs)
-        self.restore_widget_attrs()
-        return field_html
+    def fix_date_select_input(self, html):
+        if not self.show_label:
+            return html
+        div1 = '<div class="col-4">'
+        div2 = "</div>"
+        html = html.replace("<select", div1 + "<select")
+        html = html.replace("</select>", "</select>" + div2)
+        return '<div class="row bootstrap5-multi-input">{html}</div>'.format(html=html)
 
-    def get_label_html(self, horizontal=False):
-        """Return value for label."""
-        label_html = "" if self.show_label == "skip" else self.field.label
-        if label_html:
-            label_html = render_label(
-                label_html,
-                label_for=self.field.id_for_label,
-                label_class=self.get_label_class(horizontal=horizontal),
-            )
-        return label_html
+    def fix_file_input_label(self, html):
+        if self.show_label:
+            html = "<br>" + html
+        return html
 
-    def get_help_html(self):
-        """Return HTML for help text."""
-        help_text = self.help_text or ""
-        if help_text:
-            return render_template_file(
-                "django_bootstrap5/field_help_text.html",
+    def post_widget_render(self, html):
+        if isinstance(self.widget, RadioSelect):
+            html = self.list_to_class(html, "radio radio-success")
+        elif isinstance(self.widget, CheckboxSelectMultiple):
+            html = self.list_to_class(html, "form-group")
+        elif isinstance(self.widget, SelectDateWidget):
+            html = self.fix_date_select_input(html)
+        elif isinstance(self.widget, CheckboxInput):
+            html = self.add_checkbox_label(html)
+        elif isinstance(self.widget, FileInput):
+            html = self.fix_file_input_label(html)
+        return html
+
+    def wrap_widget(self, html):
+        if isinstance(self.widget, CheckboxInput):
+            # Wrap checkboxes
+            # Note checkboxes do not get size classes, see #318
+            html = '<div class="form-check">{html}</div>'.format(html=html)
+        return html
+
+    def make_input_group_addon(self, inner_class, outer_class, content):
+        if not content:
+            return ""
+        if inner_class:
+            content = '<span class="{inner_class}">{content}</span>'.format(inner_class=inner_class, content=content)
+        return '<div class="{outer_class}">{content}</div>'.format(outer_class=outer_class, content=content)
+
+    @property
+    def is_input_group(self):
+        allowed_widget_types = (TextInput, PasswordInput, DateInput, NumberInput, Select, EmailInput)
+        return (self.addon_before or self.addon_after) and isinstance(self.widget, allowed_widget_types)
+
+    def make_input_group(self, html):
+        if self.is_input_group:
+            before = self.make_input_group_addon(self.addon_before_class, "input-group-prepend", self.addon_before)
+            after = self.make_input_group_addon(self.addon_after_class, "input-group-append", self.addon_after)
+            html = self.append_errors("{before}{html}{after}".format(before=before, html=html, after=after))
+            html = '<div class="input-group">{html}</div>'.format(html=html)
+        return html
+
+    def append_help(self, html):
+        field_help = self.field_help or None
+        if field_help:
+            help_html = render_template_file(
+                "bootstrap5/field_help_text.html",
                 context={
                     "field": self.field,
-                    "help_text": help_text,
+                    "field_help": field_help,
                     "layout": self.layout,
                     "show_help": self.show_help,
                 },
             )
-        return ""
+            html += help_html
+        return html
 
-    def get_errors_html(self):
-        """Return HTML for field errors."""
+    def append_errors(self, html):
         field_errors = self.field_errors
         if field_errors:
-            return render_template_file(
-                "django_bootstrap5/field_errors.html",
+            errors_html = render_template_file(
+                "bootstrap5/field_errors.html",
                 context={
                     "field": self.field,
                     "field_errors": field_errors,
@@ -404,92 +439,144 @@ class FieldRenderer(BaseRenderer):
                     "show_help": self.show_help,
                 },
             )
-        return ""
+            html += errors_html
+        return html
 
-    def get_inline_field_class(self):
-        """Return CSS class for inline field."""
-        return self.inline_field_class or "col-12"
+    def append_to_field(self, html):
+        if isinstance(self.widget, CheckboxInput):
+            # we have already appended errors and help to checkboxes
+            # in append_to_checkbox_field
+            return html
 
-    def get_checkbox_classes(self):
-        """Return CSS classes for checkbox."""
-        classes = ["form-check"]
-        if self.checkbox_style == "switch":
-            classes.append("form-switch")
-        if self.checkbox_layout == "inline":
-            classes.append("form-check-inline")
-        return merge_css_classes(*classes)
+        if not self.is_input_group:
+            # we already appended errors for input groups in make_input_group
+            html = self.append_errors(html)
 
-    def get_wrapper_classes(self):
-        """Return classes for wrapper."""
-        wrapper_classes = [self.wrapper_class]
+        return self.append_help(html)
 
-        if self.is_floating:
-            wrapper_classes.append("form-floating")
+    def append_to_checkbox_field(self, html):
+        if not isinstance(self.widget, CheckboxInput):
+            # we will append errors and help to normal fields later in append_to_field
+            return html
 
-        if self.field.errors:
-            wrapper_classes.append(self.error_css_class)
-        elif self.field.form.is_bound:
-            wrapper_classes.append(self.success_css_class)
+        html = self.append_errors(html)
+        return self.append_help(html)
 
-        if self.field.field.required:
-            wrapper_classes.append(self.required_css_class)
+    def get_field_class(self):
+        field_class = self.field_class
+        if not field_class and self.layout == "horizontal":
+            field_class = self.horizontal_field_class
+        return field_class
 
-        if self.is_inline:
-            wrapper_classes.append(self.get_inline_field_class())
+    def wrap_field(self, html):
+        field_class = self.get_field_class()
+        if field_class:
+            html = '<div class="{field_class}">{html}</div>'.format(field_class=field_class, html=html)
+        return html
+
+    def get_label_class(self):
+        label_class = self.label_class
+        if not label_class and self.layout == "horizontal":
+            label_class = self.horizontal_label_class
+            label_class = add_css_class(label_class, "col-form-label")
+        label_class = text_value(label_class)
+        if not label_class:
+            label_class = "form-label"
+        if not self.show_label or self.show_label == "visually-hidden":
+            label_class = add_css_class(label_class, "visually-hidden")
+        return label_class
+
+    def get_label(self):
+        if self.show_label == "skip" or not self.show_label:
+            return None
+        elif isinstance(self.widget, CheckboxInput):
+            label = None
         else:
-            if self.is_horizontal:
-                wrapper_classes.append("row")
-            wrapper_classes.append("mb-3")
+            label = self.field.label
+        if self.layout == "horizontal" and not label:
+            return mark_safe("&#160;")
+        return label
 
-        return merge_css_classes(*wrapper_classes)
+    def add_label(self, html):
+        label = self.get_label()
+        if label:
+            html = render_label(label, label_for=self.field.id_for_label, label_class=self.get_label_class()) + html
+        return html
 
-    def field_before_label(self):
-        """Return whether field should be placed before label."""
-        return isinstance(self.widget, CheckboxInput) or self.is_floating
+    def get_form_group_class(self):
+        form_group_class = self.form_group_class
+        if self.field.errors:
+            if self.error_css_class:
+                form_group_class = add_css_class(form_group_class, self.error_css_class)
+        else:
+            if self.field.form.is_bound:
+                form_group_class = add_css_class(form_group_class, self.success_css_class)
+        if self.field.field.required and self.required_css_class:
+            form_group_class = add_css_class(form_group_class, self.required_css_class)
+        if self.layout == "horizontal":
+            form_group_class = add_css_class(form_group_class, "row")
+        return form_group_class
 
-    def render(self):
+    def wrap_label_and_field(self, html):
+        return render_form_group(html, self.get_form_group_class())
+    def remove_file_field_issues(self,html):
+        if not isinstance(self.widget,FileInput):
+            return html
+        return re.sub(r'(?is)<div class="mb-3.*">.+<input type="file"', '<div class="mb-3.*"><input type="file"',html)
+    def _render(self):
+        # See if we're not excluded
         if self.field.name in self.exclude.replace(" ", "").split(","):
             return ""
+        # Hidden input requires no special treatment
         if self.field.is_hidden:
             return text_value(self.field)
+        # Render the widget
+        self.add_widget_attrs()
+        html = self.field.as_widget(attrs=self.widget.attrs)
+        self.restore_widget_attrs()
+        # Start post render
+        html = self.post_widget_render(html)
+        html = self.append_to_checkbox_field(html)
+        html = self.wrap_widget(html)
+        html = self.make_input_group(html)
+        html = self.append_to_field(html)
+        html = self.wrap_field(html)
+        html = self.add_label(html)
+        html = self.wrap_label_and_field(html)
+        html = self.remove_file_field_issues(html)
+        return html
 
-        field = self.get_field_html()
-        if self.field_before_label():
-            label = self.get_label_html()
-            field = field + label
-            label = mark_safe("")
-            horizontal_class = merge_css_classes(self.horizontal_field_class, self.horizontal_field_offset_class)
-        else:
-            label = self.get_label_html(horizontal=self.is_horizontal)
-            horizontal_class = self.horizontal_field_class
 
-        if isinstance(self.widget, CheckboxInput):
-            field = format_html(
-                '<div class="{form_check_class}">{field}</div>',
-                form_check_class=self.get_checkbox_classes(),
-                field=field,
-            )
+class InlineFieldRenderer(FieldRenderer):
+    """Inline field renderer."""
 
-        if self.is_form_control_widget():
-            addon_before = (
-                format_html('<span class="input-group-text">{}</span>', self.addon_before) if self.addon_before else ""
-            )
-            addon_after = (
-                format_html('<span class="input-group-text">{}</span>', self.addon_after) if self.addon_after else ""
-            )
-            if addon_before or addon_after:
-                field = format_html('<div class="input-group mb-3">{}{}{}</div>', addon_before, field, addon_after)
+    def add_error_attrs(self):
+        field_title = self.widget.attrs.get("title", "")
+        field_title += " " + " ".join([strip_tags(e) for e in self.field_errors])
+        self.widget.attrs["title"] = field_title.strip()
 
-        field_with_help_and_errors = format_html("{}{}{}", field, self.get_help_html(), self.get_errors_html())
-        if self.is_horizontal:
-            field_with_help_and_errors = format_html(
-                '<div class="{}">{}</div>', horizontal_class, field_with_help_and_errors
-            )
+    def add_widget_attrs(self):
+        super().add_widget_attrs()
+        self.add_error_attrs()
 
-        return format_html(
-            '<{tag} class="{wrapper_classes}">{label}{field_with_help_and_errors}</{tag}>',
-            tag=WRAPPER_TAG,
-            wrapper_classes=self.get_wrapper_classes(),
-            label=label,
-            field_with_help_and_errors=field_with_help_and_errors,
-        )
+    def append_to_field(self, html):
+        return html
+
+    def get_field_class(self):
+        return self.field_class
+
+    def get_form_group_class(self):
+        if self.form_group_class == FORM_GROUP_CLASS:
+            self.form_group_class = "col-auto"
+        return super().get_form_group_class()
+
+    def get_label_class(self):
+        return add_css_class(self.label_class, "visually-hidden")
+
+
+class HorizontalFieldRenderer(FieldRenderer):
+    """Horizontal field renderer."""
+
+    # No-op the fix for normal form layout because it breaks the horizontal one.
+    def fix_file_input_label(self, html):
+        return html
