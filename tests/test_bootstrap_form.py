@@ -31,7 +31,7 @@ class BootstrapFormTestCase(BootstrapTestCase):
         html = self.render('{% bootstrap_form form exclude="optional_text" %}', {"form": FormTestForm()})
         self.assertNotIn("optional_text", html)
 
-    def test_error_class(self):
+    def test_error_css_class(self):
         form = FormTestForm({"optional_text": "my_message"})
 
         html = self.render("{% bootstrap_form form %}", {"form": form})
@@ -43,7 +43,7 @@ class BootstrapFormTestCase(BootstrapTestCase):
         html = self.render('{% bootstrap_form form error_css_class="" %}', {"form": form})
         self.assertNotIn("django_bootstrap5-err", html)
 
-    def test_required_class(self):
+    def test_required_css_class(self):
         form = FormTestForm({"subject": "subject"})
         html = self.render("{% bootstrap_form form %}", {"form": form})
         self.assertIn("django_bootstrap5-req", html)
@@ -54,21 +54,21 @@ class BootstrapFormTestCase(BootstrapTestCase):
         html = self.render('{% bootstrap_form form required_css_class="" %}', {"form": form})
         self.assertNotIn("django_bootstrap5-req", html)
 
-    def test_bound_class(self):
+    def test_success_css_class(self):
         form = FormTestForm({"subject": "subject"})
 
         html = self.render("{% bootstrap_form form %}", {"form": form})
-        self.assertIn("django_bootstrap5-bound", html)
+        self.assertIn("django_bootstrap5-success", html)
 
         form = FormTestForm({"subject": "subject"})
 
-        html = self.render('{% bootstrap_form form bound_css_class="successful-test" %}', {"form": form})
+        html = self.render('{% bootstrap_form form success_css_class="successful-test" %}', {"form": form})
         self.assertIn("successful-test", html)
 
         form = FormTestForm({"subject": "subject"})
 
-        html = self.render('{% bootstrap_form form bound_css_class="" %}', {"form": form})
-        self.assertNotIn("django_bootstrap5-bound", html)
+        html = self.render('{% bootstrap_form form success_css_class="" %}', {"form": form})
+        self.assertNotIn("django_bootstrap5-success", html)
 
     def test_alert_error_type(self):
         form = NonFieldErrorTestForm({"subject": "subject"})

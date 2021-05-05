@@ -47,10 +47,10 @@ class TestForm(forms.Form):
     category5 = forms.ChoiceField(widget=RadioSelectButtonGroup, choices=MEDIA_CHOICES)
     color = forms.CharField(widget=TextInput(attrs={"type": "color"}))
     range = forms.IntegerField(widget=TextInput(attrs={"type": "range"}))
+    addon = forms.CharField(widget=forms.TextInput(attrs={"addon_before": "before", "addon_after": "after"}))
     date5 = forms.DateField(widget=TextInput(attrs={"type": "date"}))
     time5 = forms.TimeField(widget=TextInput(attrs={"type": "time"}))
     url5 = forms.CharField(widget=TextInput(attrs={"type": "url"}))
-    addon = forms.CharField(widget=forms.TextInput(attrs={"addon_before": "before", "addon_after": "after"}))
 
     required_css_class = "django_bootstrap5-req"
 

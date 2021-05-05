@@ -23,8 +23,9 @@ BOOTSTRAP5_DEFAULTS = {
     "checkbox_layout": None,
     "checkbox_style": None,
     "required_css_class": "",
-    "error_css_class": "is-invalid",
-    "success_css_class": "is-valid",
+    "error_css_class": "",
+    "success_css_class": "",
+    "server_side_validation": True,
     "formset_renderers": {"default": "django_bootstrap5.renderers.FormsetRenderer"},
     "form_renderers": {"default": "django_bootstrap5.renderers.FormRenderer"},
     "field_renderers": {

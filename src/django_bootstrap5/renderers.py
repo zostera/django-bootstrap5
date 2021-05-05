@@ -47,9 +47,12 @@ class BaseRenderer(object):
             "horizontal_field_offset_class", get_bootstrap_setting("horizontal_field_offset_class")
         )
         self.inline_field_class = kwargs.get("inline_field_class", get_bootstrap_setting("inline_field_class"))
+        self.server_side_validation = kwargs.get(
+            "server_side_validation", get_bootstrap_setting("server_side_validation")
+        )
         self.error_css_class = kwargs.get("error_css_class", None)
         self.required_css_class = kwargs.get("required_css_class", None)
-        self.bound_css_class = kwargs.get("bound_css_class", None)
+        self.success_css_class = kwargs.get("success_css_class", None)
         self.alert_error_type = kwargs.get("alert_error_type", "non_fields")
 
     @property
@@ -89,7 +92,7 @@ class BaseRenderer(object):
             "checkbox_style": self.checkbox_style,
             "inline_field_class": self.inline_field_class,
             "error_css_class": self.error_css_class,
-            "bound_css_class": self.bound_css_class,
+            "success_css_class": self.success_css_class,
             "required_css_class": self.required_css_class,
             "alert_error_type": self.alert_error_type,
         }
@@ -229,11 +232,11 @@ class FieldRenderer(BaseRenderer):
         if self.field.form.empty_permitted:
             self.required_css_class = ""
 
-        bound_css_class = kwargs.get("bound_css_class", None)
+        success_css_class = kwargs.get("success_css_class", None)
         self.success_css_class = (
-            getattr(field.form, "bound_css_class", get_bootstrap_setting("success_css_class"))
-            if bound_css_class is None
-            else bound_css_class
+            getattr(field.form, "success_css_class", get_bootstrap_setting("success_css_class"))
+            if success_css_class is None
+            else success_css_class
         )
 
     @property
@@ -273,6 +276,10 @@ class FieldRenderer(BaseRenderer):
 
         return isinstance(widget, Textarea)
 
+    def can_widget_have_server_side_validation(self, widget):
+        """Return whether given widget can be rendered with server-side validation classes."""
+        return self.get_widget_input_type(widget) != "color"
+
     def can_widget_float(self, widget):
         """Return whether given widget can be set to `form-floating` behavior."""
         if self.is_form_control_widget(widget):
@@ -310,11 +317,11 @@ class FieldRenderer(BaseRenderer):
         if size_prefix:
             classes.append(get_size_class(self.size, prefix=size_prefix, skip=["xs", "md"]))
 
-        if self.field.errors:
-            if self.error_css_class:
-                classes.append(self.error_css_class)
-        elif self.field.form.is_bound:
-            classes.append(self.success_css_class)
+        if self.server_side_validation and self.can_widget_have_server_side_validation(widget):
+            if self.field.errors:
+                classes.append("is-invalid")
+            elif self.field.form.is_bound:
+                classes.append("is-valid")
 
         classes = before + classes
         widget.attrs["class"] = merge_css_classes(*classes)
@@ -426,11 +433,12 @@ class FieldRenderer(BaseRenderer):
         if self.is_floating:
             wrapper_classes.append("form-floating")
 
+        # The indicator classes are added to the wrapper class. Bootstrap 5 server-side validation classes
+        # are added to the fields
         if self.field.errors:
             wrapper_classes.append(self.error_css_class)
         elif self.field.form.is_bound:
             wrapper_classes.append(self.success_css_class)
-
         if self.field.field.required:
             wrapper_classes.append(self.required_css_class)
 
@@ -470,6 +478,8 @@ class FieldRenderer(BaseRenderer):
                 field=field,
             )
 
+        errors = self.get_errors_html()
+
         if self.is_form_control_widget():
             addon_before = (
                 format_html('<span class="input-group-text">{}</span>', self.addon_before) if self.addon_before else ""
@@ -478,9 +488,13 @@ class FieldRenderer(BaseRenderer):
                 format_html('<span class="input-group-text">{}</span>', self.addon_after) if self.addon_after else ""
             )
             if addon_before or addon_after:
-                field = format_html('<div class="input-group mb-3">{}{}{}</div>', addon_before, field, addon_after)
+                classes = "input-group mb-3"
+                if self.server_side_validation and errors:
+                    classes = merge_css_classes(classes, "has-validation")
+                field = format_html('<div class="{}">{}{}{}{}</div>', classes, addon_before, field, addon_after, errors)
+                errors = ""
 
-        field_with_help_and_errors = format_html("{}{}{}", field, self.get_help_html(), self.get_errors_html())
+        field_with_help_and_errors = format_html("{}{}{}", field, self.get_help_html(), errors)
         if self.is_horizontal:
             field_with_help_and_errors = format_html(
                 '<div class="{}">{}</div>', horizontal_class, field_with_help_and_errors

@@ -2,6 +2,9 @@
 
 ## In development
 
+- Fix issue where error messages were not displayed for input groups.
+- Introduce `server_side_validation` setting for controlling Bootstrap 5 server-side validation classes.
+- Use `success_css_class` instead of `bound_css_class`.
 - Use standard Exception classes.
 - Support `extra_classes` in `render_alert`.
 - Do not apply `mark_safe` to content for `bootstrap_button`.

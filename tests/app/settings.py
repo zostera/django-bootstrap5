@@ -49,5 +49,5 @@ BOOTSTRAP5 = {
     "javascript_in_head": True,
     "required_css_class": "django_bootstrap5-req",
     "error_css_class": "django_bootstrap5-err",
-    "success_css_class": "django_bootstrap5-bound",
+    "success_css_class": "django_bootstrap5-success",
 }

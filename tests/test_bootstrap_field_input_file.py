@@ -50,9 +50,9 @@ class InputTypeFileTestCase(BootstrapTestCase):
                 context={"form": ClearableFileInputTestForm({}, {"test": SimpleUploadedFile("test.txt", b"test")})},
             ),
             (
-                '<div class="django_bootstrap5-bound mb-3">'
+                '<div class="django_bootstrap5-success mb-3">'
                 '<label class="form-label" for="id_test">Test</label>'
-                '<input type="file" name="test" class="form-control django_bootstrap5-bound" id="id_test">'
+                '<input type="file" name="test" class="form-control is-valid" id="id_test">'
                 "</div>"
             ),
         )
@@ -77,9 +77,9 @@ class InputTypeFileTestCase(BootstrapTestCase):
                 context={"form": form},
             ),
             (
-                '<div class="django_bootstrap5-bound django_bootstrap5-req mb-3">'
+                '<div class="django_bootstrap5-success django_bootstrap5-req mb-3">'
                 '<label class="form-label" for="id_test">Test</label>'
-                '<input type="file" name="test" accept="image/*" class="form-control django_bootstrap5-bound"'
+                '<input type="file" name="test" accept="image/*" class="form-control is-valid"'
                 ' required id="id_test">'
                 "</div>"
             ),
