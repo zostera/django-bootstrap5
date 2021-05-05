@@ -443,8 +443,8 @@ def bootstrap_field(*args, **kwargs):
 
             :default: ``''``. Can be changed :doc:`settings`
 
-        bound_css_class
-            CSS class used when the field is bound
+        success_css_class
+            CSS class used when the field has valid data
 
             :default: ``'has-success'``. Can be changed :doc:`settings`
 
