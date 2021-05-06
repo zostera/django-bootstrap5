@@ -5,6 +5,13 @@ Below is a list of warnings when migrating from `django-bootstrap4` (Bootstrap 4
 This document only considers the differences between `django-bootstrap4` and `django-bootstrap5`. For the migration
 guide from Bootstrap 3 to 4, please look at the Bootstrap docs, especially the `Migration section <https://getbootstrap.com/docs/4.6/migration/>`_.
 
+## Replace references to django app from `bootstrap4` to `django_bootstrap5`
+
+- INSTALLED_APPS in settings.py
+- when loading :doc:`templatetags`
+- when extending :doc:`templates`
+- when using :doc:`widgets`
+
 ## Removed templatetags
 
 ### buttons
