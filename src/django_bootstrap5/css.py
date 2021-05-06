@@ -12,7 +12,7 @@ def _css_class_list_string(list_of_css_classes):
 
 
 def merge_css_classes(*args):
-    """Merge CSS classes into one string."""
+    """Return single string with CSS classes."""
     css_classes = []
     for arg in args:
         css_classes += text_value(arg).split(" ")
