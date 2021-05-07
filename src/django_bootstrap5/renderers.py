@@ -318,10 +318,7 @@ class FieldRenderer(BaseRenderer):
             classes.append(get_size_class(self.size, prefix=size_prefix, skip=["xs", "md"]))
 
         if self.server_side_validation and self.can_widget_have_server_side_validation(widget):
-            if self.field.errors:
-                classes.append("is-invalid")
-            elif self.field.form.is_bound:
-                classes.append("is-valid")
+            classes.append(self.get_server_side_validation_classes())
 
         classes = before + classes
         widget.attrs["class"] = merge_css_classes(*classes)
@@ -413,6 +410,14 @@ class FieldRenderer(BaseRenderer):
             )
         return ""
 
+    def get_server_side_validation_classes(self):
+        """Return CSS classes for server-side validation."""
+        if self.field_errors:
+            return "is-invalid"
+        elif self.field.form.is_bound:
+            return "is-valid"
+        return ""
+
     def get_inline_field_class(self):
         """Return CSS class for inline field."""
         return self.inline_field_class or "col-12"
@@ -462,6 +467,7 @@ class FieldRenderer(BaseRenderer):
             return text_value(self.field)
 
         field = self.get_field_html()
+
         if self.field_before_label():
             label = self.get_label_html()
             field = field + label
@@ -471,13 +477,7 @@ class FieldRenderer(BaseRenderer):
             label = self.get_label_html(horizontal=self.is_horizontal)
             horizontal_class = self.horizontal_field_class
 
-        if isinstance(self.widget, CheckboxInput):
-            field = format_html(
-                '<div class="{form_check_class}">{field}</div>',
-                form_check_class=self.get_checkbox_classes(),
-                field=field,
-            )
-
+        help = self.get_help_html()
         errors = self.get_errors_html()
 
         if self.is_form_control_widget():
@@ -488,22 +488,28 @@ class FieldRenderer(BaseRenderer):
                 format_html('<span class="input-group-text">{}</span>', self.addon_after) if self.addon_after else ""
             )
             if addon_before or addon_after:
-                classes = "input-group mb-3"
-                if self.server_side_validation and errors:
+                classes = "input-group"
+                if self.server_side_validation and self.get_server_side_validation_classes():
                     classes = merge_css_classes(classes, "has-validation")
                 field = format_html('<div class="{}">{}{}{}{}</div>', classes, addon_before, field, addon_after, errors)
                 errors = ""
 
-        field_with_help_and_errors = format_html("{}{}{}", field, self.get_help_html(), errors)
+        if isinstance(self.widget, CheckboxInput):
+            field = format_html('<div class="{}">{}{}{}</div>', self.get_checkbox_classes(), field, errors, help)
+            errors = ""
+            help = ""
+
+        field_with_errors_and_help = format_html("{}{}{}", field, errors, help)
+
         if self.is_horizontal:
-            field_with_help_and_errors = format_html(
-                '<div class="{}">{}</div>', horizontal_class, field_with_help_and_errors
+            field_with_errors_and_help = format_html(
+                '<div class="{}">{}</div>', horizontal_class, field_with_errors_and_help
             )
 
         return format_html(
-            '<{tag} class="{wrapper_classes}">{label}{field_with_help_and_errors}</{tag}>',
+            '<{tag} class="{wrapper_classes}">{label}{field_with_errors_and_help}</{tag}>',
             tag=WRAPPER_TAG,
             wrapper_classes=self.get_wrapper_classes(),
             label=label,
-            field_with_help_and_errors=field_with_help_and_errors,
+            field_with_errors_and_help=field_with_errors_and_help,
         )
