@@ -2,15 +2,16 @@
 
 ## In development
 
-- Update default Bootstrap to 5.0.0.
+- Ignore placeholders in attributes in render_tag (#103). 
+- Update default Bootstrap to 5.0.0 (#97).
 - Fix issue where error messages were not displayed for input groups.
-- Introduce `server_side_validation` setting for controlling Bootstrap 5 server-side validation classes.
+- Introduce `server_side_validation` setting for controlling Bootstrap 5 server-side validation classes (#90).
 - Use `success_css_class` instead of `bound_css_class`.
-- Use standard Exception classes.
-- Support `extra_classes` in `render_alert`.
+- Use standard Exception classes (#83).
+- Support `extra_classes` in `render_alert` (#81).
 - Do not apply `mark_safe` to content for `bootstrap_button`.
-- Add keyword arguments to `bootstrap_button` tag.
-- Add size parameter to example forms.
+- Add keyword arguments to `bootstrap_button` tag (#79).
+- Add size parameter to example forms (#77).
 
 ## [1.0.0] - 2021-04-30
 
