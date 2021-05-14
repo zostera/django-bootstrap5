@@ -12,7 +12,7 @@ class SelectTestForm(forms.Form):
     )
 
 
-class BootstrapFieldSelectTestCase(BootstrapTestCase):
+class BootstrapFieldRadioSelectTestCase(BootstrapTestCase):
     def test_select(self):
         """Test field with select widget."""
         self.assertHTMLEqual(

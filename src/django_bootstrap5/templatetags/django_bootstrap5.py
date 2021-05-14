@@ -9,6 +9,7 @@ from django.utils.safestring import mark_safe
 
 from ..components import render_alert, render_button
 from ..core import css_url, get_bootstrap_setting, javascript_url, theme_url
+from ..css import _css_class_list
 from ..forms import render_field, render_form, render_form_errors, render_formset, render_formset_errors, render_label
 from ..html import render_link_tag, render_script_tag
 from ..size import get_size_class
@@ -28,12 +29,25 @@ register = template.Library()
 @register.filter
 def bootstrap_setting(value):
     """
-    Get a setting.
+    Return django-bootstrap5 setting for use in in a template.
 
-    A simple way to read bootstrap settings in a template.
-    Please consider this filter private for now, do not use it in your own templates.
+    Please consider this filter private, do not use it in your own templates.
     """
     return get_bootstrap_setting(value)
+
+
+@register.simple_tag()
+def bootstrap_server_side_validation_class(widget):
+    """
+    Return server side validation class from a widget.
+
+    Please consider this tag private, do not use it in your own templates.
+    """
+    try:
+        css_classes = _css_class_list([widget["attrs"]["class"]])
+    except IndexError:
+        return ""
+    return " ".join([css_class for css_class in css_classes if css_class in ["is-valid", "is-invalid"]])
 
 
 @register.filter

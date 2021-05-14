@@ -49,7 +49,7 @@ class InputTypeTextTestCase(BootstrapTestCase):
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
-                '<div class="input-group mb-3">'
+                '<div class="input-group">'
                 '<span class="input-group-text">foo</span>'
                 '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
                 "</div>"
@@ -62,7 +62,7 @@ class InputTypeTextTestCase(BootstrapTestCase):
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
-                '<div class="input-group mb-3">'
+                '<div class="input-group">'
                 '<span class="input-group-text">foo</span>'
                 '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
                 "</div>"

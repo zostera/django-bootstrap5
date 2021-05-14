@@ -2,6 +2,7 @@
 
 ## In development
 
+- Fix validation HTML for checkbox and radio select (#92).
 - Ignore placeholders in attributes in render_tag (#103). 
 - Update default Bootstrap to 5.0.0 (#97).
 - Fix issue where error messages were not displayed for input groups.
