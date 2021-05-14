@@ -37,11 +37,22 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
         # Put JavaScript in the HEAD section of the HTML document (only relevant if you use bootstrap5.html).
         'javascript_in_head': False,
 
+        # Wrapper class for non-inline fields.
+        # The default value "mb-3" is the spacing as used by Bootstrap 5 example code.
+        'wrapper_class': 'mb-3',
+
+        # Wrapper class for inline fields.
+        # The default value is empty, as Bootstrap5 example code doesn't use a wrapper class.
+        'inline_wrapper_class': '',
+
         # Label class to use in horizontal forms.
-        'horizontal_label_class': 'col-md-3',
+        'horizontal_label_class': 'col-sm-2',
 
         # Field class to use in horizontal forms.
-        'horizontal_field_class': 'col-md-9',
+        'horizontal_field_class': 'col-sm-10',
+
+        # Field class used for horizontal fields withut a label.
+        'horizontal_field_offset_class': 'offset-sm-2',
 
         # Set placeholder attributes to label if no placeholder is provided.
         'set_placeholder': True,
