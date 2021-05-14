@@ -15,7 +15,7 @@ from django.utils.safestring import mark_safe
 
 from .core import get_bootstrap_setting
 from .css import merge_css_classes
-from .forms import WRAPPER_CLASS, WRAPPER_TAG, render_field, render_form, render_label
+from .forms import render_field, render_form, render_label
 from .size import DEFAULT_SIZE, SIZE_MD, get_size_class, parse_size
 from .text import text_value
 from .utils import render_template_file
@@ -27,7 +27,8 @@ class BaseRenderer(object):
 
     def __init__(self, *args, **kwargs):
         self.layout = kwargs.get("layout", "")
-        self.wrapper_class = kwargs.get("wrapper_class", WRAPPER_CLASS)
+        self.wrapper_class = kwargs.get("wrapper_class", get_bootstrap_setting("wrapper_class"))
+        self.inline_wrapper_class = kwargs.get("inline_wrapper_class", get_bootstrap_setting("inline_wrapper_class"))
         self.field_class = kwargs.get("field_class", "")
         self.label_class = kwargs.get("label_class", "")
         self.show_help = kwargs.get("show_help", True)
@@ -433,7 +434,15 @@ class FieldRenderer(BaseRenderer):
 
     def get_wrapper_classes(self):
         """Return classes for wrapper."""
-        wrapper_classes = [self.wrapper_class]
+        wrapper_classes = []
+
+        if self.is_inline:
+            wrapper_classes.append(self.get_inline_field_class())
+            wrapper_classes.append(self.inline_wrapper_class)
+        else:
+            if self.is_horizontal:
+                wrapper_classes.append("row")
+            wrapper_classes.append(self.wrapper_class)
 
         if self.is_floating:
             wrapper_classes.append("form-floating")
@@ -446,13 +455,6 @@ class FieldRenderer(BaseRenderer):
             wrapper_classes.append(self.success_css_class)
         if self.field.field.required:
             wrapper_classes.append(self.required_css_class)
-
-        if self.is_inline:
-            wrapper_classes.append(self.get_inline_field_class())
-        else:
-            if self.is_horizontal:
-                wrapper_classes.append("row")
-            wrapper_classes.append("mb-3")
 
         return merge_css_classes(*wrapper_classes)
 
@@ -507,8 +509,7 @@ class FieldRenderer(BaseRenderer):
             )
 
         return format_html(
-            '<{tag} class="{wrapper_classes}">{label}{field_with_errors_and_help}</{tag}>',
-            tag=WRAPPER_TAG,
+            '<div class="{wrapper_classes}">{label}{field_with_errors_and_help}</div>',
             wrapper_classes=self.get_wrapper_classes(),
             label=label,
             field_with_errors_and_help=field_with_errors_and_help,

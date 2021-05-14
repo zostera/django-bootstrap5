@@ -1,9 +1,6 @@
 from .core import get_field_renderer, get_form_renderer, get_formset_renderer
 from .html import render_tag
 
-WRAPPER_CLASS = ""
-WRAPPER_TAG = "div"
-
 
 def render_formset(formset, **kwargs):
     """Render a formset to a Bootstrap layout."""
