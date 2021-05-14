@@ -8,6 +8,8 @@ A form widget is available for displaying radio buttons as a Bootstrap 5 button 
 RadioSelectButtonGroup
 ~~~~~~~~~~~~~~~~~~~~~~
 
+*Known issue: This widget currently renders as a regular Bootstrap 5 RadioSelect.*
+
 This renders a form ChoiceField as a Bootstrap 5 button group in the `primary` Bootstrap 5 color.
 
 .. code:: django
