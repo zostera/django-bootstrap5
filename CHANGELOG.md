@@ -2,6 +2,7 @@
 
 ## In development
 
+- Document known issue with `RadioSelectButtonGroup` (#114).
 - Bump Bootstrap from 5.0.0 to 5.0.1 (#110).
 - Fix validation HTML for checkbox and radio select (#92).
 - Ignore placeholders in attributes in render_tag (#103). 
