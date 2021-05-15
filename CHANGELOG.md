@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.0] - 2021-05-14
+## [2.0.0] - 2021-05-15
 
 - Use `wrapper_class` and `inline_wrapper_class` for spacing (#113).
 - Document known issue with `RadioSelectButtonGroup` (#114).
