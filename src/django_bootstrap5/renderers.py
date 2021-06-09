@@ -464,7 +464,7 @@ class FieldRenderer(BaseRenderer):
 
     def render(self):
         if self.field.name in self.exclude.replace(" ", "").split(","):
-            return ""
+            return mark_safe("")
         if self.field.is_hidden:
             return text_value(self.field)
 
