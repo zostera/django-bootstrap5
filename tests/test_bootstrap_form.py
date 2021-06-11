@@ -34,7 +34,8 @@ class BootstrapFormTestCase(BootstrapTestCase):
             (
                 '<div class="mb-3 django_bootstrap5-req">'
                 '<label class="form-label" for="id_required_text">Required text</label>'
-                '<input type="text" name="required_text" class="form-control" placeholder="Required text" required id="id_required_text">'
+                '<input type="text" name="required_text" class="form-control"'
+                ' placeholder="Required text" required id="id_required_text">'
                 '<div class="form-text"><i>required_text_help</i>'
                 "</div>"
             ),
