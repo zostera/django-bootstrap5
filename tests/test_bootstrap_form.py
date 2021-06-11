@@ -29,7 +29,17 @@ class BootstrapFormTestCase(BootstrapTestCase):
 
     def test_exclude(self):
         html = self.render('{% bootstrap_form form exclude="optional_text" %}', {"form": FormTestForm()})
-        self.assertNotIn("optional_text", html)
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="mb-3 django_bootstrap5-req">'
+                '<label class="form-label" for="id_required_text">Required text</label>'
+                '<input type="text" name="required_text" class="form-control"'
+                ' placeholder="Required text" required id="id_required_text">'
+                '<div class="form-text"><i>required_text_help</i>'
+                "</div>"
+            ),
+        )
 
     def test_error_css_class(self):
         form = FormTestForm({"optional_text": "my_message"})

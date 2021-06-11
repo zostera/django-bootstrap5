@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.1] - 2021-06-11
+
+- Fix bug in exclude handling (#124).
+
 ## [2.0.0] - 2021-05-16
 
 - Use `wrapper_class` and `inline_wrapper_class` for spacing (#113).
