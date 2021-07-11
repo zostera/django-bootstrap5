@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.0] - 2021-07-11
+
+- Bump Bootstrap from 5.0.1 to 5.0.2 (#138).
+
 ## [2.0.1] - 2021-06-11
 
 - Fix bug in exclude handling (#124).
