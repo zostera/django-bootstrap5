@@ -1,6 +1,6 @@
 # Changelog
 
-## In development
+## [2.1.1] - 2021-07-11
 
 - Respect safe strings in bootstrap_messages (#145).
 
