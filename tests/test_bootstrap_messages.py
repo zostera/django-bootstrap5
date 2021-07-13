@@ -4,8 +4,6 @@ from django.contrib.messages.storage.base import Message
 from tests.base import BootstrapTestCase
 
 
-
-
 class MessagesTestCase(BootstrapTestCase):
     def _html(self, content, css_class):
         return (
