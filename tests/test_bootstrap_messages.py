@@ -1,5 +1,6 @@
 from django.contrib.messages import constants as DEFAULT_MESSAGE_LEVELS
 from django.contrib.messages.storage.base import Message
+from django.utils.safestring import mark_safe
 
 from tests.base import BootstrapTestCase
 
@@ -49,6 +50,15 @@ class MessagesTestCase(BootstrapTestCase):
         self.assertHTMLEqual(
             self.render("{% bootstrap_messages messages %}", {"messages": messages}),
             self._html(content="hello there", css_class="alert-danger"),
+        )
+
+    def test_bootstrap_messages_with_safe_message(self):
+        messages = [Message(DEFAULT_MESSAGE_LEVELS.INFO, mark_safe("Click <a href='https://www.github.com/'>here</a>"))]
+        html = self.render("{% bootstrap_messages messages %}", {"messages": messages})
+        print(html)
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_messages messages %}", {"messages": messages}),
+            self._html(content="Click <a href='https://www.github.com/'>here</a>", css_class="alert-info"),
         )
 
     def test_bootstrap_messages_with_invalid_message(self):

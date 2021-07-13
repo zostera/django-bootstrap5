@@ -1,5 +1,9 @@
 # Changelog
 
+## In development
+
+- Respect safe strings in bootstrap_messages (#145).
+
 ## [2.1.0] - 2021-07-11
 
 - Bump Bootstrap from 5.0.1 to 5.0.2 (#138).
