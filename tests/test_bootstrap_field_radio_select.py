@@ -13,6 +13,17 @@ class SelectTestForm(forms.Form):
     )
 
 
+class DisabledSelectTestForm(forms.Form):
+    test = forms.ChoiceField(
+        choices=(
+            (1, "one"),
+            (2, "two"),
+        ),
+        widget=forms.RadioSelect,
+        disabled=True,
+    )
+
+
 class BootstrapFieldSelectTestCase(BootstrapTestCase):
     def test_select(self):
         """Test field with select widget."""
@@ -72,6 +83,28 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
                 "</div>"
                 '<div class="form-check">'
                 '<input class="form-check-input" type="radio" name="test" id="id_test_1" value="2">'
+                '<label class="form-check-label" for="id_test_1">two</label>'
+                "</div>"
+                "</div>"
+                "</div>"
+            ),
+        )
+
+    def test_disabled_select(self):
+        """Test field with disabled select widget."""
+        self.maxDiff = None
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_field form.test %}", context={"form": DisabledSelectTestForm()}),
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<label class="form-label" for="id_test_0">Test</label>'
+                '<div class="" disabled required id="id_test">'
+                '<div class="form-check">'
+                '<input class="form-check-input" disabled type="radio" name="test" id="id_test_0" value="1">'
+                '<label class="form-check-label" for="id_test_0">one</label>'
+                "</div>"
+                '<div class="form-check">'
+                '<input class="form-check-input" disabled type="radio" name="test" id="id_test_1" value="2">'
                 '<label class="form-check-label" for="id_test_1">two</label>'
                 "</div>"
                 "</div>"
