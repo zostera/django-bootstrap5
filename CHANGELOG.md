@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.2] - 2021-08-16
+
+- Fix disabled parameter for RadioSelect and CheckboxSelectMultiple (#163).
+
 ## [2.1.1] - 2021-07-11
 
 - Respect safe strings in bootstrap_messages (#145).
