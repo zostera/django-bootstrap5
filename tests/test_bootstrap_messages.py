@@ -54,8 +54,6 @@ class MessagesTestCase(BootstrapTestCase):
 
     def test_bootstrap_messages_with_safe_message(self):
         messages = [Message(DEFAULT_MESSAGE_LEVELS.INFO, mark_safe("Click <a href='https://www.github.com/'>here</a>"))]
-        html = self.render("{% bootstrap_messages messages %}", {"messages": messages})
-        print(html)
         self.assertHTMLEqual(
             self.render("{% bootstrap_messages messages %}", {"messages": messages}),
             self._html(content="Click <a href='https://www.github.com/'>here</a>", css_class="alert-info"),

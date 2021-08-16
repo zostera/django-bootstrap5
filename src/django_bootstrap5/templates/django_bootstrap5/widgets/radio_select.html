@@ -11,7 +11,8 @@
                        name="{{ option.name }}"
                        id="{{ option.attrs.id }}"
                         {% if option.value != None %} value="{{ option.value|stringformat:'s' }}"
-                            {% if option.attrs.checked %} checked="checked"{% endif %}{% endif %}>
+                            {% if option.attrs.checked %} checked="checked"{% endif %}{% endif %}
+                        {% if widget.attrs.disabled %} disabled{% endif %}>
                 <label class="form-check-label" for="{{ option.attrs.id }}">{{ option.label }}</label>
             </div>
         {% endfor %}
