@@ -26,7 +26,7 @@ class BaseRenderer(object):
     """A content renderer."""
 
     def __init__(self, *args, **kwargs):
-        self.layout = kwargs.get("layout", "")
+        self.layout = kwargs.get("layout", get_bootstrap_setting("layout"))
         self.wrapper_class = kwargs.get("wrapper_class", get_bootstrap_setting("wrapper_class"))
         self.inline_wrapper_class = kwargs.get("inline_wrapper_class", get_bootstrap_setting("inline_wrapper_class"))
         self.field_class = kwargs.get("field_class", "")
