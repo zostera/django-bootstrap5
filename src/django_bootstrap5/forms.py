@@ -32,7 +32,7 @@ def render_field(field, **kwargs):
     return renderer_cls(field, **kwargs).render()
 
 
-def render_label(content, label_for=None, label_class=None, label_title=""):
+def render_label(content, label_for=None, label_class="form-label", label_title=""):
     """Render a label with content."""
     attrs = {}
     if label_for:
