@@ -71,5 +71,5 @@ class FieldTestCase(BootstrapTestCase):
     def test_label(self):
         self.assertEqual(
             self.render('{% bootstrap_label "foobar" label_for="subject" %}'),
-            '<label for="subject">foobar</label>',
+            '<label class="form-label" for="subject">foobar</label>',
         )
