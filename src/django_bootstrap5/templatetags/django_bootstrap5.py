@@ -51,6 +51,16 @@ def bootstrap_server_side_validation_class(widget):
 
 
 @register.filter
+def bootstrap_trim(value):
+    """
+    Return string value without leading spaces.
+
+    Please consider this filter private, do not use it in your own templates.
+    """
+    return f"{value}".strip()
+
+
+@register.filter
 def bootstrap_message_alert_type(message):
     """Return the alert type for a message, defaults to `info`."""
     try:

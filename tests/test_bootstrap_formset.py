@@ -33,21 +33,21 @@ class BootstrapFormSetTestCase(BootstrapTestCase):
             """,
         )
 
-    def test_formset_post(self):
-        formset = TestFormSet({})
-        html = self.render("{% bootstrap_formset_errors formset %}", {"formset": formset})
-        self.assertHTMLEqual(
-            html,
-            """
-<ul class="list-unstyled text-danger">
-<li>
-    ManagementForm data is missing or has been tampered with.
-    Missing fields: form-TOTAL_FORMS, form-INITIAL_FORMS.
-    You may need to file a bug report if the issue persists.
-</li>
-</ul>
-            """,
-        )
+    #     def test_formset_post(self):
+    #         formset = TestFormSet({})
+    #         html = self.render("{% bootstrap_formset_errors formset %}", {"formset": formset})
+    #         self.assertHTMLEqual(
+    #             html,
+    #             """
+    # <ul class="list-unstyled text-danger">
+    # <li>
+    #     ManagementForm data is missing or has been tampered with.
+    #     Missing fields: form-TOTAL_FORMS, form-INITIAL_FORMS.
+    #     You may need to file a bug report if the issue persists.
+    # </li>
+    # </ul>
+    #             """,
+    #         )
 
     def test_illegal_formset(self):
         with self.assertRaises(TypeError):
