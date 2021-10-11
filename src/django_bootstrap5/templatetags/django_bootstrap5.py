@@ -9,7 +9,7 @@ from django.utils.safestring import mark_safe
 
 from ..components import render_alert, render_button
 from ..core import css_url, get_bootstrap_setting, javascript_url, theme_url
-from ..css import _css_class_list
+from ..css import _css_class_list, merge_css_classes
 from ..forms import render_field, render_form, render_form_errors, render_formset, render_formset_errors, render_label
 from ..html import render_link_tag, render_script_tag
 from ..size import get_size_class
@@ -36,7 +36,7 @@ def bootstrap_setting(value):
     return get_bootstrap_setting(value)
 
 
-@register.simple_tag()
+@register.simple_tag
 def bootstrap_server_side_validation_class(widget):
     """
     Return server side validation class from a widget.
@@ -48,6 +48,16 @@ def bootstrap_server_side_validation_class(widget):
     except IndexError:
         return ""
     return " ".join([css_class for css_class in css_classes if css_class in ["is-valid", "is-invalid"]])
+
+
+@register.simple_tag
+def bootstrap_classes(*args):
+    """
+    Return list of classes.
+
+    Please consider this filter private, do not use it in your own templates.
+    """
+    return merge_css_classes(*args)
 
 
 @register.filter
@@ -473,7 +483,7 @@ def bootstrap_field(*args, **kwargs):
     return render_field(*args, **kwargs)
 
 
-@register.simple_tag()
+@register.simple_tag
 def bootstrap_label(*args, **kwargs):
     """
     Render a label.

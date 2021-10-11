@@ -16,7 +16,7 @@ guide from Bootstrap 3 to 4, please look at the Bootstrap docs, especially the `
 
 ### buttons
 
-The `{% buttons %} ... {% endbuttons %}` tag has bene removed. To create buttons, use the `{% bootstrap_button %}` tag.
+The `{% buttons %} ... {% endbuttons %}` tag has been removed. To create buttons, use the `{% bootstrap_button %}` tag.
 
 ## jQuery
 

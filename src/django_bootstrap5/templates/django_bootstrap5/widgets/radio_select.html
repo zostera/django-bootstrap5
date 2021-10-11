@@ -6,7 +6,7 @@
             <div>{{ group }}</div>{% endif %}
         {% for option in options %}
             <div class="form-check">
-                <input class="form-check-input {{ server_side_validation_class }}"
+                <input class="{% bootstrap_classes 'form-check-input' server_side_validation_class %}"
                        type="{{ option.type }}"
                        name="{{ option.name }}"
                        id="{{ option.attrs.id }}"
