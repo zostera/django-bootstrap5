@@ -45,7 +45,7 @@ def bootstrap_server_side_validation_class(widget):
     """
     try:
         css_classes = _css_class_list([widget["attrs"]["class"]])
-    except IndexError:
+    except KeyError:
         return ""
     return " ".join([css_class for css_class in css_classes if css_class in ["is-valid", "is-invalid"]])
 
