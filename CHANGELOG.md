@@ -2,7 +2,7 @@
 
 ## 21.1 (2021-11-01)
 
-- Switch to CalVer YY.MINOR versioning.
+- Switch to a [CalVer](https://calver.org) YY.MINOR versioning scheme. MINOR is the number of the release in the given year. This is the first release in 2021 using this scheme, so its version is 21.1. The next version this year will be 21.2. The first version in 2022 will be 22.1.
 - Update Bootstrap to 5.1.3 (#167, #194).
 - Add support for Django 4 and Python 3.10 (#193).
 ## 2.1.2 (2021-08-16)
