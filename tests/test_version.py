@@ -9,4 +9,4 @@ class VersionTestCase(TestCase):
 
         version = django_bootstrap5.__version__
         version_parts = version.split(".")
-        self.assertTrue(len(version_parts) >= 3)
+        self.assertTrue(len(version_parts) >= 2)
