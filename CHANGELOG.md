@@ -1,22 +1,27 @@
 # Changelog
 
-## [2.1.2] - 2021-08-16
+## 21.1 (2021-11-01)
+
+- Switch to a [CalVer](https://calver.org) YY.MINOR versioning scheme. MINOR is the number of the release in the given year. This is the first release in 2021 using this scheme, so its version is 21.1. The next version this year will be 21.2. The first version in 2022 will be 22.1.
+- Update Bootstrap to 5.1.3 (#167, #194).
+- Add support for Django 4 and Python 3.10 (#193).
+## 2.1.2 (2021-08-16)
 
 - Fix disabled parameter for RadioSelect and CheckboxSelectMultiple (#163).
 
-## [2.1.1] - 2021-07-11
+## 2.1.1 (2021-07-11)
 
 - Respect safe strings in bootstrap_messages (#145).
 
-## [2.1.0] - 2021-07-11
+## 2.1.0 (2021-07-11)
 
 - Bump Bootstrap from 5.0.1 to 5.0.2 (#138).
 
-## [2.0.1] - 2021-06-11
+## 2.0.1 (2021-06-11)
 
 - Fix bug in exclude handling (#124).
 
-## [2.0.0] - 2021-05-16
+## 2.0.0 (2021-05-16)
 
 - Use `wrapper_class` and `inline_wrapper_class` for spacing (#113).
 - Document known issue with `RadioSelectButtonGroup` (#114).
@@ -33,28 +38,28 @@
 - Add keyword arguments to `bootstrap_button` tag (#79).
 - Add size parameter to example forms (#77).
 
-## [1.0.0] - 2021-04-30
+## 1.0.0 (2021-04-30)
 
 - Set PyPI classifier "Development Status :: 5 - Production/Stable".
 - Support addons for `form-control` widgets.
 
-## [0.6.0] - 2021-04-26
+## 0.6.0 (2021-04-26)
 
 - Add support for floating labels on input types `date`, `time`, `url`, `email`, `tel`.
 - Improve code coverage and tests.
 
-## [0.5.0] - 2021-04-23
+## 0.5.0 (2021-04-23)
 
 - Fix pagination support.
 
-## [0.4.0] - 2021-04-20
+## 0.4.0 (2021-04-20)
 
 - Refactor tests.
 - Add support for input "range".
 - Add support for input "color".
 - Add support for floating labels on `Select` widgets.
 
-## [0.3.0] - 2021-04-18
+## 0.3.0 (2021-04-18)
 
 - Fix suport for `Textarea` widgets.
 - Add support for horizontal forms.
@@ -66,7 +71,7 @@
 - Drop support for Django 3.0, extended support stopped on 2021-04-01).
 - Add support for Django 3.2.
 
-## [0.2.0] - 2021-03-22
+## 0.2.0 (2021-03-22)
 
 - Add floating labels for supported widgets. 
 - Do not abuse title element for help text.
@@ -81,6 +86,6 @@
 - Started `django-bootstrap5` based on `django-bootstrap4`.
 - Thanks everybody that contributed to `django-bootstrap4` and earlier versions!
 
-## [0.1.0] - 2013-08-13 
+## 0.1.0 (2013-08-13) 
 
 - Reserving the name "django-bootstrap5" at PyPI (released as 0.1). 

@@ -13,7 +13,7 @@ The goal of this project is to seamlessly blend Django and Bootstrap 5.
 
 ## Status
 
-Early development, not ready for production. Issues and pull requests welcome.
+Ready for production. Issues and pull requests welcome, [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Requirements
 
