@@ -1,7 +1,7 @@
 -r docs/requirements.txt
-django==4.0.b1
-black==21.10b0
-isort==5.10.0
+django==4.0rc1
+black==21.11b1
+isort==5.10.1
 flake8==4.0.1
 pydocstyle==6.1.1
 docformatter==1.4
@@ -9,6 +9,6 @@ autoflake==1.4
 tox==3.24.4
 wheel==0.37.0
 setuptools==58.5.3
-twine==3.5.0
+twine==3.6.0
 pillow==8.4.0
-coverage[toml]==6.1.1
+coverage[toml]==6.1.2
