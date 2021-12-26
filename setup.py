@@ -44,7 +44,7 @@ setup(
         "Topic :: Software Development :: Libraries",
         "Topic :: Utilities",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     install_requires=[
         "Django>=2.2",
         "beautifulsoup4>=4.8.0",
