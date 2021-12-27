@@ -1,12 +1,12 @@
 # Changelog
 
-
-## In development
+## 21.3 (2021-12-27)
 
 - Drop support for Python 3.6 (EOL, #247, #248).
 - Drop support for Django 3.1 (EOL, #247, #248).
 - Fix tests for Django 4.1 (#247).
 - Update example app (#250)
+
 ## 21.2 (2021-12-12)
 
 - Fix typo in Bootstrap JavaScript url (#209, #204).
