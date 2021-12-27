@@ -37,14 +37,18 @@ BOOTSTRAP5_DEFAULTS = {
 
 
 def get_bootstrap_setting(name, default=None):
-    """Read a setting."""
-    # Start with a copy of default settings
-    BOOTSTRAP5 = BOOTSTRAP5_DEFAULTS.copy()
+    """
+    Read a setting.
 
-    # Override with user settings from settings.py
-    BOOTSTRAP5.update(getattr(settings, "BOOTSTRAP5", {}))
+    Lookup order is:
 
-    return BOOTSTRAP5.get(name, default)
+    1. Django settings
+    2. `django-bootstrap5` defaults
+    3. Given default value
+    """
+
+    bootstrap5_settings = getattr(settings, "BOOTSTRAP5", {})
+    return bootstrap5_settings.get(name, BOOTSTRAP5_DEFAULTS.get(name, default))
 
 
 def javascript_url():
