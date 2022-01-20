@@ -12,7 +12,7 @@ project_metadata = metadata(PROJECT_NAME)
 
 project = project_metadata["name"]
 author = project_metadata["author"]
-copyright = f"2020, {author}"
+copyright = f"2022, {author}"
 
 # The full version, including alpha/beta/rc tags, in x.y.z.misc format
 release = project_metadata["version"]
