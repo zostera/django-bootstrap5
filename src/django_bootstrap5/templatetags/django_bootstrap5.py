@@ -586,7 +586,7 @@ def bootstrap_button(content, **kwargs):
 
 
 @register.simple_tag
-def bootstrap_alert(content, alert_type="info", dismissible=True, extra_classes=""):
+def bootstrap_alert(content, **kwargs):
     """
     Render an alert.
 
@@ -625,7 +625,7 @@ def bootstrap_alert(content, alert_type="info", dismissible=True, extra_classes=
 
         {% bootstrap_alert "Something went wrong" alert_type="error" %}
     """
-    return render_alert(content, alert_type, dismissible, extra_classes)
+    return render_alert(content, **kwargs)
 
 
 @register.simple_tag(takes_context=True)
