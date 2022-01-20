@@ -720,7 +720,14 @@ def bootstrap_url_replace_param(url, name, value):
 
 
 def get_pagination_context(
-    page, pages_to_show=11, url=None, size=None, justify_content=None, extra=None, parameter_name="page"
+    page,
+    *,
+    pages_to_show=11,
+    url=None,
+    size=None,
+    justify_content=None,
+    extra=None,
+    parameter_name="page",
 ):
     """Generate Bootstrap pagination context from a page object."""
     pages_to_show = int(pages_to_show)

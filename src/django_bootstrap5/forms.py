@@ -20,7 +20,7 @@ def render_form(form, **kwargs):
     return renderer_cls(form, **kwargs).render()
 
 
-def render_form_errors(form, type="all", **kwargs):
+def render_form_errors(form, *, type="all", **kwargs):
     """Render form errors to a Bootstrap layout."""
     renderer_cls = get_form_renderer(**kwargs)
     return renderer_cls(form, **kwargs).render_errors(type)
@@ -32,7 +32,13 @@ def render_field(field, **kwargs):
     return renderer_cls(field, **kwargs).render()
 
 
-def render_label(content, label_for=None, label_class=None, label_title=""):
+def render_label(
+    content,
+    *,
+    label_for=None,
+    label_class=None,
+    label_title="",
+):
     """Render a label with content."""
     attrs = {}
     if label_for:
