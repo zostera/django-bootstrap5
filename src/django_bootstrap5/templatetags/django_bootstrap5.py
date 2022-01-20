@@ -629,7 +629,7 @@ def bootstrap_alert(content, **kwargs):
 
 
 @register.simple_tag(takes_context=True)
-def bootstrap_messages(context, *args, **kwargs):
+def bootstrap_messages(context):
     """
     Show django.contrib.messages Messages in Bootstrap alert containers.
 
