@@ -10,5 +10,5 @@ tox==3.24.5
 wheel==0.37.1
 setuptools==60.7.0
 twine==3.8.0
-pillow==8.4.0
+pillow==9.0.0
 coverage[toml]==6.3.1
