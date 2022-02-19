@@ -374,7 +374,7 @@ def bootstrap_field(*args, **kwargs):
         wrapper_class
             CSS class of the ``div`` that wraps the field and label.
 
-            :default: ``'form-group'``
+            :default: ``'mb-3'``
 
         field_class
             CSS class of the ``div`` that wraps the field.
@@ -400,7 +400,7 @@ def bootstrap_field(*args, **kwargs):
             A list of field names that should not be rendered
 
         size
-            Controls the size of the rendered ``div.form-group`` through the use of CSS classes.
+            Controls the size of the rendered ``div.row`` through the use of CSS classes.
 
             One of the following values:
 
@@ -463,7 +463,7 @@ def bootstrap_field(*args, **kwargs):
             :default: ``'has-error'``. Can be changed :doc:`settings`
 
         required_css_class
-            CSS class used on the ``div.form-group`` to indicate a field is required
+            CSS class used on the ``div.row`` to indicate a field is required
 
             :default: ``''``. Can be changed :doc:`settings`
 
