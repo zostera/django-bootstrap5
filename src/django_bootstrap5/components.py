@@ -1,4 +1,5 @@
 from django.template.defaultfilters import capfirst
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext as _
 
@@ -33,6 +34,7 @@ def render_button(
     button_class="btn-primary",
     size="",
     href="",
+    viewname="",
     extra_classes="",
     **kwargs,
 ):
@@ -54,11 +56,13 @@ def render_button(
         if button_type != "link":
             attrs["type"] = button_type
 
-    if href:
+    if href or viewname:
         if button_type and button_type != "link":
             raise ValueError(f'Button of type "{button_type}" is not allowed a "href" parameter.')
+        if viewname and href:
+            raise ValueError(f'Button can either have a "href" or a "viewname" parameter.')
         tag = "a"
-        attrs["href"] = href
+        attrs["href"] = href or reverse(viewname)
         attrs.setdefault("role", "button")
 
     classes = merge_css_classes(classes, extra_classes)
