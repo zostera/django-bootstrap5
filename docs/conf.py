@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 try:
     from importlib.metadata import metadata
@@ -12,7 +13,8 @@ project_metadata = metadata(PROJECT_NAME)
 
 project = project_metadata["name"]
 author = project_metadata["author"]
-copyright = f"2020, {author}"
+year = datetime.now().year
+copyright = f"{year}, {author}"
 
 # The full version, including alpha/beta/rc tags, in x.y.z.misc format
 release = project_metadata["version"]
