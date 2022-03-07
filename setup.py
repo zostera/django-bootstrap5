@@ -45,7 +45,6 @@ setup(
     python_requires=">=3.7",
     install_requires=[
         "Django>=2.2",
-        "beautifulsoup4>=4.8.0",
         'importlib-metadata<3; python_version<"3.8"',
     ],
 )
