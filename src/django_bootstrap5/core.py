@@ -5,13 +5,13 @@ from django.conf import settings
 BOOTSTRAP5 = {"foo": "bar"}
 BOOTSTRAP5_DEFAULTS = {
     "css_url": {
-        "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
-        "integrity": "sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC",
+        "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
+        "integrity": "sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3",
         "crossorigin": "anonymous",
     },
     "javascript_url": {
-        "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
-        "integrity": "sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM",
+        "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js",
+        "integrity": "sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p",
         "crossorigin": "anonymous",
     },
     "theme_url": None,
@@ -38,14 +38,18 @@ BOOTSTRAP5_DEFAULTS = {
 
 
 def get_bootstrap_setting(name, default=None):
-    """Read a setting."""
-    # Start with a copy of default settings
-    BOOTSTRAP5 = BOOTSTRAP5_DEFAULTS.copy()
+    """
+    Read a setting.
 
-    # Override with user settings from settings.py
-    BOOTSTRAP5.update(getattr(settings, "BOOTSTRAP5", {}))
+    Lookup order is:
 
-    return BOOTSTRAP5.get(name, default)
+    1. Django settings
+    2. `django-bootstrap5` defaults
+    3. Given default value
+    """
+
+    bootstrap5_settings = getattr(settings, "BOOTSTRAP5", {})
+    return bootstrap5_settings.get(name, BOOTSTRAP5_DEFAULTS.get(name, default))
 
 
 def javascript_url():

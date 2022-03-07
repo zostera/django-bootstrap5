@@ -22,7 +22,7 @@ from .utils import render_template_file
 from .widgets import ReadOnlyPasswordHashWidget, is_widget_with_placeholder
 
 
-class BaseRenderer(object):
+class BaseRenderer:
     """A content renderer."""
 
     def __init__(self, *args, **kwargs):
@@ -373,10 +373,15 @@ class FieldRenderer(BaseRenderer):
     def get_label_html(self, horizontal=False):
         """Return value for label."""
         label_html = "" if self.show_label == "skip" else self.field.label
+        if isinstance(self.widget, (RadioSelect, CheckboxSelectMultiple)):
+            # TODO: This is a fix for Django < 4, remove after we drop support for Django 3
+            label_for = None
+        else:
+            label_for = self.field.id_for_label
         if label_html:
             label_html = render_label(
                 label_html,
-                label_for=self.field.id_for_label,
+                label_for=label_for,
                 label_class=self.get_label_class(horizontal=horizontal),
             )
         return label_html

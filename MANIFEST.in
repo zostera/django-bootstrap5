@@ -9,6 +9,7 @@ exclude Makefile
 exclude requirements-dev.txt
 exclude CHANGELOG.md
 exclude CONTRIBUTING.md
+exclude MIGRATE.md
 graft src
 graft tests
 graft docs

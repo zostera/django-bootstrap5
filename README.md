@@ -13,11 +13,11 @@ The goal of this project is to seamlessly blend Django and Bootstrap 5.
 
 ## Status
 
-Early development, not ready for production. Issues and pull requests welcome.
+Ready for production. Issues and pull requests welcome, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Requirements
 
-Python 3.6 or newer with Django >= 2.2 or newer.
+Python 3.7 or newer with Django >= 2.2 or newer.
 
 ## Documentation
 
@@ -48,11 +48,11 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 ```jinja2
 {% load django_bootstrap5 %}
 
-{# Display a form #}
-
 <form action="/url/to/submit/" method="post" class="form">
     {% csrf_token %}
+
     {% bootstrap_form form %}
+
     {% bootstrap_button button_type="submit" content="OK" %}
     {% bootstrap_button button_type="reset" content="Cancel" %}
 </form>
@@ -60,8 +60,12 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 
 ## Example app
 
-An example app is provided in `example`. You can run it from your virtualenv with `python manage.py runserver`.
+An example app is provided in the folder `example`. You can run it with `python manage.py runserver`.
 
+```bash
+cd example
+python manage.py runserver
+```
 
 ## Bugs and suggestions
 
@@ -69,11 +73,9 @@ If you have found a bug or if you have a request for additional functionality, p
 
 https://github.com/zostera/django-bootstrap5/issues
 
-
 ## License
 
 You can use this under BSD-3-Clause. See [LICENSE](LICENSE) file for details.
-
 
 ## Author
 
