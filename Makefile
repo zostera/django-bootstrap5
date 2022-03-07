@@ -47,7 +47,7 @@ endif
 build: docs
 	rm -rf build
 	rm -rf dist
-	python setup.py sdist bdist_wheel
+	python -m build .
 
 publish: porcelain branch build
 	twine upload dist/*
