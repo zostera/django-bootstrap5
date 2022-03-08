@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools >= 40.6.0", "wheel"]
+requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.black]
 line-length = 120
-target-version = ["py36"]
+target_version = ["py37", "py38", "py39", "py310"]
 
 [tool.coverage.run]
 branch = true

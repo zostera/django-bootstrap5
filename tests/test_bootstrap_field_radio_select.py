@@ -31,7 +31,7 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
             self.render("{% bootstrap_field form.test %}", context={"form": SelectTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
-                '<label class="form-label" for="id_test_0">Test</label>'
+                '<label class="form-label">Test</label>'
                 '<div class="" required id="id_test">'
                 '<div class="form-check">'
                 '<input class="form-check-input" type="radio" name="test" id="id_test_0" value="1">'
@@ -52,7 +52,7 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
             self.render('{% bootstrap_field form.test layout="horizontal" %}', context={"form": SelectTestForm()}),
             (
                 '<div class="django_bootstrap5-req row mb-3">'
-                '<label class="col-sm-2 col-form-label" for="id_test_0">Test</label>'
+                '<label class="col-sm-2 col-form-label">Test</label>'
                 '<div class="col-sm-10">'
                 '<div class="" required id="id_test">'
                 '<div class="form-check">'
@@ -75,7 +75,7 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
             self.render('{% bootstrap_field form.test layout="floating" %}', context={"form": SelectTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
-                '<label class="form-label" for="id_test_0">Test</label>'
+                '<label class="form-label">Test</label>'
                 '<div class="" required id="id_test">'
                 '<div class="form-check">'
                 '<input class="form-check-input" type="radio" name="test" id="id_test_0" value="1">'
@@ -97,7 +97,7 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
             self.render("{% bootstrap_field form.test %}", context={"form": DisabledSelectTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
-                '<label class="form-label" for="id_test_0">Test</label>'
+                '<label class="form-label">Test</label>'
                 '<div class="" disabled required id="id_test">'
                 '<div class="form-check">'
                 '<input class="form-check-input" disabled type="radio" name="test" id="id_test_0" value="1">'
