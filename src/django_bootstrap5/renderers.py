@@ -22,7 +22,7 @@ from .utils import render_template_file
 from .widgets import ReadOnlyPasswordHashWidget, is_widget_with_placeholder
 
 
-class BaseRenderer(object):
+class BaseRenderer:
     """A content renderer."""
 
     def __init__(self, *args, **kwargs):

@@ -9,7 +9,7 @@ from .forms import ContactForm, ContactFormSet, FilesForm
 
 
 # http://yuji.wordpress.com/2013/01/30/django-form-field-in-initial-data-requires-a-fieldfile-instance/
-class FakeField(object):
+class FakeField:
     storage = default_storage
 
 
@@ -73,7 +73,7 @@ class PaginationView(TemplateView):
         context = super().get_context_data(**kwargs)
         lines = []
         for i in range(200):
-            lines.append("Line %s" % (i + 1))
+            lines.append(f"Line {i + 1}")
         paginator = Paginator(lines, 10)
         page = self.request.GET.get("page")
         try:
