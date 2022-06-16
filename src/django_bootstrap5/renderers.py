@@ -488,12 +488,14 @@ class FieldRenderer(BaseRenderer):
         errors = self.get_errors_html()
 
         if self.is_form_control_widget():
-            addon_before = (
-                format_html('<span class="input-group-text">{}</span>', self.addon_before) if self.addon_before else ""
-            )
-            addon_after = (
-                format_html('<span class="input-group-text">{}</span>', self.addon_after) if self.addon_after else ""
-            )
+            addon_before = self.addon_before
+            if self.addon_before_class is not None:
+                addon_before = format_html('<span class="{}">{}</span>', self.addon_before_class, addon_before)
+
+            addon_after = self.addon_after
+            if self.addon_after_class is not None:
+                addon_after = format_html('<span class="{}">{}</span>', self.addon_after_class, addon_after)
+
             if addon_before or addon_after:
                 classes = "input-group"
                 if self.server_side_validation and self.get_server_side_validation_classes():
