@@ -489,11 +489,11 @@ class FieldRenderer(BaseRenderer):
 
         if self.is_form_control_widget():
             addon_before = self.addon_before
-            if self.addon_before_class is not None:
+            if addon_before and self.addon_before_class is not None:
                 addon_before = format_html('<span class="{}">{}</span>', self.addon_before_class, addon_before)
 
             addon_after = self.addon_after
-            if self.addon_after_class is not None:
+            if addon_after and self.addon_after_class is not None:
                 addon_after = format_html('<span class="{}">{}</span>', self.addon_after_class, addon_after)
 
             if addon_before or addon_after:
