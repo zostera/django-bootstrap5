@@ -17,7 +17,7 @@ Ready for production. Issues and pull requests welcome, see [CONTRIBUTING.md](CO
 
 ## Requirements
 
-Python 3.7 or newer with Django >= 2.2 or newer.
+Python 3.7 or newer with Django 3.2 or newer.
 
 ## Documentation
 
@@ -30,7 +30,7 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
     ```bash
     pip install django-bootstrap5
     ```
-    
+
 2. Add to `INSTALLED_APPS` in your `settings.py`:
 
    ```python
