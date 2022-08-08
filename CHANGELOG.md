@@ -1,10 +1,10 @@
 # Changelog
 
-## 22.1 (in development)
+## 22.1 (2022-08-08)
 
-- Update Bootstrap to 5.2.0.
-- Add support for Django 4.1.
-- Drop support for Django 2.2 (EOL).
+- Update Bootstrap to 5.2.0 (#325).
+- Add support for Django 4.1 (#222).
+- Drop support for Django 2.2 (EOL) (#324).
 
 ## 21.3 (2021-12-27)
 
