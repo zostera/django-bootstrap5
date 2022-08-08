@@ -8,8 +8,9 @@ docformatter==1.4
 autoflake==1.4
 tox==3.25.1
 wheel==0.37.1
-setuptools==63.4.1
+setuptools==63.4.2
 twine==4.0.1
 pillow==9.2.0
-coverage[toml]==6.4.2
+coverage[toml]==6.4.3
 beautifulsoup4==4.11.1
+build==0.8.0
