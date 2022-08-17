@@ -16,6 +16,22 @@ class SubjectTestForm(forms.Form):
     )
 
 
+class AddonTestForm(forms.Form):
+    addon_field = forms.CharField(
+        max_length=100,
+        help_text="my_help_text",
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                "addon_before": "Addon Before",
+                "addon_after": "Addon After",
+                "addon_before_class": "addon-before-class",
+                "addon_after_class": "addon-after-class",
+            }
+        ),
+    )
+
+
 class FieldTestCase(BootstrapTestCase):
     def test_illegal_field(self):
         with self.assertRaises(TypeError):
@@ -73,3 +89,12 @@ class FieldTestCase(BootstrapTestCase):
             self.render('{% bootstrap_label "foobar" label_for="subject" %}'),
             '<label for="subject">foobar</label>',
         )
+
+    def test_addon(self):
+        form = AddonTestForm()
+
+        html = self.render("{% bootstrap_field form.addon_field %}", {"form": form})
+        self.assertIn("Addon Before", html)
+        self.assertIn("Addon After", html)
+        self.assertIn("addon-before-class", html)
+        self.assertIn("addon-after-class", html)
