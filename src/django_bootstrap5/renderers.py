@@ -489,10 +489,12 @@ class FieldRenderer(BaseRenderer):
 
         if self.is_form_control_widget():
             addon_before = (
-                format_html('<span class="input-group-text">{}</span>', self.addon_before) if self.addon_before else ""
+                format_html('<span class="{}">{}</span>', self.addon_before_class,
+                            self.addon_before) if self.addon_before else ""
             )
             addon_after = (
-                format_html('<span class="input-group-text">{}</span>', self.addon_after) if self.addon_after else ""
+                format_html('<span class="{}">{}</span>', self.addon_after_class,
+                            self.addon_after) if self.addon_after else ""
             )
             if addon_before or addon_after:
                 classes = "input-group"
