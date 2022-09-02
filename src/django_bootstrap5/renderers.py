@@ -500,6 +500,7 @@ class FieldRenderer(BaseRenderer):
                 classes = "input-group"
                 if self.server_side_validation and self.get_server_side_validation_classes():
                     classes = merge_css_classes(classes, "has-validation")
+                    errors = errors or mark_safe("<div></div>")
                 field = format_html('<div class="{}">{}{}{}{}</div>', classes, addon_before, field, addon_after, errors)
                 errors = ""
 
