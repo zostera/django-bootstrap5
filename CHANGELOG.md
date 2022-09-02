@@ -2,6 +2,7 @@
 
 ## 22.2 (2022-09-02)
 - Fix `addon_before_class` and `addon_after_class`, which were being ignored. (#153)
+- Fix to issue (#349) where `has-validation` was incorrectly rounding before and after elements' borders when validated.
 
 ## 22.1 (2022-08-08)
 
