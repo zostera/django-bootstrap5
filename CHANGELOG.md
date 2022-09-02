@@ -1,5 +1,8 @@
 # Changelog
 
+## 22.2 (2022-09-02)
+- Fix `addon_before_class` and `addon_after_class`, which were being ignored. (#153)
+
 ## 22.1 (2022-08-08)
 
 - Update Bootstrap to 5.2.0 (#325).
