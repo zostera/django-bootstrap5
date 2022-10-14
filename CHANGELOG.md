@@ -1,5 +1,10 @@
 # Changelog
 
+## 22.2 (in development)
+- Fix `addon_before_class` and `addon_after_class`, which were being ignored. (#153)
+- Fix to issue (#349) where `has-validation` was incorrectly rounding before and after elements' borders when validated.
+- Update the default JS and CSS urls mentioned on the settings page of the documentation.
+
 ## 22.1 (2022-08-08)
 
 - Update Bootstrap to 5.2.0 (#325).
