@@ -492,15 +492,17 @@ class FieldRenderer(BaseRenderer):
                 addon_before = self.addon_before
             else:
                 addon_before = (
-                    format_html('<span class="{}">{}</span>', self.addon_before_class,
-                                self.addon_before) if self.addon_before else ""
+                    format_html('<span class="{}">{}</span>', self.addon_before_class, self.addon_before)
+                    if self.addon_before
+                    else ""
                 )
             if self.addon_after_class is None:
                 addon_after = self.addon_after
             else:
                 addon_after = (
-                    format_html('<span class="{}">{}</span>', self.addon_after_class,
-                                self.addon_after) if self.addon_after else ""
+                    format_html('<span class="{}">{}</span>', self.addon_after_class, self.addon_after)
+                    if self.addon_after
+                    else ""
                 )
             if addon_before or addon_after:
                 classes = "input-group"
