@@ -1,6 +1,8 @@
 # Changelog
 
 ## 22.2 (in development)
+- Added .form-label default to `<label>`s. (#180)
+- Update radio_select_button_group widget to BS5 (#313)
 - Fix `addon_before_class` and `addon_after_class`, which were being ignored. (#153)
 - Fix to issue (#349) where `has-validation` was incorrectly rounding before and after elements' borders when validated.
 - Update the default JS and CSS urls mentioned on the settings page of the documentation.
