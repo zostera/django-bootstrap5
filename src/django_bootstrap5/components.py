@@ -9,7 +9,13 @@ from .size import DEFAULT_SIZE, SIZE_MD, get_size_class
 ALERT_TYPES = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"]
 
 
-def render_alert(content, alert_type="info", dismissible=True, extra_classes=""):
+def render_alert(
+    content,
+    *,
+    alert_type="info",
+    dismissible=True,
+    extra_classes="",
+):
     """Render a Bootstrap alert."""
     button = ""
     if alert_type not in ALERT_TYPES:
@@ -29,6 +35,7 @@ def render_alert(content, alert_type="info", dismissible=True, extra_classes="")
 
 def render_button(
     content,
+    *,
     button_type=None,
     button_class="btn-primary",
     size="",

@@ -1,5 +1,16 @@
 # Changelog
 
+## 22.2 (in development)
+- Fix `addon_before_class` and `addon_after_class`, which were being ignored. (#153)
+- Fix to issue (#349) where `has-validation` was incorrectly rounding before and after elements' borders when validated.
+- Update the default JS and CSS urls mentioned on the settings page of the documentation.
+
+## 22.1 (2022-08-08)
+
+- Update Bootstrap to 5.2.0 (#325).
+- Add support for Django 4.1 (#322).
+- Drop support for Django 2.2 (EOL) (#324).
+
 ## 21.3 (2021-12-27)
 
 - Drop support for Python 3.6 (EOL, #247, #248).
@@ -39,7 +50,7 @@
 - Document known issue with `RadioSelectButtonGroup` (#114).
 - Bump Bootstrap from 5.0.0 to 5.0.1 (#110).
 - Fix validation HTML for checkbox and radio select (#92).
-- Ignore placeholders in attributes in render_tag (#103). 
+- Ignore placeholders in attributes in render_tag (#103).
 - Update default Bootstrap to 5.0.0 (#97).
 - Fix issue where error messages were not displayed for input groups.
 - Introduce `server_side_validation` setting for controlling Bootstrap 5 server-side validation classes (#90).
@@ -85,7 +96,7 @@
 
 ## 0.2.0 (2021-03-22)
 
-- Add floating labels for supported widgets. 
+- Add floating labels for supported widgets.
 - Do not abuse title element for help text.
 - Remove `InlineFieldRenderer`.
 - Simplify size parameters, only accept "sm", "md", "lg".
@@ -98,6 +109,6 @@
 - Started `django-bootstrap5` based on `django-bootstrap4`.
 - Thanks everybody that contributed to `django-bootstrap4` and earlier versions!
 
-## 0.1.0 (2013-08-13) 
+## 0.1.0 (2013-08-13)
 
-- Reserving the name "django-bootstrap5" at PyPI (released as 0.1). 
+- Reserving the name "django-bootstrap5" at PyPI (released as 0.1).

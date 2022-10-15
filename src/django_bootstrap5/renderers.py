@@ -25,7 +25,7 @@ from .widgets import ReadOnlyPasswordHashWidget, is_widget_with_placeholder
 class BaseRenderer:
     """A content renderer."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         self.layout = kwargs.get("layout", "")
         self.wrapper_class = kwargs.get("wrapper_class", get_bootstrap_setting("wrapper_class"))
         self.inline_wrapper_class = kwargs.get("inline_wrapper_class", get_bootstrap_setting("inline_wrapper_class"))
@@ -107,11 +107,11 @@ class BaseRenderer:
 class FormsetRenderer(BaseRenderer):
     """Default formset renderer."""
 
-    def __init__(self, formset, *args, **kwargs):
+    def __init__(self, formset, **kwargs):
         if not isinstance(formset, BaseFormSet):
             raise TypeError('Parameter "formset" should contain a valid Django Formset.')
         self.formset = formset
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
 
     def render_management_form(self):
         """Return HTML for management form."""
@@ -147,11 +147,11 @@ class FormsetRenderer(BaseRenderer):
 class FormRenderer(BaseRenderer):
     """Default form renderer."""
 
-    def __init__(self, form, *args, **kwargs):
+    def __init__(self, form, **kwargs):
         if not isinstance(form, BaseForm):
             raise TypeError('Parameter "form" should contain a valid Django Form.')
         self.form = form
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
 
     def render_fields(self):
         rendered_fields = mark_safe("")
@@ -193,11 +193,11 @@ class FormRenderer(BaseRenderer):
 class FieldRenderer(BaseRenderer):
     """Default field renderer."""
 
-    def __init__(self, field, *args, **kwargs):
+    def __init__(self, field, **kwargs):
         if not isinstance(field, BoundField):
             raise TypeError('Parameter "field" should contain a valid Django BoundField.')
         self.field = field
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
 
         self.widget = field.field.widget
         self.is_multi_widget = isinstance(field.field.widget, MultiWidget)
@@ -488,16 +488,27 @@ class FieldRenderer(BaseRenderer):
         errors = self.get_errors_html()
 
         if self.is_form_control_widget():
-            addon_before = (
-                format_html('<span class="input-group-text">{}</span>', self.addon_before) if self.addon_before else ""
-            )
-            addon_after = (
-                format_html('<span class="input-group-text">{}</span>', self.addon_after) if self.addon_after else ""
-            )
+            if self.addon_before_class is None:
+                addon_before = self.addon_before
+            else:
+                addon_before = (
+                    format_html('<span class="{}">{}</span>', self.addon_before_class, self.addon_before)
+                    if self.addon_before
+                    else ""
+                )
+            if self.addon_after_class is None:
+                addon_after = self.addon_after
+            else:
+                addon_after = (
+                    format_html('<span class="{}">{}</span>', self.addon_after_class, self.addon_after)
+                    if self.addon_after
+                    else ""
+                )
             if addon_before or addon_after:
                 classes = "input-group"
                 if self.server_side_validation and self.get_server_side_validation_classes():
                     classes = merge_css_classes(classes, "has-validation")
+                    errors = errors or mark_safe("<div></div>")
                 field = format_html('<div class="{}">{}{}{}{}</div>', classes, addon_before, field, addon_after, errors)
                 errors = ""
 

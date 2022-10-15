@@ -214,7 +214,7 @@ def bootstrap_javascript():
 
 
 @register.simple_tag
-def bootstrap_formset(*args, **kwargs):
+def bootstrap_formset(formset, **kwargs):
     """
     Render a formset.
 
@@ -238,11 +238,11 @@ def bootstrap_formset(*args, **kwargs):
 
         {% bootstrap_formset formset layout='horizontal' %}
     """
-    return render_formset(*args, **kwargs)
+    return render_formset(formset, **kwargs)
 
 
 @register.simple_tag
-def bootstrap_formset_errors(*args, **kwargs):
+def bootstrap_formset_errors(formset, **kwargs):
     """
     Render formset errors.
 
@@ -266,11 +266,11 @@ def bootstrap_formset_errors(*args, **kwargs):
 
         {% bootstrap_formset_errors formset layout='inline' %}
     """
-    return render_formset_errors(*args, **kwargs)
+    return render_formset_errors(formset, **kwargs)
 
 
 @register.simple_tag
-def bootstrap_form(*args, **kwargs):
+def bootstrap_form(form, **kwargs):
     """
     Render a form.
 
@@ -308,11 +308,11 @@ def bootstrap_form(*args, **kwargs):
 
         {% bootstrap_form form layout='inline' %}
     """
-    return render_form(*args, **kwargs)
+    return render_form(form, **kwargs)
 
 
 @register.simple_tag
-def bootstrap_form_errors(*args, **kwargs):
+def bootstrap_form_errors(form, **kwargs):
     """
     Render form errors.
 
@@ -347,11 +347,11 @@ def bootstrap_form_errors(*args, **kwargs):
 
         {% bootstrap_form_errors form layout='inline' %}
     """
-    return render_form_errors(*args, **kwargs)
+    return render_form_errors(form, **kwargs)
 
 
 @register.simple_tag
-def bootstrap_field(*args, **kwargs):
+def bootstrap_field(field, **kwargs):
     """
     Render a field.
 
@@ -480,11 +480,11 @@ def bootstrap_field(*args, **kwargs):
 
         {% bootstrap_field field show_label=False %}
     """
-    return render_field(*args, **kwargs)
+    return render_field(field, **kwargs)
 
 
 @register.simple_tag
-def bootstrap_label(*args, **kwargs):
+def bootstrap_label(content, **kwargs):
     """
     Render a label.
 
@@ -514,11 +514,11 @@ def bootstrap_label(*args, **kwargs):
 
         {% bootstrap_label "Email address" label_for="exampleInputEmail1" %}
     """
-    return render_label(*args, **kwargs)
+    return render_label(content, **kwargs)
 
 
 @register.simple_tag
-def bootstrap_button(*args, **kwargs):
+def bootstrap_button(content, **kwargs):
     """
     Render a button.
 
@@ -582,11 +582,11 @@ def bootstrap_button(*args, **kwargs):
 
         {% bootstrap_button "Save" button_type="submit" button_class="btn-primary" %}
     """
-    return render_button(*args, **kwargs)
+    return render_button(content, **kwargs)
 
 
 @register.simple_tag
-def bootstrap_alert(content, alert_type="info", dismissible=True, extra_classes=""):
+def bootstrap_alert(content, **kwargs):
     """
     Render an alert.
 
@@ -625,11 +625,11 @@ def bootstrap_alert(content, alert_type="info", dismissible=True, extra_classes=
 
         {% bootstrap_alert "Something went wrong" alert_type="error" %}
     """
-    return render_alert(content, alert_type, dismissible, extra_classes)
+    return render_alert(content, **kwargs)
 
 
 @register.simple_tag(takes_context=True)
-def bootstrap_messages(context, *args, **kwargs):
+def bootstrap_messages(context):
     """
     Show django.contrib.messages Messages in Bootstrap alert containers.
 
@@ -720,7 +720,14 @@ def bootstrap_url_replace_param(url, name, value):
 
 
 def get_pagination_context(
-    page, pages_to_show=11, url=None, size=None, justify_content=None, extra=None, parameter_name="page"
+    page,
+    *,
+    pages_to_show=11,
+    url=None,
+    size=None,
+    justify_content=None,
+    extra=None,
+    parameter_name="page",
 ):
     """Generate Bootstrap pagination context from a page object."""
     pages_to_show = int(pages_to_show)
