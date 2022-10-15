@@ -36,7 +36,7 @@ def render_label(
     content,
     *,
     label_for=None,
-    label_class=None,
+    label_class="form-label",
     label_title="",
 ):
     """Render a label with content."""
