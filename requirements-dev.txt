@@ -7,7 +7,7 @@ pydocstyle==6.1.1
 docformatter==1.5.0
 autoflake==1.7.7
 tox==3.27.0
-wheel==0.38.2
+wheel==0.38.3
 setuptools==65.5.1
 twine==4.0.1
 pillow==9.3.0
