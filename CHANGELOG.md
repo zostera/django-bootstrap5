@@ -1,6 +1,8 @@
 # Changelog
 
 ## 22.2 (in development)
+
+- Add support for Python 3.11.
 - Added .form-label default to `<label>`s. (#180)
 - Update radio_select_button_group widget to BS5 (#313)
 - Fix `addon_before_class` and `addon_after_class`, which were being ignored. (#153)
