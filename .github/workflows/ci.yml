@@ -23,7 +23,7 @@ jobs:
 
       - name: Install GDAL binaries
         run: |
-          sudo apt-update
+          sudo apt-get update
           sudo apt-get install binutils libproj-dev gdal-bin
 
       - run: pip install -U pip
