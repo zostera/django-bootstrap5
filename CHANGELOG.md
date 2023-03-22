@@ -1,5 +1,9 @@
 # Changelog
 
+## 23.1 (in development)
+
+- Fix GitHub Actions and Dependabot.
+
 ## 22.2 (2022-11-22)
 
 - Add support for Python 3.11. (#389)
