@@ -552,13 +552,9 @@ def bootstrap_button(content, **kwargs):
 
             Accepts one of the following values:
 
-                * ``'xs'``
                 * ``'sm'``
-                * ``'small'``
-                * ``'md'``
-                * ``'medium'``
+                * ``'md'`` (default)
                 * ``'lg'``
-                * ``'large'``
 
         href
             Render the button as an ``<a>`` element. The ``href`` attribute is set with this value.
