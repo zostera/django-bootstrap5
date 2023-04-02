@@ -2,6 +2,7 @@
 
 ## 23.1
 
+- Update Bootstrap to 5.2.3.
 - Updated requirements and packages.
 - Stop using coveralls service (#459).
 
