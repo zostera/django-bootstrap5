@@ -1,6 +1,6 @@
 # Changelog
 
-## 23.1 (in development)
+## 23.1 (2023-04-02)
 
 - Fix documentation for button sizes (#457).
 - Update Bootstrap to 5.2.3 (#393).
