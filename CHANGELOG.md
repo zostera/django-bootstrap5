@@ -1,8 +1,14 @@
 # Changelog
 
-## 22.2 (in development)
+## 23.1
 
-- Add support for Python 3.11.
+- Updated requirements and packages.
+- Stop using coveralls service (#459).
+
+## 22.2 (2022-11-22)
+
+- Add support for Python 3.11. (#389)
+- Make it easier to override templates in custom renderers. (#373)
 - Added .form-label default to `<label>`s. (#180)
 - Update radio_select_button_group widget to BS5 (#313)
 - Fix `addon_before_class` and `addon_after_class`, which were being ignored. (#153)
