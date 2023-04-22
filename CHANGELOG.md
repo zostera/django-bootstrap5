@@ -1,5 +1,9 @@
 # Changelog
 
+## 23.2 (in development)
+
+- Add support for Django 4.2 ().
+
 ## 23.1 (2023-04-02)
 
 - Fix documentation for button sizes (#457).
