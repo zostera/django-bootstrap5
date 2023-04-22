@@ -12,7 +12,6 @@ class BootstrapFieldParameterTestCase(BootstrapTestCase):
 
     def test_wrapper_class(self):
         """Test field with default CharField widget."""
-
         form = CharFieldTestForm()
 
         self.assertHTMLEqual(
@@ -57,7 +56,6 @@ class BootstrapFieldParameterTestCase(BootstrapTestCase):
 
     def test_inline_wrapper_class(self):
         """Test field with default CharField widget."""
-
         form = CharFieldTestForm()
 
         self.assertHTMLEqual(

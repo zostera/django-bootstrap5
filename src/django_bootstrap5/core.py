@@ -46,7 +46,6 @@ def get_bootstrap_setting(name, default=None):
     2. `django-bootstrap5` defaults
     3. Given default value
     """
-
     bootstrap5_settings = getattr(settings, "BOOTSTRAP5", {})
     return bootstrap5_settings.get(name, BOOTSTRAP5_DEFAULTS.get(name, default))
 

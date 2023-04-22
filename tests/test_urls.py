@@ -11,7 +11,6 @@ from django_bootstrap5.core import get_bootstrap_setting
 class UrlValidityTestCase(TestCase):
     def test_get_bootstrap_setting(self):
         """Tests that it's possible to pull the URLs listed in the settings, and the hashes match."""
-
         logger = logging.getLogger(__name__)
 
         jsurl = get_bootstrap_setting("javascript_url")
