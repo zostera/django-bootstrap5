@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 try:
     from importlib.metadata import metadata
@@ -13,16 +12,18 @@ project_metadata = metadata(PROJECT_NAME)
 
 project = project_metadata["name"]
 author = project_metadata["author"]
-year = datetime.now().year
-copyright = f"{year}, {author}"
+copyright = f"2020, {author}"
 
 # The full version, including alpha/beta/rc tags, in x.y.z.misc format
 release = project_metadata["version"]
 # The short X.Y version.
 version = ".".join(release.split(".")[:2])
 
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.viewcode", "m2r2"]
-source_suffix = [".rst", ".md"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "sphinx_mdinclude",
+]
 pygments_style = "sphinx"
 htmlhelp_basename = f"{PROJECT_NAME}-doc"
 
