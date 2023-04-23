@@ -13,3 +13,4 @@ twine==4.0.2
 pillow==9.5.0
 coverage[toml]==7.2.3
 beautifulsoup4==4.12.2
+check-manifest==0.49

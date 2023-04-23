@@ -17,7 +17,6 @@ class InputTypeTextTestCase(BootstrapTestCase):
 
     def test_input_type_text(self):
         """Test field with default CharField widget."""
-
         form = CharFieldTestForm()
 
         self.assertHTMLEqual(
@@ -45,7 +44,6 @@ class InputTypeTextTestCase(BootstrapTestCase):
 
     def test_input_type_text_more(self):
         """Test field with default CharField widget."""
-
         form = CharFieldTestForm()
 
         self.assertHTMLEqual(
@@ -163,7 +161,6 @@ class InputTypeTextTestCase(BootstrapTestCase):
 
     def test_input_validation_failure(self):
         """Test field with default CharField widget and min-length requirement to trigger validation errors."""
-
         form = CharFieldRequiredTestForm(data={"test": ""})
         self.assertFalse(form.is_valid())
 
