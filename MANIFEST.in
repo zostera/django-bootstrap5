@@ -1,17 +1,20 @@
-global-exclude *.py[co]
+include README.md
 include LICENSE
 include MANIFEST.in
 include AUTHORS
 include tox.ini
 include manage.py
-exclude .*
+
+exclude .readthedocs.yml
 exclude Makefile
 exclude requirements-dev.txt
-exclude CHANGELOG.md
-exclude CONTRIBUTING.md
-exclude MIGRATE.md
+exclude *.md
+
 graft src
 graft tests
 graft docs
+
 prune docs/_build
 prune example
+
+global-exclude *.py[co]
