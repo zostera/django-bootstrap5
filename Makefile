@@ -1,7 +1,7 @@
 NAME:= $(shell python -c 'from setuptools.config.setupcfg import read_configuration as c; print(c("setup.cfg")["metadata"]["name"])')
 VERSION:= $(shell python -c 'from setuptools.config.setupcfg import read_configuration as c; print(c("setup.cfg")["metadata"]["version"])')
 PACKAGE_DIR:= src/$(subst -,_,$(NAME))
-SOURCE_FILES:= ${PACKAGE_DIR} tests *.py
+SOURCE_FILES:= ${PACKAGE_DIR} tests example *.py
 
 .PHONY: test
 test:
@@ -17,7 +17,7 @@ tox:
 reformat:
 	autoflake -ir --remove-all-unused-imports ${SOURCE_FILES}
 	isort ${SOURCE_FILES}
-	docformatter -ir --pre-summary-newline --wrap-summaries=0 --wrap-descriptions=0 ${SOURCE_FILES}
+	-docformatter -ir --pre-summary-newline --wrap-summaries=0 --wrap-descriptions=0 ${SOURCE_FILES}
 	black .
 
 .PHONY: lint
