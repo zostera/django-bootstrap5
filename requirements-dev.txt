@@ -6,7 +6,7 @@ flake8==6.0.0
 pydocstyle==6.3.0
 docformatter==1.6.0
 autoflake==2.1.1
-tox==4.4.12
+tox==4.5.0
 wheel==0.40.0
 setuptools==67.7.1
 twine==4.0.2
