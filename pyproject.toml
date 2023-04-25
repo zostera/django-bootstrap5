@@ -25,7 +25,7 @@ select = [
     "D",     # pydocstyle
     "E",     # pycodestyle
     "F",     # flake8
-    "I",     # isort (sorting)
+    "I",     # isort
     "UP",    # pyupgrade
 ]
 ignore = [
