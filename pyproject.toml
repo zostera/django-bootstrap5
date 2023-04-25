@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.black]
@@ -8,7 +8,7 @@ target_version = ["py37", "py38", "py39", "py310", "py311"]
 
 [tool.coverage.run]
 branch = true
-source = ["django_bootstrap5"]
+source = ["django_marina"]
 
 [tool.coverage.paths]
 source = ["src", ".tox/*/site-packages"]
@@ -25,7 +25,7 @@ select = [
     "D",     # pydocstyle
     "E",     # pycodestyle
     "F",     # flake8
-    "I",     # isort
+    "I",     # isort (sorting)
     "UP",    # pyupgrade
 ]
 ignore = [
@@ -47,5 +47,5 @@ unfixable = [
 ]
 
 [tool.ruff.isort]
-known-first-party = ["django_bootstrap5", "app"]
+known-first-party = ["django_marina", "app"]
 known-third-party = ["django"]
