@@ -3,6 +3,7 @@
 ## 23.2 (in development)
 
 - Add support for Django 4.2 ().
+- Set version in setup.cfg ().
 
 ## 23.1 (2023-04-02)
 
