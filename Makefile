@@ -15,15 +15,12 @@ tox:
 
 .PHONY: reformat
 reformat:
-	autoflake -ir --remove-all-unused-imports ${SOURCE_FILES}
-	isort ${SOURCE_FILES}
-	-docformatter -ir --pre-summary-newline --wrap-summaries=0 --wrap-descriptions=0 ${SOURCE_FILES}
+	ruff check . --fix
 	black .
 
 .PHONY: lint
 lint:
-	flake8 ${SOURCE_FILES}
-	pydocstyle ${SOURCE_FILES}
+	ruff . --no-fix
 
 .PHONY: docs
 docs:
