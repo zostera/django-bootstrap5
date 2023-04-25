@@ -2,4 +2,12 @@ __all__ = [
     "__version__",
 ]
 
-__version__ = "23.1"
+PACKAGE_NAME = "django-bootstrap5"
+
+try:
+    from importlib.metadata import metadata
+except ImportError:
+    from importlib_metadata import metadata
+
+package_metadata = metadata(PACKAGE_NAME)
+__version__ = package_metadata["Version"]
