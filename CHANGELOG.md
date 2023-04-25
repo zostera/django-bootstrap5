@@ -2,8 +2,9 @@
 
 ## 23.2 (in development)
 
-- Add support for Django 4.2 ().
-- Set version in setup.cfg ().
+- Add support for Django 4.2 (#480).
+- User ruff for linting and formatting (#482).
+- Move version to setup.cfg (#487).
 
 ## 23.1 (2023-04-02)
 
