@@ -1,8 +1,3 @@
-NAME:= $(shell python -c 'from setuptools.config.setupcfg import read_configuration as c; print(c("setup.cfg")["metadata"]["name"])')
-VERSION:= $(shell python -c 'from setuptools.config.setupcfg import read_configuration as c; print(c("setup.cfg")["metadata"]["version"])')
-PACKAGE_DIR:= src/$(subst -,_,$(NAME))
-SOURCE_FILES:= ${PACKAGE_DIR} tests example *.py
-
 .PHONY: test
 test:
 	coverage run manage.py test
@@ -15,15 +10,13 @@ tox:
 
 .PHONY: reformat
 reformat:
-	autoflake -ir --remove-all-unused-imports ${SOURCE_FILES}
-	isort ${SOURCE_FILES}
-	-docformatter -ir --pre-summary-newline --wrap-summaries=0 --wrap-descriptions=0 ${SOURCE_FILES}
+	ruff check . --fix
 	black .
 
 .PHONY: lint
 lint:
-	flake8 ${SOURCE_FILES}
-	pydocstyle ${SOURCE_FILES}
+	ruff . --no-fix
+	black . --check
 
 .PHONY: docs
 docs:
@@ -53,6 +46,7 @@ build: docs
 	python -m build .
 
 .PHONY: publish
+publish: VERSION := $(shell python -c 'from setuptools.config.setupcfg import read_configuration as c; print(c("setup.cfg")["metadata"]["version"])')
 publish: porcelain branch build
 	twine upload dist/*
 	rm -rf build dist *.egg-info
