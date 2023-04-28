@@ -17,7 +17,9 @@ Ready for production. Issues and pull requests welcome, see [CONTRIBUTING.md](CO
 
 ## Requirements
 
-Python 3.7 or newer with Django 3.2 or newer.
+This package requires a combination of Python and Django that is currently supported.
+
+See "Supported Versions" on https://www.djangoproject.com/download/.
 
 ## Documentation
 
