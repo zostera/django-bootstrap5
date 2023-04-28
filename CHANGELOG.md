@@ -1,6 +1,6 @@
 # Changelog
 
-## 23.2 (in development)
+## 23.2 (2023-04-28)
 
 - Update packaging, reduce dependencies (#487, #488, #494).
 - Drop support for Django 4.0 (#494).
