@@ -9,7 +9,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at <https://github.com/zostera/django-$1/issues>.
+Report bugs at <https://github.com/zostera/django-bootstrap5/issues>.
 
 If you are reporting a bug, please include:
 
@@ -27,12 +27,12 @@ Look through the GitHub issues for features. Anything tagged with \"feature\" is
 
 ### Write Documentation
 
-`django-$1` could always use more documentation, whether as part of the official django-$1 docs, in docstrings, or even on the web in blog posts, articles, and such.
+`django-bootstrap5` could always use more documentation, whether as part of the official django-bootstrap5 docs, in docstrings, or even on the web in blog posts, articles, and such.
 
 ### Submit Feedback
 
 The best way to send feedback is to file an issue at
-<https://github.com/zostera/django-$1/issues>.
+<https://github.com/zostera/django-bootstrap5/issues>.
 
 If you are proposing a feature:
 
@@ -41,7 +41,7 @@ If you are proposing a feature:
 
 ## Get Started!
 
-Ready to contribute? Here\'s how to set up `django-$1` for local development.
+Ready to contribute? Here\'s how to set up `django-bootstrap5` for local development.
 
 You will need some knowledge of git, github, and Python/Django development. Using a Python virtual environment is advised.
 
@@ -52,8 +52,8 @@ This section assumes you know about local Python versions and virtual environmen
 To clone the repository and install the requirements for local development:
 
 ```shell-script
-git clone git://github.com/zostera/django-$1.git
-cd django-$1
+git clone git://github.com/zostera/django-bootstrap5.git
+cd django-bootstrap5
 pip install -e .
 pip install -U pip -r requirements-dev.txt
 ```
