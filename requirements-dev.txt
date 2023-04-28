@@ -1,11 +1,12 @@
 -r docs/requirements.txt
 django==4.2
 black==23.3.0
-coverage[toml]==7.2.3
+coverage[toml]==7.2.4
 tox==4.5.1
 setuptools==67.7.2
 twine==4.0.2
+pillow==9.5.0
 check-manifest==0.49
 ruff==0.0.263
+beautifulsoup4>=4.12.2
 pillow==9.5.0
-beautifulsoup4==4.12.2

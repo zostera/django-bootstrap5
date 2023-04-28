@@ -2,6 +2,8 @@
 
 ## 23.2 (in development)
 
+- Update packaging, reduce dependencies (#487, #488, #494).
+- Drop support for Django 4.0 (#494).
 - Add support for Django 4.2 (#480).
 - User ruff for linting and formatting (#482).
 - Move version to setup.cfg (#487).
