@@ -7,6 +7,6 @@ setuptools==67.7.2
 twine==4.0.2
 pillow==9.5.0
 check-manifest==0.49
-ruff==0.0.264
+ruff==0.0.265
 beautifulsoup4>=4.12.2
 pillow==9.5.0
