@@ -35,11 +35,13 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label class="form-label">Test</label>'
                 '<div id="id_test" class="btn-group" role="group">'
-                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_0" value="1" required>'
+                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_0" value="1" '
+                "required>"
                 '<label class="btn btn-outline-primary" for="id_test_0">one</label>'
-                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_1" value="2" required>'
+                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_1" value="2" '
+                "required>"
                 '<label class="btn btn-outline-primary" for="id_test_1">two</label>'
-                '</div>'
+                "</div>"
                 "</div>"
             ),
         )
@@ -53,11 +55,13 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
                 '<label class="col-sm-2 col-form-label">Test</label>'
                 '<div class="col-sm-10">'
                 '<div id="id_test" class="btn-group" role="group">'
-                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_0" value="1" required>'
+                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_0" value="1" '
+                "required>"
                 '<label class="btn btn-outline-primary" for="id_test_0">one</label>'
-                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_1" value="2" required>'
+                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_1" value="2" '
+                "required>"
                 '<label class="btn btn-outline-primary" for="id_test_1">two</label>'
-                '</div>'
+                "</div>"
                 "</div>"
                 "</div>"
             ),
@@ -71,11 +75,13 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label class="form-label">Test</label>'
                 '<div id="id_test" class="btn-group" role="group">'
-                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_0" value="1" required>'
+                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_0" value="1" '
+                "required>"
                 '<label class="btn btn-outline-primary" for="id_test_0">one</label>'
-                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_1" value="2" required>'
+                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_1" value="2" '
+                "required>"
                 '<label class="btn btn-outline-primary" for="id_test_1">two</label>'
-                '</div>'
+                "</div>"
                 "</div>"
             ),
         )
@@ -89,11 +95,13 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label class="form-label">Test</label>'
                 '<div id="id_test" class="btn-group" role="group">'
-                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_0" value="1" disabled required>'
+                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_0" value="1" '
+                "disabled required>"
                 '<label class="btn btn-outline-primary" for="id_test_0">one</label>'
-                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_1" value="2" disabled required>'
+                '<input type="radio" class=" btn-check" autocomplete="off" name="test" id="id_test_1" value="2" '
+                "disabled required>"
                 '<label class="btn btn-outline-primary" for="id_test_1">two</label>'
-                '</div>'
+                "</div>"
                 "</div>"
             ),
         )

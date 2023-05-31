@@ -347,8 +347,9 @@ class FieldRenderer(BaseRenderer):
         for widget in widgets:
             self.add_widget_class_attrs(widget)
             self.add_placeholder_attrs(widget)
-            if (isinstance(widget, (RadioSelect, CheckboxSelectMultiple))
-                    and not isinstance(widget, RadioSelectButtonGroup)):
+            if isinstance(widget, (RadioSelect, CheckboxSelectMultiple)) and not isinstance(
+                widget, RadioSelectButtonGroup
+            ):
                 widget.template_name = "django_bootstrap5/widgets/radio_select.html"
             elif isinstance(widget, ClearableFileInput):
                 widget.template_name = "django_bootstrap5/widgets/clearable_file_input.html"
