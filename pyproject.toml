@@ -94,6 +94,9 @@ matrix.django.dependencies = [
 [tool.hatch.envs.example]
 python = "3.11"
 template = "example"
+dependencies = [
+  "django>=3.2",
+]
 
 [tool.hatch.envs.example.scripts]
 runserver = [
