@@ -6,7 +6,7 @@ This example project only supports the latest version of Django.
 
 To run the example:
 
-```bash
+```console
 git clone https://github.com/zostera/django-bootstrap5.git
 
 cd django-bootstrap5/example
