@@ -26,7 +26,7 @@
 
 - Add support for Python 3.11 (#389).
 - Make it easier to override templates in custom renderers (#373).
-- Added .form-label default to `<label>`s (#180).
+- Added `.form-label` default to `<label>` tags (#180).
 - Update radio_select_button_group widget to BS5 (#313).
 - Fix `addon_before_class` and `addon_after_class`, which were being ignored (#153).
 - Fix to issue (#349) where `has-validation` was incorrectly rounding before and after elements' borders when validated.
@@ -55,6 +55,7 @@
 - Switch to a [CalVer](https://calver.org) YY.MINOR versioning scheme. MINOR is the number of the release in the given year. This is the first release in 2021 using this scheme, so its version is 21.1. The next version this year will be 21.2. The first version in 2022 will be 22.1.
 - Update Bootstrap to 5.1.3 (#167, #194).
 - Add support for Django 4 and Python 3.10 (#193).
+
 ## 2.1.2 (2021-08-16)
 
 - Fix disabled parameter for RadioSelect and CheckboxSelectMultiple (#163).

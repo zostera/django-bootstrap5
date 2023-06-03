@@ -14,4 +14,5 @@ Contents:
    settings
    templates
    widgets
+   contributing
    changelog
