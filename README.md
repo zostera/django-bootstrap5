@@ -29,7 +29,7 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 
 1. Install using pip:
 
-    ```bash
+    ```console
     pip install django-bootstrap5
     ```
 
@@ -62,11 +62,10 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 
 ## Example app
 
-An example app is provided in the folder `example`. You can run it with `python manage.py runserver`.
+An example app is provided in the folder `example`. You can run the example app with this command:
 
-```bash
-cd example
-python manage.py runserver
+```console
+make example
 ```
 
 ## Bugs and suggestions
