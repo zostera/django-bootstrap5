@@ -2,7 +2,7 @@
 
 ## 23.3 (2023-06-03)
 
-- Switch to Hatch for builds and environments (#515.
+- Switch to Hatch for builds and environments (#515).
 - Improve and fix CI on GitHub Actions (#515).
 - Reinstate coveralls (#515).
 - Update Sphinx and switch to Furo theme (#515).
