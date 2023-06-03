@@ -1,5 +1,12 @@
 # Changelog
 
+## 23.3 (2023-06-03)
+
+- Switch to Hatch for builds and environments (#403).
+- Improve and fix CI on GitHub Actions (#403).
+- Reinstate coveralls (#403).
+- Update Sphinx and switch to Furo theme (#403).
+
 ## 23.2 (2023-04-29)
 
 - Update packaging, reduce dependencies (#487, #488, #494).
