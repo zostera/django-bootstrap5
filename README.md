@@ -62,7 +62,7 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 
 ## Example app
 
-An example app is provided in the folder `example`. You can run with this command:
+An example app is provided in the folder `example`. You can run the example app with this command:
 
 ```console
 make example
