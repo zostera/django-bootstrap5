@@ -687,6 +687,17 @@ def bootstrap_pagination(page, **kwargs):
 
             :default: ``None``
 
+        justify_content
+            Controls the alignment of the pagination through CSS. Defaults to no alignment.
+
+            One of the following:
+
+                * ``'start'``
+                * ``'center'``
+                * ``'end'``
+
+            :default: ``None``
+
         extra
             Any extra page parameters.
 
