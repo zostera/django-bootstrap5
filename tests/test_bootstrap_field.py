@@ -1,6 +1,6 @@
 from django import forms
 
-from .base import BootstrapTestCase, html_39x27
+from .base import BootstrapTestCase
 
 
 class XssTestForm(forms.Form):
@@ -36,9 +36,9 @@ class FieldTestCase(BootstrapTestCase):
     def test_xss_field(self):
         html = self.render("{% bootstrap_field form.xss_field %}", {"form": XssTestForm()})
         self.assertIn('type="text"', html)
-        self.assertIn(html_39x27(">XSS&quot; onmouseover=&quot;alert(&#x27;Hello, XSS&#x27;)&quot; foo=&quot;<"), html)
+        self.assertIn((">XSS&quot; onmouseover=&quot;alert(&#x27;Hello, XSS&#x27;)&quot; foo=&quot;<"), html)
         self.assertIn(
-            html_39x27('placeholder="XSS&quot; onmouseover=&quot;alert(&#x27;Hello, XSS&#x27;)&quot; foo=&quot;"'), html
+            ('placeholder="XSS&quot; onmouseover=&quot;alert(&#x27;Hello, XSS&#x27;)&quot; foo=&quot;"'), html
         )
 
     def test_empty_permitted(self):
