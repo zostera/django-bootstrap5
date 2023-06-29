@@ -1,17 +1,34 @@
 # Changelog
 
-## 23.1
+## 23.3 (2023-06-03)
 
-- Updated requirements and packages.
+- Switch to Hatch for builds and environments (#515).
+- Improve and fix CI on GitHub Actions (#515).
+- Reinstate coveralls (#515).
+- Update Sphinx and switch to Furo theme (#515).
+
+## 23.2 (2023-04-29)
+
+- Update packaging, reduce dependencies (#487, #488, #494).
+- Drop support for Django 4.0 (#494).
+- Add support for Django 4.2 (#480).
+- User ruff for linting and formatting (#482).
+- Move version to setup.cfg (#487).
+
+## 23.1 (2023-04-02)
+
+- Fix documentation for button sizes (#457).
+- Update Bootstrap to 5.2.3 (#393).
+- Updated requirements and packages (#458).
 - Stop using coveralls service (#459).
 
 ## 22.2 (2022-11-22)
 
-- Add support for Python 3.11. (#389)
-- Make it easier to override templates in custom renderers. (#373)
-- Added .form-label default to `<label>`s. (#180)
-- Update radio_select_button_group widget to BS5 (#313)
-- Fix `addon_before_class` and `addon_after_class`, which were being ignored. (#153)
+- Add support for Python 3.11 (#389).
+- Make it easier to override templates in custom renderers (#373).
+- Added `.form-label` default to `<label>` tags (#180).
+- Update radio_select_button_group widget to BS5 (#313).
+- Fix `addon_before_class` and `addon_after_class`, which were being ignored (#153).
 - Fix to issue (#349) where `has-validation` was incorrectly rounding before and after elements' borders when validated.
 - Update the default JS and CSS urls mentioned on the settings page of the documentation.
 
@@ -26,7 +43,7 @@
 - Drop support for Python 3.6 (EOL, #247, #248).
 - Drop support for Django 3.1 (EOL, #247, #248).
 - Fix tests for Django 4.1 (#247).
-- Update example app (#250)
+- Update example app (#250).
 
 ## 21.2 (2021-12-12)
 
@@ -38,6 +55,7 @@
 - Switch to a [CalVer](https://calver.org) YY.MINOR versioning scheme. MINOR is the number of the release in the given year. This is the first release in 2021 using this scheme, so its version is 21.1. The next version this year will be 21.2. The first version in 2022 will be 22.1.
 - Update Bootstrap to 5.1.3 (#167, #194).
 - Add support for Django 4 and Python 3.10 (#193).
+
 ## 2.1.2 (2021-08-16)
 
 - Fix disabled parameter for RadioSelect and CheckboxSelectMultiple (#163).

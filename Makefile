@@ -1,33 +1,30 @@
-.PHONY: test tox reformat lint docs porcelain branch build publish example
+VERSION := $(shell hatch version)
 
-PROJECT_DIR=src/django_bootstrap5
-PYTHON_SOURCES=${PROJECT_DIR} tests example *.py
-
-example:
-	cd example && python manage.py runserver
-
+.PHONY: test
 test:
-	coverage run manage.py test
-	coverage report
+	hatch run test
 
-tox:
-	rm -rf .tox
-	tox
+.PHONY: tests
+tests:
+	hatch run all:test
 
+.PHONY: reformat
 reformat:
-	autoflake -ir --remove-all-unused-imports ${PYTHON_SOURCES}
-	isort ${PYTHON_SOURCES}
-	docformatter -ir --pre-summary-newline --wrap-summaries=0 --wrap-descriptions=0 ${PYTHON_SOURCES}
-	black .
+	hatch run lint:fmt
 
+.PHONY: lint
 lint:
-	flake8 ${PYTHON_SOURCES}
-	pydocstyle --add-ignore=D1,D202,D301,D413 ${PYTHON_SOURCES}
+	hatch run lint:style
 
+.PHONY: docs
 docs:
-	rm -rf docs/_build
-	cd docs && sphinx-build -b html -d _build/doctrees . _build/html
+	hatch run docs:build
 
+.PHONY: example
+example:
+	hatch run example:runserver
+
+.PHONY: porcelain
 porcelain:
 ifeq ($(shell git status --porcelain),)
 	@echo "Working directory is clean."
@@ -36,6 +33,7 @@ else
 	@exit 1;
 endif
 
+.PHONY: branch
 branch:
 ifeq ($(shell git rev-parse --abbrev-ref HEAD),main)
 	@echo "On branch main."
@@ -44,11 +42,13 @@ else
 	@exit 1;
 endif
 
+.PHONY: build
 build: docs
-	rm -rf build
-	rm -rf dist
-	python -m build .
+	rm -rf build dist src/*.egg-info
+	hatch build
 
+.PHONY: publish
 publish: porcelain branch build
-	twine upload dist/*
-	rm -rf dist
+	hatch publish
+	git tag -a v${VERSION} -m "Release ${VERSION}"
+	git push origin --tags

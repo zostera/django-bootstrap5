@@ -17,7 +17,9 @@ Ready for production. Issues and pull requests welcome, see [CONTRIBUTING.md](CO
 
 ## Requirements
 
-Python 3.7 or newer with Django 3.2 or newer.
+This package requires a combination of Python and Django that is currently supported.
+
+See "Supported Versions" on https://www.djangoproject.com/download/.
 
 ## Documentation
 
@@ -27,7 +29,7 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 
 1. Install using pip:
 
-    ```bash
+    ```console
     pip install django-bootstrap5
     ```
 
@@ -60,11 +62,10 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 
 ## Example app
 
-An example app is provided in the folder `example`. You can run it with `python manage.py runserver`.
+An example app is provided in the folder `example`. You can run the example app with this command:
 
-```bash
-cd example
-python manage.py runserver
+```console
+make example
 ```
 
 ## Bugs and suggestions
