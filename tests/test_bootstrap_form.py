@@ -14,6 +14,10 @@ class ShowLabelTestForm(forms.Form):
     subject = forms.CharField()
 
 
+class CheckboxTestForm(forms.Form):
+    test = forms.BooleanField()
+
+
 class NonFieldErrorTestForm(FormTestForm):
     non_field_error_message = "This is a non field error."
 
@@ -144,4 +148,42 @@ class ShowLabelTestCase(BootstrapTestCase):
         self.assertInHTML(
             '<label class="visually-hidden" for="id_form-0-subject">Subject</label>',
             self.render("{% bootstrap_formset formset show_label=False %}", {"formset": TestFormSet()}),
+        )
+
+
+class HorizontalFormTestCase(BootstrapTestCase):
+    def test_horizontal_field_offset_class(self):
+        """Test form with horizontal field offset class."""
+        form = CheckboxTestForm()
+        html = self.render(
+            "{% bootstrap_form form layout='horizontal' %}",
+            context={"form": form},
+        )
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="django_bootstrap5-req mb-3 row">'
+                '<div class="col-sm-10 offset-sm-2">'
+                '<div class="form-check">'
+                '<input class="form-check-input" id="id_test" name="test" required type="checkbox">'
+                '<label class="form-check-label" for="id_test">Test</label>'
+                "</div>"
+                "</div>"
+            ),
+        )
+        html = self.render(
+            "{% bootstrap_form form layout='horizontal' horizontal_field_offset_class='foo-bar' %}",
+            context={"form": form},
+        )
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="django_bootstrap5-req mb-3 row">'
+                '<div class="col-sm-10 foo-bar">'
+                '<div class="form-check">'
+                '<input class="form-check-input" id="id_test" name="test" required type="checkbox">'
+                '<label class="form-check-label" for="id_test">Test</label>'
+                "</div>"
+                "</div>"
+            ),
         )
