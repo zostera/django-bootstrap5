@@ -1,3 +1,5 @@
+from copy import copy
+
 from django.forms.utils import flatatt
 from django.utils.html import format_html
 
@@ -19,6 +21,11 @@ def render_link_tag(url):
 
 def render_tag(tag, attrs=None, content=None, close=True):
     """Render an HTML tag."""
+    if attrs:
+        for att_name, att_value in copy(attrs).items():
+            if "_" in att_name:
+                attrs[att_name.replace("_", "-")] = att_value
+                del attrs[att_name]
     attrs_string = flatatt(attrs) if attrs else ""
     builder = "<{tag}{attrs}>{content}"
     content_string = text_value(content)
