@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from django import forms
 from django.forms import formset_factory
+from django.test import override_settings
 
 from tests.base import BootstrapTestCase
 
@@ -185,5 +186,79 @@ class HorizontalFormTestCase(BootstrapTestCase):
                 '<label class="form-check-label" for="id_test">Test</label>'
                 "</div>"
                 "</div>"
+            ),
+        )
+
+
+class DefaultLayoutTestCase(BootstrapTestCase):
+    @override_settings(
+        BOOTSTRAP5={
+            "default_layout": "horizontal",
+        },
+    )
+    def test_horizontal_default_layout(self):
+        form = ShowLabelTestForm()
+        html = self.render(
+            "{% bootstrap_form form %}",
+            context={"form": form},
+        )
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="mb-3 row">'
+                '<label class="col-form-label col-sm-2" for="id_subject">'
+                'Subject'
+                '</label>'
+                '<div class="col-sm-10">'
+                '<input class="form-control" id="id_subject" name="subject" placeholder="Subject" required type="text">'
+                '</div>'
+                '</div>'
+            ),
+        )
+
+    @override_settings(
+        BOOTSTRAP5={
+            "default_layout": "inline",
+            "inline_wrapper_class": "custom-inline-wrapper-class",
+        },
+    )
+    def test_inline_default_layout(self):
+        form = ShowLabelTestForm()
+        html = self.render(
+            "{% bootstrap_form form %}",
+            context={"form": form},
+        )
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="col-12 custom-inline-wrapper-class">'
+                '<label class="visually-hidden" for="id_subject">'
+                'Subject'
+                '</label>'
+                '<input class="form-control" id="id_subject" name="subject" placeholder="Subject" required type="text">'
+                "</div>"
+            ),
+        )
+
+    @override_settings(
+        BOOTSTRAP5={
+            "default_layout": "floating",
+        },
+    )
+    def test_floating_default_layout(self):
+        form = ShowLabelTestForm()
+        html = self.render(
+            "{% bootstrap_form form %}",
+            context={"form": form},
+        )
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="form-floating mb-3">'
+                '<input class="form-control" id="id_subject" name="subject" placeholder="Subject" required type="text">'
+                '<label class="form-label" for="id_subject">'
+                'Subject'
+                '</label>'
+                '</div>'
             ),
         )
