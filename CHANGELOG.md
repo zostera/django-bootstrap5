@@ -2,8 +2,8 @@
 
 ## In development
 
-- Drop support for Python 3.7 in test matrix.
-- Fix support for Django 4.2 in test matrix.
+- Drop support for Python 3.7 in test matrix (#533).
+- Fix support for Django 4.2 in test matrix (#533).
 
 ## 23.3 (2023-06-03)
 
