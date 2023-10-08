@@ -1,5 +1,10 @@
 # Changelog
 
+## In development
+
+- Drop support for Python 3.7 in test matrix.
+- Fix support for Django 4.2 in test matrix.
+
 ## 23.3 (2023-06-03)
 
 - Switch to Hatch for builds and environments (#515).
