@@ -1,5 +1,9 @@
 # Changelog
 
+## 23.4 (in development)
+
+- Pass "horizontal_field_offset_class" to child renderers (#391, #521).
+
 ## 23.3 (2023-06-03)
 
 - Switch to Hatch for builds and environments (#515).
