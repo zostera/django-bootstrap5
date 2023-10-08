@@ -17,7 +17,6 @@ classifiers = [
   "License :: OSI Approved :: BSD License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
@@ -35,7 +34,7 @@ dynamic = [
 license = "BSD-3-Clause"
 name = "django-bootstrap5"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 
 [project.urls]
 Changelog = "https://github.com/zostera/django-bootstrap5/blob/main/CHANGELOG.md"
@@ -68,10 +67,6 @@ test = "python manage.py test {args:tests}"
 test-cov = "coverage run manage.py test {args:tests}"
 
 [[tool.hatch.envs.all.matrix]]
-django = ["3.2"]
-python = ["3.7"]
-
-[[tool.hatch.envs.all.matrix]]
 django = ["3.2", "4.1", "4.2"]
 python = ["3.8", "3.9"]
 
@@ -86,17 +81,17 @@ python = ["3.11"]
 [tool.hatch.envs.all.overrides]
 matrix.django.dependencies = [
   {value = "django~=3.2.0", if = ["3.2"]},
-  {value = "django~=4.0.0", if = ["4.0"]},
   {value = "django~=4.1.0", if = ["4.1"]},
+  {value = "django~=4.2.0", if = ["4.2"]},
   {value = "django @ git+https://github.com/django/django.git", if = ["main"]},
 ]
 
 [tool.hatch.envs.example]
-python = "3.11"
-template = "example"
 dependencies = [
   "django>=3.2",
 ]
+python = "3.11"
+template = "example"
 
 [tool.hatch.envs.example.scripts]
 runserver = [

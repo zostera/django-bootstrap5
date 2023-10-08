@@ -94,6 +94,7 @@ class BaseRenderer:
             "size": self.size,
             "horizontal_label_class": self.horizontal_label_class,
             "horizontal_field_class": self.horizontal_field_class,
+            "horizontal_field_offset_class": self.horizontal_field_offset_class,
             "checkbox_layout": self.checkbox_layout,
             "checkbox_style": self.checkbox_style,
             "inline_field_class": self.inline_field_class,
