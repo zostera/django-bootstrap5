@@ -68,6 +68,12 @@ class FieldTestCase(BootstrapTestCase):
         _test_size_medium("md")
         _test_size_medium("")
 
+    def test_input_class(self):
+        self.assertIn(
+            'class="form-control foobar-class"',
+            self.render('{% bootstrap_field form.subject input_class="foobar-class" %}', {"form": SubjectTestForm()}),
+        )
+
     def test_label(self):
         self.assertEqual(
             self.render('{% bootstrap_label "foobar" label_for="subject" %}'),

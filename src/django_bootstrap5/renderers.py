@@ -246,6 +246,8 @@ class FieldRenderer(BaseRenderer):
             else success_css_class
         )
 
+        self.input_class = kwargs.get("input_class", "")
+
     @property
     def is_floating(self):
         return (
@@ -302,7 +304,7 @@ class FieldRenderer(BaseRenderer):
         size_prefix = None
 
         before = []
-        classes = [widget.attrs.get("class", "")]
+        classes = [widget.attrs.get("class", ""), self.input_class]
 
         if ReadOnlyPasswordHashWidget is not None and isinstance(widget, ReadOnlyPasswordHashWidget):
             before.append("form-control-static")

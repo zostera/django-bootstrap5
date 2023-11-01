@@ -472,6 +472,11 @@ def bootstrap_field(field, **kwargs):
 
             :default: ``'has-success'``. Can be changed :doc:`settings`
 
+        input_class
+            CSS class added to the input html element
+
+            :default: ``''``
+
     **Usage**::
 
         {% bootstrap_field field %}
