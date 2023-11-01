@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add `input_class` argument to `bootstrap_field` (#525, #535, thanks @frolenkov-nikita).
 - Warn when `layout="floating"` is used with `addon_before` or `addon_after` (#833).
 - Fix placeholder being set on color and range inputs (#832).
 - Fix bugs in `url_replace_param`, jinja2 helpers, and `BaseRenderer.render`; add AGENTS.md (#830).
