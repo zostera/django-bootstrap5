@@ -2,7 +2,7 @@
 
 ## In development
 
-- Use ruff instead of black for formatting ().
+- Use ruff instead of black for formatting (#536).
 - Drop support for Python 3.7 in test matrix (#533).
 - Fix support for Django 4.2 in test matrix (#533).
 - Pass "horizontal_field_offset_class" to child renderers (#391, #521).
