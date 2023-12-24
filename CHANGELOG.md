@@ -6,9 +6,9 @@
 - Drop support for Python 3.7 in test matrix (#533).
 - Fix support for Django 4.2 in test matrix (#533).
 - Pass "horizontal_field_offset_class" to child renderers (#391, #521).
-- Add support for Django 5.0 ().
-- Add support for Python 3.12 ().
-- Revert packaging tools to setuptools, build, tox and twine ().
+- Add support for Django 5.0 (#538).
+- Add support for Python 3.12 (#538).
+- Revert packaging tools to setuptools, build, tox and twine (#538).
 
 ## 23.3 (2023-06-03)
 
