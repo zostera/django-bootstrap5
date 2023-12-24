@@ -6,12 +6,8 @@ from tests.base import DJANGO_VERSION, BootstrapTestCase
 
 
 class FormTestForm(forms.Form):
-    required_text = forms.CharField(
-        required=True, help_text="<i>required_text_help</i>"
-    )
-    optional_text = forms.CharField(
-        required=False, help_text="<i>required_text_help</i>"
-    )
+    required_text = forms.CharField(required=True, help_text="<i>required_text_help</i>")
+    optional_text = forms.CharField(required=False, help_text="<i>required_text_help</i>")
 
 
 class ShowLabelTestForm(forms.Form):
@@ -66,9 +62,7 @@ class BootstrapFormTestCase(BootstrapTestCase):
         )
         self.assertIn("custom-error-class", html)
 
-        html = self.render(
-            '{% bootstrap_form form error_css_class="" %}', {"form": form}
-        )
+        html = self.render('{% bootstrap_form form error_css_class="" %}', {"form": form})
         self.assertNotIn("django_bootstrap5-err", html)
 
     def test_required_css_class(self):
@@ -82,9 +76,7 @@ class BootstrapFormTestCase(BootstrapTestCase):
         )
         self.assertIn("custom-required-class", html)
 
-        html = self.render(
-            '{% bootstrap_form form required_css_class="" %}', {"form": form}
-        )
+        html = self.render('{% bootstrap_form form required_css_class="" %}', {"form": form})
         self.assertNotIn("django_bootstrap5-req", html)
 
     def test_success_css_class(self):
@@ -103,25 +95,19 @@ class BootstrapFormTestCase(BootstrapTestCase):
 
         form = FormTestForm({"subject": "subject"})
 
-        html = self.render(
-            '{% bootstrap_form form success_css_class="" %}', {"form": form}
-        )
+        html = self.render('{% bootstrap_form form success_css_class="" %}', {"form": form})
         self.assertNotIn("django_bootstrap5-success", html)
 
     def test_alert_error_type(self):
         form = NonFieldErrorTestForm({"subject": "subject"})
 
-        html = self.render(
-            "{% bootstrap_form form alert_error_type='all' %}", {"form": form}
-        )
+        html = self.render("{% bootstrap_form form alert_error_type='all' %}", {"form": form})
         soup = BeautifulSoup(html, "html.parser")
         errors = list(soup.select(".text-danger")[0].stripped_strings)
         self.assertIn(form.non_field_error_message, errors)
         self.assertIn("This field is required.", errors)
 
-        html = self.render(
-            "{% bootstrap_form form alert_error_type='non_fields' %}", {"form": form}
-        )
+        html = self.render("{% bootstrap_form form alert_error_type='non_fields' %}", {"form": form})
         self.assertEqual(
             html,
             self.render("{% bootstrap_form form %}", {"form": form}),
@@ -133,17 +119,13 @@ class BootstrapFormTestCase(BootstrapTestCase):
         self.assertIn(form.non_field_error_message, errors)
         self.assertNotIn("This field is required.", errors)
 
-        html = self.render(
-            "{% bootstrap_form form alert_error_type='fields' %}", {"form": form}
-        )
+        html = self.render("{% bootstrap_form form alert_error_type='fields' %}", {"form": form})
         soup = BeautifulSoup(html, "html.parser")
         errors = list(soup.select(".text-danger")[0].stripped_strings)
         self.assertNotIn(form.non_field_error_message, errors)
         self.assertIn("This field is required.", errors)
 
-        html = self.render(
-            "{% bootstrap_form form alert_error_type='none' %}", {"form": form}
-        )
+        html = self.render("{% bootstrap_form form alert_error_type='none' %}", {"form": form})
         soup = BeautifulSoup(html, "html.parser")
         self.assertFalse(soup.select(".text-danger"))
 
@@ -169,9 +151,7 @@ class ShowLabelTestCase(BootstrapTestCase):
     def test_show_label_sr_only(self):
         self.assertInHTML(
             '<label class="visually-hidden" for="id_subject">Subject</label>',
-            self.render(
-                "{% bootstrap_form form show_label='' %}", {"form": ShowLabelTestForm()}
-            ),
+            self.render("{% bootstrap_form form show_label='' %}", {"form": ShowLabelTestForm()}),
         )
 
     def test_show_label_skip(self):

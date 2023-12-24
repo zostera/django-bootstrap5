@@ -11,9 +11,7 @@ class InputTypeCheckboxTestCase(BootstrapTestCase):
     def test_input_type_checkbox(self):
         """Test field with checkbox widget."""
         self.assertHTMLEqual(
-            self.render(
-                "{% bootstrap_field form.test %}", context={"form": CheckboxTestForm()}
-            ),
+            self.render("{% bootstrap_field form.test %}", context={"form": CheckboxTestForm()}),
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<div class="form-check">'

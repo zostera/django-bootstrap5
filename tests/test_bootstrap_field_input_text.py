@@ -146,21 +146,23 @@ class InputTypeTextTestCase(BootstrapTestCase):
             ),
         )
 
-        self.assertHTMLEqual(
-            self.render(
-                "{% bootstrap_field form.test layout='horizontal' %}",
-                context={"form": form},
+        (
+            self.assertHTMLEqual(
+                self.render(
+                    "{% bootstrap_field form.test layout='horizontal' %}",
+                    context={"form": form},
+                ),
+                (
+                    '<div class="django_bootstrap5-req mb-3 row">'
+                    '<label class="col-form-label col-sm-2" for="id_test">'
+                    "Test"
+                    '</label><div class="col-sm-10">'
+                    '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
+                    "</div>"
+                    "</div>"
+                ),
             ),
-            (
-                '<div class="django_bootstrap5-req mb-3 row">'
-                '<label class="col-form-label col-sm-2" for="id_test">'
-                "Test"
-                '</label><div class="col-sm-10">'
-                '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
-                "</div>"
-                "</div>"
-            ),
-        ),
+        )
 
         self.assertHTMLEqual(
             self.render(
@@ -180,9 +182,7 @@ class InputTypeTextTestCase(BootstrapTestCase):
         form = CharFieldRequiredTestForm(data={"test": ""})
         self.assertFalse(form.is_valid())
 
-        html = self.render(
-            '{% bootstrap_field form.test addon_before="foo" %}', context={"form": form}
-        )
+        html = self.render('{% bootstrap_field form.test addon_before="foo" %}', context={"form": form})
         if DJANGO_VERSION >= "5":
             html = html.replace(' aria-invalid="true"', "")
 
@@ -301,21 +301,23 @@ class InputTypeTextTestCase(BootstrapTestCase):
             ),
         )
 
-        self.assertHTMLEqual(
-            self.render(
-                "{% bootstrap_field form.test layout='horizontal' %}",
-                context={"form": form},
+        (
+            self.assertHTMLEqual(
+                self.render(
+                    "{% bootstrap_field form.test layout='horizontal' %}",
+                    context={"form": form},
+                ),
+                (
+                    '<div class="django_bootstrap5-req mb-3 row">'
+                    '<label class="col-form-label col-sm-2" for="id_test">'
+                    "Test"
+                    '</label><div class="col-sm-10">'
+                    '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="password">'
+                    "</div>"
+                    "</div>"
+                ),
             ),
-            (
-                '<div class="django_bootstrap5-req mb-3 row">'
-                '<label class="col-form-label col-sm-2" for="id_test">'
-                "Test"
-                '</label><div class="col-sm-10">'
-                '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="password">'
-                "</div>"
-                "</div>"
-            ),
-        ),
+        )
 
         self.assertHTMLEqual(
             self.render(
