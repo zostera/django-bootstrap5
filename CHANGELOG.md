@@ -1,6 +1,6 @@
 # Changelog
 
-## In development
+## 23.4 (2023-12-28)
 
 - Use ruff instead of black for formatting (#536).
 - Drop support for Python 3.7 in test matrix (#533).
