@@ -3,7 +3,7 @@ from django import forms
 from django.forms import formset_factory
 from django.test import override_settings
 
-from tests.base import BootstrapTestCase
+from tests.base import DJANGO_VERSION, BootstrapTestCase
 
 
 class FormTestForm(forms.Form):
@@ -33,7 +33,12 @@ class BootstrapFormTestCase(BootstrapTestCase):
             self.render("{% bootstrap_form form %}", {"form": "illegal"})
 
     def test_exclude(self):
-        html = self.render('{% bootstrap_form form exclude="optional_text" %}', {"form": FormTestForm()})
+        html = self.render(
+            '{% bootstrap_form form exclude="optional_text" %}',
+            {"form": FormTestForm()},
+        )
+        if DJANGO_VERSION >= "5":
+            html = html.replace(' aria-describedby="id_required_text_helptext"', "")
         self.assertHTMLEqual(
             html,
             (
@@ -52,7 +57,10 @@ class BootstrapFormTestCase(BootstrapTestCase):
         html = self.render("{% bootstrap_form form %}", {"form": form})
         self.assertIn("django_bootstrap5-err", html)
 
-        html = self.render('{% bootstrap_form form error_css_class="custom-error-class" %}', {"form": form})
+        html = self.render(
+            '{% bootstrap_form form error_css_class="custom-error-class" %}',
+            {"form": form},
+        )
         self.assertIn("custom-error-class", html)
 
         html = self.render('{% bootstrap_form form error_css_class="" %}', {"form": form})
@@ -63,7 +71,10 @@ class BootstrapFormTestCase(BootstrapTestCase):
         html = self.render("{% bootstrap_form form %}", {"form": form})
         self.assertIn("django_bootstrap5-req", html)
 
-        html = self.render('{% bootstrap_form form required_css_class="custom-required-class" %}', {"form": form})
+        html = self.render(
+            '{% bootstrap_form form required_css_class="custom-required-class" %}',
+            {"form": form},
+        )
         self.assertIn("custom-required-class", html)
 
         html = self.render('{% bootstrap_form form required_css_class="" %}', {"form": form})
@@ -77,7 +88,10 @@ class BootstrapFormTestCase(BootstrapTestCase):
 
         form = FormTestForm({"subject": "subject"})
 
-        html = self.render('{% bootstrap_form form success_css_class="successful-test" %}', {"form": form})
+        html = self.render(
+            '{% bootstrap_form form success_css_class="successful-test" %}',
+            {"form": form},
+        )
         self.assertIn("successful-test", html)
 
         form = FormTestForm({"subject": "subject"})
@@ -129,7 +143,10 @@ class ShowLabelTestCase(BootstrapTestCase):
     def test_show_label_false(self):
         self.assertInHTML(
             '<label class="visually-hidden" for="id_subject">Subject</label>',
-            self.render("{% bootstrap_form form show_label=False %}", {"form": ShowLabelTestForm()}),
+            self.render(
+                "{% bootstrap_form form show_label=False %}",
+                {"form": ShowLabelTestForm()},
+            ),
         )
 
     def test_show_label_sr_only(self):
@@ -141,14 +158,20 @@ class ShowLabelTestCase(BootstrapTestCase):
     def test_show_label_skip(self):
         self.assertNotIn(
             "label",
-            self.render("{% bootstrap_form form show_label='skip' %}", {"form": ShowLabelTestForm()}),
+            self.render(
+                "{% bootstrap_form form show_label='skip' %}",
+                {"form": ShowLabelTestForm()},
+            ),
         )
 
     def test_show_label_false_in_formset(self):
         TestFormSet = formset_factory(ShowLabelTestForm, extra=1)
         self.assertInHTML(
             '<label class="visually-hidden" for="id_form-0-subject">Subject</label>',
-            self.render("{% bootstrap_formset formset show_label=False %}", {"formset": TestFormSet()}),
+            self.render(
+                "{% bootstrap_formset formset show_label=False %}",
+                {"formset": TestFormSet()},
+            ),
         )
 
 

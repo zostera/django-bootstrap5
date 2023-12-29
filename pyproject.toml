@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "hatchling.build"
-requires = ["hatchling"]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools>=64", "setuptools_scm>=8"]
 
 [project]
 authors = [
@@ -13,29 +13,26 @@ classifiers = [
   "Framework :: Django :: 3.2",
   "Framework :: Django :: 4.1",
   "Framework :: Django :: 4.2",
+  "Framework :: Django :: 5.0",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: BSD License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.7",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Topic :: Software Development :: Libraries",
   "Topic :: Utilities",
 ]
-dependencies = [
-  "Django>=3.2",
-]
+dependencies = ["Django>=3.2"]
 description = "Bootstrap 5 for Django"
-dynamic = [
-  "version",
-]
-license = "BSD-3-Clause"
+license = {file = "LICENSE"}
 name = "django-bootstrap5"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
+version = "23.4"
 
 [project.urls]
 Changelog = "https://github.com/zostera/django-bootstrap5/blob/main/CHANGELOG.md"
@@ -43,106 +40,6 @@ Documentation = "https://django-bootstrap5.readthedocs.io/"
 Homepage = "https://github.com/zostera/django-bootstrap5"
 Issues = "https://github.com/zostera/django-bootstrap5/issues"
 Source = "https://github.com/zostera/django-bootstrap5"
-
-[tool.hatch.version]
-path = "src/django_bootstrap5/__about__.py"
-
-[tool.hatch.envs.default]
-dependencies = [
-  "coverage[toml]>=7.2.6",
-  "pillow>=9.5.0",
-  "beautifulsoup4>=4.12.2",
-]
-matrix-name-format = "dj{value}"
-
-[tool.hatch.envs.default.scripts]
-cov = [
-  "test-cov",
-  "cov-report",
-]
-cov-report = [
-  "- coverage combine",
-  "coverage report",
-]
-test = "python manage.py test {args:tests}"
-test-cov = "coverage run manage.py test {args:tests}"
-
-[[tool.hatch.envs.all.matrix]]
-django = ["3.2"]
-python = ["3.7"]
-
-[[tool.hatch.envs.all.matrix]]
-django = ["3.2", "4.1", "4.2"]
-python = ["3.8", "3.9"]
-
-[[tool.hatch.envs.all.matrix]]
-django = ["3.2", "4.1", "4.2", "main"]
-python = ["3.10"]
-
-[[tool.hatch.envs.all.matrix]]
-django = ["4.1", "4.2", "main"]
-python = ["3.11"]
-
-[tool.hatch.envs.all.overrides]
-matrix.django.dependencies = [
-  {value = "django~=3.2.0", if = ["3.2"]},
-  {value = "django~=4.0.0", if = ["4.0"]},
-  {value = "django~=4.1.0", if = ["4.1"]},
-  {value = "django @ git+https://github.com/django/django.git", if = ["main"]},
-]
-
-[tool.hatch.envs.example]
-python = "3.11"
-template = "example"
-dependencies = [
-  "django>=3.2",
-]
-
-[tool.hatch.envs.example.scripts]
-runserver = [
-  "cd example && python manage.py migrate && python manage.py runserver",
-]
-
-[tool.hatch.envs.docs]
-dependencies = [
-  "sphinx>=7.0.1",
-  "sphinx-mdinclude>=0.5.3",
-  "furo>=2023.05.20",
-]
-python = "3.11"
-template = "docs"
-
-[tool.hatch.envs.docs.scripts]
-build = [
-  "clean",
-  "cd docs && sphinx-build -b html -d _build/doctrees . _build/html",
-]
-clean = "rm -rf docs/_build"
-
-[tool.hatch.envs.lint]
-dependencies = [
-  "black>=23.3.0",
-  "ruff>=0.0.270",
-]
-detached = true
-
-[tool.hatch.envs.lint.scripts]
-all = [
-  "style",
-]
-fmt = [
-  "black {args:.}",
-  "ruff --fix {args:.}",
-  "style",
-]
-style = [
-  "ruff {args:.}",
-  "black --check --diff {args:.}",
-]
-
-[tool.black]
-line-length = 120
-target_version = ["py37", "py38", "py39", "py310", "py311"]
 
 [tool.ruff]
 fix = false
@@ -167,22 +64,21 @@ select = [
   "UP", # pyupgrade
 ]
 src = ["src"]
-target-version = "py37"
+target-version = "py38"
 unfixable = [
   "F8", # names in flake8, such as defined but unused variables
 ]
 
 [tool.ruff.isort]
-known-first-party = ["django_bootstrap5", "app"]
+known-first-party = ["django_marina", "app"]
 known-third-party = ["django"]
 
 [tool.coverage.run]
 branch = true
-parallel = true
-source = ["src"]
+source = ["src", "tests"]
 
 [tool.coverage.paths]
-package = ["src/django_bootstrap5", "*/django_bootstrap5/src/django_bootstrap5"]
+package = ["src/django_marina", "*/django_marina/src/django_marina"]
 
 [tool.coverage.report]
 show_missing = true
