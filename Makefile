@@ -1,54 +1,64 @@
-.PHONY: test tox reformat lint docs porcelain branch build publish example
+VERSION := $(shell sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml)
 
-PROJECT_DIR=src/django_bootstrap5
-PYTHON_SOURCES=${PROJECT_DIR} tests example *.py
-
-example:
-	cd example && python manage.py runserver
-
+.PHONY: test
 test:
 	coverage run manage.py test
 	coverage report
 
-tox:
-	rm -rf .tox
+.PHONY: tests
+tests:
 	tox
 
+.PHONY: reformat
 reformat:
-	autoflake -ir --remove-all-unused-imports ${PYTHON_SOURCES}
-	isort ${PYTHON_SOURCES}
-	docformatter -ir --pre-summary-newline --wrap-summaries=0 --wrap-descriptions=0 ${PYTHON_SOURCES}
-	black .
+	ruff format .
+	ruff --fix .
 
+.PHONY: lint
 lint:
-	flake8 ${PYTHON_SOURCES}
-	pydocstyle --add-ignore=D1,D202,D301,D413 ${PYTHON_SOURCES}
+	ruff .
 
-docs:
-	rm -rf docs/_build
+.PHONY: docs
+docs: clean
 	cd docs && sphinx-build -b html -d _build/doctrees . _build/html
 
+.PHONY: example
+example:
+	cd example && python manage.py runserver
+
+.PHONY: porcelain
 porcelain:
 ifeq ($(shell git status --porcelain),)
 	@echo "Working directory is clean."
 else
-	@echo "Error - working directory is dirty. Commit those changes!";
+	@echo "Error - working directory is dirty. Commit your changes.";
 	@exit 1;
 endif
 
+.PHONY: branch
 branch:
 ifeq ($(shell git rev-parse --abbrev-ref HEAD),main)
 	@echo "On branch main."
 else
-	@echo "Error - Not on branch main!"
+	@echo "Error - Not on branch main."
 	@exit 1;
 endif
 
+.PHONY: build
 build: docs
-	rm -rf build
-	rm -rf dist
-	python -m build .
+	python -m build
 
+.PHONY: publish
 publish: porcelain branch build
+	twine check dist/*
 	twine upload dist/*
-	rm -rf dist
+	git tag -a v${VERSION} -m "Release ${VERSION}"
+	git push origin --tags
+
+.PHONY: clean
+clean:
+	rm -rf build dist src/*.egg-info .coverage*
+
+.PHONY: version
+version:
+	@echo ${VERSION}

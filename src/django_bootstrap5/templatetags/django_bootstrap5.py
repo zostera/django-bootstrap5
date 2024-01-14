@@ -552,13 +552,9 @@ def bootstrap_button(content, **kwargs):
 
             Accepts one of the following values:
 
-                * ``'xs'``
                 * ``'sm'``
-                * ``'small'``
-                * ``'md'``
-                * ``'medium'``
+                * ``'md'`` (default)
                 * ``'lg'``
-                * ``'large'``
 
         href
             Render the button as an ``<a>`` element. The ``href`` attribute is set with this value.
@@ -688,6 +684,17 @@ def bootstrap_pagination(page, **kwargs):
 
                 * ``'small'``
                 * ``'large'``
+
+            :default: ``None``
+
+        justify_content
+            Controls the alignment of the pagination through CSS. Defaults to no alignment.
+
+            One of the following:
+
+                * ``'start'``
+                * ``'center'``
+                * ``'end'``
 
             :default: ``None``
 

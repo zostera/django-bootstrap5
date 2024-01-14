@@ -1,6 +1,6 @@
 from django import forms
 
-from .base import BootstrapTestCase, html_39x27
+from .base import BootstrapTestCase
 
 
 class XssTestForm(forms.Form):
@@ -33,12 +33,18 @@ class FieldTestCase(BootstrapTestCase):
         self.assertIn('type="text"', html)
         self.assertIn('placeholder="placeholdertest"', html)
 
+    def test_field_class(self):
+        html = self.render(
+            "{% bootstrap_field form.subject field_class='field-class-test' %}", {"form": SubjectTestForm()}
+        )
+        self.assertIn('class="form-control field-class-test"', html)
+
     def test_xss_field(self):
         html = self.render("{% bootstrap_field form.xss_field %}", {"form": XssTestForm()})
         self.assertIn('type="text"', html)
-        self.assertIn(html_39x27(">XSS&quot; onmouseover=&quot;alert(&#x27;Hello, XSS&#x27;)&quot; foo=&quot;<"), html)
+        self.assertIn((">XSS&quot; onmouseover=&quot;alert(&#x27;Hello, XSS&#x27;)&quot; foo=&quot;<"), html)
         self.assertIn(
-            html_39x27('placeholder="XSS&quot; onmouseover=&quot;alert(&#x27;Hello, XSS&#x27;)&quot; foo=&quot;"'), html
+            ('placeholder="XSS&quot; onmouseover=&quot;alert(&#x27;Hello, XSS&#x27;)&quot; foo=&quot;"'), html
         )
 
     def test_empty_permitted(self):
@@ -71,5 +77,5 @@ class FieldTestCase(BootstrapTestCase):
     def test_label(self):
         self.assertEqual(
             self.render('{% bootstrap_label "foobar" label_for="subject" %}'),
-            '<label for="subject">foobar</label>',
+            '<label class="form-label" for="subject">foobar</label>',
         )

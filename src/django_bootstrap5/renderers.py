@@ -25,6 +25,11 @@ from .widgets import ReadOnlyPasswordHashWidget, is_widget_with_placeholder
 class BaseRenderer:
     """A content renderer."""
 
+    # Template paths for overriding in custom subclasses.
+    field_errors_template = "django_bootstrap5/field_errors.html"
+    field_help_text_template = "django_bootstrap5/field_help_text.html"
+    form_errors_template = "django_bootstrap5/form_errors.html"
+
     def __init__(self, **kwargs):
         self.layout = kwargs.get("layout", "")
         self.wrapper_class = kwargs.get("wrapper_class", get_bootstrap_setting("wrapper_class"))
@@ -89,6 +94,7 @@ class BaseRenderer:
             "size": self.size,
             "horizontal_label_class": self.horizontal_label_class,
             "horizontal_field_class": self.horizontal_field_class,
+            "horizontal_field_offset_class": self.horizontal_field_offset_class,
             "checkbox_layout": self.checkbox_layout,
             "checkbox_style": self.checkbox_style,
             "inline_field_class": self.inline_field_class,
@@ -131,7 +137,7 @@ class FormsetRenderer(BaseRenderer):
         formset_errors = self.get_formset_errors()
         if formset_errors:
             return render_template_file(
-                "django_bootstrap5/form_errors.html",
+                self.form_errors_template,
                 context={
                     "errors": formset_errors,
                     "form": self.formset,
@@ -178,7 +184,7 @@ class FormRenderer(BaseRenderer):
 
         if form_errors:
             return render_template_file(
-                "django_bootstrap5/form_errors.html",
+                self.form_errors_template,
                 context={"errors": form_errors, "form": self.form, "layout": self.layout, "type": type},
             )
 
@@ -296,7 +302,7 @@ class FieldRenderer(BaseRenderer):
         size_prefix = None
 
         before = []
-        classes = [widget.attrs.get("class", "")]
+        classes = [widget.attrs.get("class", ""), text_value(self.field_class)]
 
         if ReadOnlyPasswordHashWidget is not None and isinstance(widget, ReadOnlyPasswordHashWidget):
             before.append("form-control-static")
@@ -391,7 +397,7 @@ class FieldRenderer(BaseRenderer):
         help_text = self.help_text or ""
         if help_text:
             return render_template_file(
-                "django_bootstrap5/field_help_text.html",
+                self.field_help_text_template,
                 context={
                     "field": self.field,
                     "help_text": help_text,
@@ -406,7 +412,7 @@ class FieldRenderer(BaseRenderer):
         field_errors = self.field_errors
         if field_errors:
             return render_template_file(
-                "django_bootstrap5/field_errors.html",
+                self.field_errors_template,
                 context={
                     "field": self.field,
                     "field_errors": field_errors,
