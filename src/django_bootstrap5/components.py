@@ -2,10 +2,10 @@ from django.template.defaultfilters import capfirst
 from django.utils.html import format_html
 from django.utils.translation import gettext as _
 
+from .core import get_bootstrap_setting
 from .css import merge_css_classes
 from .html import render_tag
 from .size import DEFAULT_SIZE, SIZE_MD, get_size_class
-from .core import get_bootstrap_setting
 
 ALERT_TYPES = ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"]
 
@@ -21,7 +21,7 @@ def render_alert(
     button = ""
     if alert_type not in ALERT_TYPES:
         raise ValueError(f"Value {alert_type} is not a valid alert type. Please choose from {', '.join(ALERT_TYPES)}.")
-    css_classes = [f"alert alert-{alert_type}"] + get_bootstrap_setting("alert-extra-classes")
+    css_classes = [f"alert alert-{alert_type}"] + get_bootstrap_setting("alert-extra-classes", [])
     if dismissible:
         css_classes.append("alert-dismissible fade show")
         close = capfirst(_("close"))

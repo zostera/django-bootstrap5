@@ -1,7 +1,6 @@
-
+from django.conf import settings
 
 from .base import BootstrapTestCase
-from django.conf import settings
 
 
 class BootstrapAlertTestCase(BootstrapTestCase):
