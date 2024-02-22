@@ -33,6 +33,7 @@ BOOTSTRAP5_DEFAULTS = {
     "field_renderers": {
         "default": "django_bootstrap5.renderers.FieldRenderer",
     },
+    "alert-extra-classes": [],
 }
 
 
