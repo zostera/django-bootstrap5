@@ -21,7 +21,7 @@ def render_alert(
     button = ""
     if alert_type not in ALERT_TYPES:
         raise ValueError(f"Value {alert_type} is not a valid alert type. Please choose from {', '.join(ALERT_TYPES)}.")
-    css_classes = [f"alert alert-{alert_type}"] + get_bootstrap_setting()["alert-extra-classes"]
+    css_classes = [f"alert alert-{alert_type}"] + get_bootstrap_setting("alert-extra-classes")
     if dismissible:
         css_classes.append("alert-dismissible fade show")
         close = capfirst(_("close"))
