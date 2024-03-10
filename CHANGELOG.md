@@ -1,5 +1,15 @@
 # Changelog
 
+## 23.4 (2023-12-28)
+
+- Use ruff instead of black for formatting (#536).
+- Drop support for Python 3.7 in test matrix (#533).
+- Fix support for Django 4.2 in test matrix (#533).
+- Pass "horizontal_field_offset_class" to child renderers (#391, #521).
+- Add support for Django 5.0 (#538).
+- Add support for Python 3.12 (#538).
+- Revert packaging tools to setuptools, build, tox and twine (#538).
+
 ## 23.3 (2023-06-03)
 
 - Switch to Hatch for builds and environments (#515).

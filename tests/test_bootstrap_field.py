@@ -33,6 +33,12 @@ class FieldTestCase(BootstrapTestCase):
         self.assertIn('type="text"', html)
         self.assertIn('placeholder="placeholdertest"', html)
 
+    def test_field_class(self):
+        html = self.render(
+            "{% bootstrap_field form.subject field_class='field-class-test' %}", {"form": SubjectTestForm()}
+        )
+        self.assertIn('class="form-control field-class-test"', html)
+
     def test_xss_field(self):
         html = self.render("{% bootstrap_field form.xss_field %}", {"form": XssTestForm()})
         self.assertIn('type="text"', html)
