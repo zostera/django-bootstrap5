@@ -79,4 +79,6 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
         'field_renderers': {
             'default': 'django_bootstrap5.renderers.FieldRenderer',
         },
+        # Add extra classes to all alerts
+        'alert_extra_classes': [],
     }
