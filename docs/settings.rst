@@ -34,6 +34,9 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
         # The complete URL to the Bootstrap CSS theme file (None means no theme).
         "theme_url": None,
 
+        # Theme color: light, dark https://getbootstrap.com/docs/5.3/customize/color-modes/
+        "theme_color": "dark",
+
         # Put JavaScript in the HEAD section of the HTML document (only relevant if you use bootstrap5.html).
         'javascript_in_head': False,
 
