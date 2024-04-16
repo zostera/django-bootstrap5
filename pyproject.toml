@@ -10,7 +10,6 @@ classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Web Environment",
   "Framework :: Django",
-  "Framework :: Django :: 3.2",
   "Framework :: Django :: 4.1",
   "Framework :: Django :: 4.2",
   "Framework :: Django :: 5.0",
@@ -26,7 +25,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries",
   "Topic :: Utilities",
 ]
-dependencies = ["Django>=3.2"]
+dependencies = ["Django>=4.1"]
 description = "Bootstrap 5 for Django"
 license = {file = "LICENSE"}
 name = "django-bootstrap5"
