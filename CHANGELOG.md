@@ -3,6 +3,7 @@
 ## In development
 
 - Remove support for Django 3.2 (EOL) (#583).
+- Update Bootstrap to 5.3.3 (#584).
 
 ## 24.1 (2024-04-12)
 
