@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = ["setuptools>=64", "setuptools_scm>=8"]
+requires = ["setuptools>=64"]
 
 [project]
 authors = [
@@ -10,7 +10,6 @@ classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Web Environment",
   "Framework :: Django",
-  "Framework :: Django :: 4.1",
   "Framework :: Django :: 4.2",
   "Framework :: Django :: 5.0",
   "Intended Audience :: Developers",
@@ -25,8 +24,9 @@ classifiers = [
   "Topic :: Software Development :: Libraries",
   "Topic :: Utilities",
 ]
-dependencies = ["Django>=4.1"]
+dependencies = ["Django>=4.2"]
 description = "Bootstrap 5 for Django"
+keywords = ["django", "bootstrap", "bootstrap5"]
 license = {file = "LICENSE"}
 name = "django-bootstrap5"
 readme = "README.md"

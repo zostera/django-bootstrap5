@@ -1,0 +1,14 @@
+include LICENSE
+include MANIFEST.in
+include *.yaml
+include pyproject.toml
+include *.md
+include *.py
+include *.txt
+include Makefile
+include tox.ini
+include docs/*.rst docs/*.txt docs/*.py docs/Makefile
+graft src
+graft tests
+global-exclude *.pyc
+prune docs/_build
