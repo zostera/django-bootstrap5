@@ -1,5 +1,5 @@
-tox==4.11.4
-coverage==7.4.0
-ruff==0.1.9
-pillow>=10.1.0
-beautifulsoup4>=4.12.2
+tox==4.14.2
+coverage==7.4.4
+ruff==0.4.1
+pillow>=10.3.0
+beautifulsoup4>=4.12.3
