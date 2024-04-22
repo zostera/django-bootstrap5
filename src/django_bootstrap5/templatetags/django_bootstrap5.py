@@ -33,18 +33,8 @@ MESSAGE_ALERT_TYPES = {
 register = template.Library()
 
 
-@register.filter(name="bootstrap_setting")
-def bootstrap_setting_filter(value):
-    """
-    Return django-bootstrap5 setting for use in in a template.
-
-    Please consider this filter private, do not use it in your own templates.
-    """
-    return get_bootstrap_setting(value)
-
-
-@register.simple_tag(name="bootstrap_setting")
-def bootstrap_setting_tag(value):
+@register.simple_tag
+def bootstrap_setting(value):
     """
     Return django-bootstrap5 setting for use in in a template.
 
@@ -64,13 +54,7 @@ def bootstrap_server_side_validation_class(widget):
         css_classes = _css_class_list([widget["attrs"]["class"]])
     except KeyError:
         return ""
-    return " ".join(
-        [
-            css_class
-            for css_class in css_classes
-            if css_class in ["is-valid", "is-invalid"]
-        ]
-    )
+    return " ".join([css_class for css_class in css_classes if css_class in ["is-valid", "is-invalid"]])
 
 
 @register.simple_tag
@@ -762,9 +746,7 @@ def get_pagination_context(
     """Generate Bootstrap pagination context from a page object."""
     pages_to_show = int(pages_to_show)
     if pages_to_show < 1:
-        raise ValueError(
-            f"Pagination pages_to_show should be a positive integer, you specified {pages_to_show}."
-        )
+        raise ValueError(f"Pagination pages_to_show should be a positive integer, you specified {pages_to_show}.")
 
     num_pages = page.paginator.num_pages
     current_page = page.number
