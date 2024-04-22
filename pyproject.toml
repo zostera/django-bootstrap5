@@ -71,7 +71,7 @@ unfixable = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["django_marina", "app"]
+known-first-party = ["django_bootstrap5", "app"]
 known-third-party = ["django"]
 
 [tool.coverage.run]
@@ -79,7 +79,7 @@ branch = true
 source = ["src", "tests"]
 
 [tool.coverage.paths]
-package = ["src/django_marina", "*/django_marina/src/django_marina"]
+package = ["src/django_bootstrap5", "*/django_bootstrap5/src/django_bootstrap5"]
 
 [tool.coverage.report]
 show_missing = true
