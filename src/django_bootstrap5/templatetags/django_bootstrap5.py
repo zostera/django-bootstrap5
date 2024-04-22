@@ -10,7 +10,14 @@ from django.utils.safestring import mark_safe
 from ..components import render_alert, render_button
 from ..core import css_url, get_bootstrap_setting, javascript_url, theme_url
 from ..css import _css_class_list, merge_css_classes
-from ..forms import render_field, render_form, render_form_errors, render_formset, render_formset_errors, render_label
+from ..forms import (
+    render_field,
+    render_form,
+    render_form_errors,
+    render_formset,
+    render_formset_errors,
+    render_label,
+)
 from ..html import render_link_tag, render_script_tag
 from ..size import get_size_class
 from ..utils import render_template_file, url_replace_param
@@ -26,12 +33,22 @@ MESSAGE_ALERT_TYPES = {
 register = template.Library()
 
 
-@register.filter
-def bootstrap_setting(value):
+@register.filter(name="bootstrap_setting")
+def bootstrap_setting_filter(value):
     """
     Return django-bootstrap5 setting for use in in a template.
 
     Please consider this filter private, do not use it in your own templates.
+    """
+    return get_bootstrap_setting(value)
+
+
+@register.simple_tag(name="bootstrap_setting")
+def bootstrap_setting_tag(value):
+    """
+    Return django-bootstrap5 setting for use in in a template.
+
+    Please consider this tag private, do not use it in your own templates.
     """
     return get_bootstrap_setting(value)
 
@@ -47,7 +64,13 @@ def bootstrap_server_side_validation_class(widget):
         css_classes = _css_class_list([widget["attrs"]["class"]])
     except KeyError:
         return ""
-    return " ".join([css_class for css_class in css_classes if css_class in ["is-valid", "is-invalid"]])
+    return " ".join(
+        [
+            css_class
+            for css_class in css_classes
+            if css_class in ["is-valid", "is-invalid"]
+        ]
+    )
 
 
 @register.simple_tag
@@ -739,7 +762,9 @@ def get_pagination_context(
     """Generate Bootstrap pagination context from a page object."""
     pages_to_show = int(pages_to_show)
     if pages_to_show < 1:
-        raise ValueError(f"Pagination pages_to_show should be a positive integer, you specified {pages_to_show}.")
+        raise ValueError(
+            f"Pagination pages_to_show should be a positive integer, you specified {pages_to_show}."
+        )
 
     num_pages = page.paginator.num_pages
     current_page = page.number
@@ -775,7 +800,14 @@ def get_pagination_context(
     if extra:
         params.update(parse_qs(extra))
     url = urlunparse(
-        [parts.scheme, parts.netloc, parts.path, parts.params, urlencode(params, doseq=True), parts.fragment]
+        [
+            parts.scheme,
+            parts.netloc,
+            parts.path,
+            parts.params,
+            urlencode(params, doseq=True),
+            parts.fragment,
+        ]
     )
 
     pagination_css_classes = ["pagination"]

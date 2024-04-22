@@ -2,7 +2,8 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-<html lang="{{ LANGUAGE_CODE|default:'en_us' }}"{% with color_mode='color_mode'|bootstrap_setting %}{% if color_mode %} data-bs-theme="{{ color_mode }}"{% endif %}{% endwith %}>
+{% bootstrap_setting 'color_mode' as COLOR_MODE %}
+<html lang="{{ LANGUAGE_CODE|default:'en_us' }}"{% if COLOR_MODE %} data-bs-theme="{{ COLOR_MODE }}"{% endif %}>
 <head>
 
     <!-- Required meta tags -->
