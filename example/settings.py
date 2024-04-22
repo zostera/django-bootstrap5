@@ -155,5 +155,4 @@ BOOTSTRAP5 = {
     "error_css_class": "django_bootstrap5-error",
     "required_css_class": "django_bootstrap5-required",
     "javascript_in_head": True,
-    "color_mode": "dark",
 }
