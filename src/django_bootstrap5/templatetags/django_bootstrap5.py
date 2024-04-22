@@ -10,7 +10,14 @@ from django.utils.safestring import mark_safe
 from ..components import render_alert, render_button
 from ..core import css_url, get_bootstrap_setting, javascript_url, theme_url
 from ..css import _css_class_list, merge_css_classes
-from ..forms import render_field, render_form, render_form_errors, render_formset, render_formset_errors, render_label
+from ..forms import (
+    render_field,
+    render_form,
+    render_form_errors,
+    render_formset,
+    render_formset_errors,
+    render_label,
+)
 from ..html import render_link_tag, render_script_tag
 from ..size import get_size_class
 from ..utils import render_template_file, url_replace_param
@@ -775,7 +782,14 @@ def get_pagination_context(
     if extra:
         params.update(parse_qs(extra))
     url = urlunparse(
-        [parts.scheme, parts.netloc, parts.path, parts.params, urlencode(params, doseq=True), parts.fragment]
+        [
+            parts.scheme,
+            parts.netloc,
+            parts.path,
+            parts.params,
+            urlencode(params, doseq=True),
+            parts.fragment,
+        ]
     )
 
     pagination_css_classes = ["pagination"]
