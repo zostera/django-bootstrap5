@@ -26,12 +26,12 @@ MESSAGE_ALERT_TYPES = {
 register = template.Library()
 
 
-@register.filter
+@register.simple_tag
 def bootstrap_setting(value):
     """
     Return django-bootstrap5 setting for use in in a template.
 
-    Please consider this filter private, do not use it in your own templates.
+    Please consider this tag private, do not use it in your own templates.
     """
     return get_bootstrap_setting(value)
 
