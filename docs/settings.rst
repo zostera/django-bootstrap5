@@ -16,7 +16,7 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
 
         # The complete URL to the Bootstrap CSS file.
         # Note that a URL can be either a string
-        # ("https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"),
+        # ("https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"),
         # or a dict with keys `url`, `integrity` and `crossorigin` like the default value below.
         "css_url": {
             "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css",
