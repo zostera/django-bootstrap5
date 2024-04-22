@@ -42,6 +42,11 @@ Source = "https://github.com/zostera/django-bootstrap5"
 
 [tool.ruff]
 fix = false
+line-length = 120
+src = ["src"]
+target-version = "py38"
+
+[tool.ruff.lint]
 fixable = [
   "I001", # isort (sorting)
   "F", # flake8
@@ -54,7 +59,6 @@ ignore = [
   "D212", # D212: Multi-line docstring summary should start at the first line
   "D301", # D301: Use r”“” if any backslashes in a docstring (unclear how else to handle backslashes in docstrings)
 ]
-line-length = 120
 select = [
   "D", # pydocstyle
   "E", # pycodestyle
@@ -62,13 +66,11 @@ select = [
   "I", # isort
   "UP", # pyupgrade
 ]
-src = ["src"]
-target-version = "py38"
 unfixable = [
   "F8", # names in flake8, such as defined but unused variables
 ]
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["django_marina", "app"]
 known-third-party = ["django"]
 
