@@ -141,7 +141,13 @@ LOGGING = {
             "class": "django.utils.log.AdminEmailHandler",
         }
     },
-    "loggers": {"django.request": {"handlers": ["mail_admins"], "level": "ERROR", "propagate": True}},
+    "loggers": {
+        "django.request": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+            "propagate": True,
+        }
+    },
 }
 
 # Settings for django-bootstrap5
@@ -149,5 +155,5 @@ BOOTSTRAP5 = {
     "error_css_class": "django_bootstrap5-error",
     "required_css_class": "django_bootstrap5-required",
     "javascript_in_head": True,
-    "theme_color": "dark",
+    "color_mode": "dark",
 }

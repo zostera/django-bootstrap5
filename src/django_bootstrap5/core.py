@@ -15,7 +15,7 @@ BOOTSTRAP5_DEFAULTS = {
         "crossorigin": "anonymous",
     },
     "theme_url": None,
-    "theme_color": 'light',
+    "color_mode": "light",
     "javascript_in_head": False,
     "wrapper_class": "mb-3",
     "inline_wrapper_class": "",
