@@ -31,7 +31,7 @@ license = {file = "LICENSE"}
 name = "django-bootstrap5"
 readme = "README.md"
 requires-python = ">=3.8"
-version = "24.1"
+version = "24.2"
 
 [project.urls]
 Changelog = "https://github.com/zostera/django-bootstrap5/blob/main/CHANGELOG.md"
@@ -42,6 +42,11 @@ Source = "https://github.com/zostera/django-bootstrap5"
 
 [tool.ruff]
 fix = false
+line-length = 120
+src = ["src"]
+target-version = "py38"
+
+[tool.ruff.lint]
 fixable = [
   "I001", # isort (sorting)
   "F", # flake8
@@ -54,7 +59,6 @@ ignore = [
   "D212", # D212: Multi-line docstring summary should start at the first line
   "D301", # D301: Use r”“” if any backslashes in a docstring (unclear how else to handle backslashes in docstrings)
 ]
-line-length = 120
 select = [
   "D", # pydocstyle
   "E", # pycodestyle
@@ -62,14 +66,12 @@ select = [
   "I", # isort
   "UP", # pyupgrade
 ]
-src = ["src"]
-target-version = "py38"
 unfixable = [
   "F8", # names in flake8, such as defined but unused variables
 ]
 
-[tool.ruff.isort]
-known-first-party = ["django_marina", "app"]
+[tool.ruff.lint.isort]
+known-first-party = ["django_bootstrap5", "app"]
 known-third-party = ["django"]
 
 [tool.coverage.run]
@@ -77,7 +79,7 @@ branch = true
 source = ["src", "tests"]
 
 [tool.coverage.paths]
-package = ["src/django_marina", "*/django_marina/src/django_marina"]
+package = ["src/django_bootstrap5", "*/django_bootstrap5/src/django_bootstrap5"]
 
 [tool.coverage.report]
 show_missing = true
