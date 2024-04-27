@@ -66,3 +66,17 @@ class ButtonTestCase(BootstrapTestCase):
 
         with self.assertRaises(ValueError):
             self.render("{% bootstrap_button 'button' button_type='button' href='#' %}")
+
+    def test_button_extra_attributes(self):
+        link_button = (
+            '<button class="btn btn-outline-primary btn-lg something" hx-post="/something" data-value="some value" '
+            'aria-label="example" extra-attribute="something" type="reset" role="button">some button</button>'
+        )
+        self.assertHTMLEqual(
+            self.render(
+                "{% bootstrap_button content='some button' button_type='reset' button_class='btn-outline-primary' size='lg' "
+                "hx_post='/something' data_value='some value' aria_label='example' extra_classes='something' "
+                "extra_attribute='something' role='button' %}"
+            ),
+            link_button,
+        )
