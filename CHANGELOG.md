@@ -1,5 +1,20 @@
 # Changelog
 
+## 24.2 (2024-04-23)
+
+- Add .editorconfig (#598).
+- Remove support for Django 4.1 (EOL) (#597).
+- Add support for color mode (#593).
+- Change bootstrap_setting from filter to tag (#595).
+- Remove support for Python 3.7 (EOL) (#588).
+- Remove support for Django 3.2 (EOL) (#583).
+- Update Bootstrap to 5.3.3 (#584).
+- Fix Read the Docs (#585, #587).
+
+## 24.1 (2024-04-12)
+
+- Fix RadioSelectButtonGroup rendering and add 'disabled' attribute to radio button group template (#447).
+
 ## 23.4 (2023-12-28)
 
 - Use ruff instead of black for formatting (#536).
