@@ -33,6 +33,9 @@ readme = "README.md"
 requires-python = ">=3.8"
 version = "24.2"
 
+[project.optional-dependencies]
+jinja = ["Jinja2>=3.0,<4"]
+
 [project.urls]
 Changelog = "https://github.com/zostera/django-bootstrap5/blob/main/CHANGELOG.md"
 Documentation = "https://django-bootstrap5.readthedocs.io/"
