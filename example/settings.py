@@ -141,7 +141,13 @@ LOGGING = {
             "class": "django.utils.log.AdminEmailHandler",
         }
     },
-    "loggers": {"django.request": {"handlers": ["mail_admins"], "level": "ERROR", "propagate": True}},
+    "loggers": {
+        "django.request": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+            "propagate": True,
+        }
+    },
 }
 
 # Settings for django-bootstrap5

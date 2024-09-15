@@ -41,8 +41,15 @@ class MediaTestCase(BootstrapTestCase):
                 self.expected_bootstrap_css + '<link rel="stylesheet" href="//example.com/theme.css">',
             )
 
-    def test_bootstrap_setting_filter(self):
-        self.assertEqual(self.render('{{ "required_css_class"|bootstrap_setting }}'), "django_bootstrap5-req")
+    def test_bootstrap_setting_tag(self):
         self.assertEqual(
-            self.render('{% if "javascript_in_head"|bootstrap_setting %}head{% else %}body{% endif %}'), "head"
+            self.render('{% bootstrap_setting "required_css_class" %}'),
+            "django_bootstrap5-req",
+        )
+        self.assertEqual(
+            self.render(
+                '{% bootstrap_setting "javascript_in_head" as BOOTSTRAP_JAVASCRIPT_IN_HEAD %}'
+                + "{% if BOOTSTRAP_JAVASCRIPT_IN_HEAD %}head{% else %}body{% endif %}"
+            ),
+            "head",
         )
