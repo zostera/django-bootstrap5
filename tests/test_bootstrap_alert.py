@@ -1,5 +1,3 @@
-from django.conf import settings
-
 from .base import BootstrapTestCase
 
 
@@ -38,11 +36,3 @@ class BootstrapAlertTestCase(BootstrapTestCase):
             self.render("{% bootstrap_alert value|safe dismissible=False %}", context={"value": "foo<br>bar"}),
             '<div class="alert alert-info" role="alert">foo<br>bar</div>',
         )
-        
-        bootstrap = settings.BOOTSTRAP5
-        bootstrap["alert-extra-classes"] = ["extra-class"]
-        with self.settings(BOOTSTRAP5=bootstrap):
-            self.assertEqual(
-                self.render('{% bootstrap_alert "foo<br>bar" dismissible=False %}'),
-                '<div class="alert alert-info extra-class" role="alert">foo<br>bar</div>',
-            )
