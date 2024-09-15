@@ -66,8 +66,7 @@ class Jinja2TestCase(BootstrapTestCase):
 
         paginator = Paginator(["john", "paul", "george", "ringo"], 2)
         html = self.render(
-            "{{ bootstrap_pagination(page, extra='url=\"/projects/?foo=bar\"') }}}",
-            {"page": paginator.page(1)}
+            "{{ bootstrap_pagination(page, extra='url=\"/projects/?foo=bar\"') }}}", {"page": paginator.page(1)}
         )
         self.assertTrue(html)
 
