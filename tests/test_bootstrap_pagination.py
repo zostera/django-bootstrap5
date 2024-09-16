@@ -24,14 +24,12 @@ class PaginatorTestCase(BootstrapTestCase):
         self.assertHTMLEqual(
             html,
             (
-                "<nav>"
                 '<ul class="pagination">'
                 '<li class="page-item"><a class="page-link" href="/projects/?foo=bar&page=1">&laquo;</a></li>'
                 '<li class="page-item"><a class="page-link" href="/projects/?foo=bar&page=1">1</a></li>'
                 '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
                 '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
                 "</ul>"
-                "</nav>"
             ),
         )
 
@@ -51,40 +49,34 @@ class PaginatorTestCase(BootstrapTestCase):
         self.assertHTMLEqual(
             self.render('{% bootstrap_pagination page size="sm" %}', {"page": self.paginator.page(2)}),
             (
-                "<nav>"
                 '<ul class="pagination pagination-sm">'
                 '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
                 '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
                 '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
                 '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
                 "</ul>"
-                "</nav>"
             ),
         )
         self.assertHTMLEqual(
             self.render('{% bootstrap_pagination page size="lg" %}', {"page": self.paginator.page(2)}),
             (
-                "<nav>"
                 '<ul class="pagination pagination-lg">'
                 '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
                 '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
                 '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
                 '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
                 "</ul>"
-                "</nav>"
             ),
         )
         self.assertHTMLEqual(
             self.render('{% bootstrap_pagination page size="md" %}', {"page": self.paginator.page(2)}),
             (
-                "<nav>"
                 '<ul class="pagination">'
                 '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
                 '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
                 '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
                 '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
                 "</ul>"
-                "</nav>"
             ),
         )
 
@@ -95,14 +87,12 @@ class PaginatorTestCase(BootstrapTestCase):
         self.assertHTMLEqual(
             self.render('{% bootstrap_pagination page justify_content="center" %}', {"page": self.paginator.page(2)}),
             (
-                "<nav>"
                 '<ul class="pagination justify-content-center">'
                 '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
                 '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
                 '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
                 '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
                 "</ul>"
-                "</nav>"
             ),
         )
         with self.assertRaises(ValueError):
