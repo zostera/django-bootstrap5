@@ -1,5 +1,10 @@
 # Changelog
 
+## 24.3 (2024-09-17)
+
+- Add support for Django 5.1 (#663).
+- Add support for Jinja 2(#664, @jorenham)
+
 ## 24.2 (2024-04-23)
 
 - Add .editorconfig (#598).
