@@ -1,5 +1,9 @@
 # Changelog
 
+## In development
+
+- Remove `<nav>` from pagination (#686, @xi).
+
 ## 24.3 (2024-09-17)
 
 - Add support for Django 5.1 (#663).
