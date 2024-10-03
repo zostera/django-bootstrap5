@@ -1,4 +1,4 @@
-tox==4.21.0
+tox==4.21.2
 coverage==7.6.1
 ruff==0.6.8
 pillow>=10.4.0
