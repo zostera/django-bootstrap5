@@ -1,6 +1,6 @@
 name: test
 
-on: [ push ]
+on: [ push, pull_request ]
 
 concurrency:
   group: test-${{ github.head_ref }}
@@ -19,17 +19,19 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
-        django-version: [4.2, 5.0, "main"]
+        django-version: [4.2, 5.0, 5.1, "main"]
         exclude:
-            # Django 4.2
-            - python-version: 3.12
-              django-version: 4.2
-
             # Django 5.0
             - python-version: 3.8
               django-version: 5.0
             - python-version: 3.9
               django-version: 5.0
+
+            # Django 5.1
+            - python-version: 3.8
+              django-version: 5.1
+            - python-version: 3.9
+              django-version: 5.1
 
             # Django main
             - python-version: 3.8
@@ -39,6 +41,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - name: Update repositories
+        run: sudo apt-get update
       - name: Install GDAL binaries
         run: sudo apt-get install binutils libproj-dev gdal-bin
       - name: Set up Python ${{ matrix.python-version }}
