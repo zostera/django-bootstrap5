@@ -3,6 +3,7 @@
 ## In development
 
 - Remove `<nav>` from pagination (#686, @xi).
+- Drop support for Python 3.8 in the test matrix
 
 ## 24.3 (2024-09-17)
 
