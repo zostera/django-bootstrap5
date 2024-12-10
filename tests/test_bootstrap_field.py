@@ -1,6 +1,6 @@
 from django import forms
 
-from .base import BootstrapTestCase
+from .base import DJANGO_VERSION, BootstrapTestCase
 
 
 class XssTestForm(forms.Form):
@@ -24,9 +24,20 @@ class FieldTestCase(BootstrapTestCase):
     def test_show_help(self):
         html = self.render("{% bootstrap_field form.subject %}", {"form": SubjectTestForm()})
         self.assertIn("my_help_text", html)
+        if DJANGO_VERSION >= "5":
+            self.assertIn('aria-describedby="id_subject_helptext"', html)
+            self.assertIn('<div id="id_subject_helptext" class="form-text">my_help_text</div>', html)
         self.assertNotIn("<i>my_help_text</i>", html)
         html = self.render("{% bootstrap_field form.subject show_help=False %}", {"form": SubjectTestForm()})
         self.assertNotIn("my_help_text", html)
+
+    if DJANGO_VERSION >= "5":
+
+        def test_help_text_overridden_aria_describedby(self):
+            form = SubjectTestForm()
+            form.fields["subject"].widget.attrs["aria-describedby"] = "my_id"
+            html = self.render("{% bootstrap_field form.subject %}", {"form": form})
+            self.assertIn('<div id="my_id" class="form-text">my_help_text</div>', html)
 
     def test_placeholder(self):
         html = self.render("{% bootstrap_field form.subject %}", {"form": SubjectTestForm()})
