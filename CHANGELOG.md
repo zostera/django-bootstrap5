@@ -2,7 +2,9 @@
 
 ## In development
 
+- Switch to just and uv for package management (#734).
 - Remove `<nav>` from pagination (#686, @xi).
+- Drop support for Python 3.8 in the test matrix
 
 ## 24.3 (2024-09-17)
 
