@@ -20,6 +20,8 @@ This package requires a combination of Python and Django that is currently suppo
 
 See "Supported Versions" on https://www.djangoproject.com/download/.
 
+This package uses [uv](https://github.com/astral-sh/uv) and [just](https://github.com/casey/just) for local development.
+
 ## Documentation
 
 The full documentation is at https://django-bootstrap5.readthedocs.io/
@@ -64,7 +66,7 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 An example app is provided in the folder `example`. You can run the example app with this command:
 
 ```console
-make example
+just example
 ```
 
 ## Bugs and suggestions
