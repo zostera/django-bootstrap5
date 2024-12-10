@@ -394,11 +394,14 @@ class FieldRenderer(BaseRenderer):
         """Return HTML for help text."""
         help_text = self.help_text or ""
         if help_text:
+            widget_attrs = self.field.build_widget_attrs(self.widget.attrs)
+            aria_describedby = widget_attrs.get("aria-describedby")
             return render_template_file(
                 self.field_help_text_template,
                 context={
                     "field": self.field,
                     "help_text": help_text,
+                    "id_help_text": aria_describedby,
                     "layout": self.layout,
                     "show_help": self.show_help,
                 },
