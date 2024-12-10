@@ -441,9 +441,11 @@ jinja = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "beautifulsoup4" },
     { name = "check-manifest" },
     { name = "check-wheel-contents" },
     { name = "coverage", extra = ["toml"] },
+    { name = "jinja2" },
     { name = "pillow" },
     { name = "pyroma" },
     { name = "ruff" },
@@ -464,9 +466,11 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "beautifulsoup4", specifier = ">=4.12.3" },
     { name = "check-manifest", specifier = ">=0.50" },
     { name = "check-wheel-contents", specifier = ">=0.6.0" },
     { name = "coverage", extras = ["toml"], specifier = ">=7.6.1" },
+    { name = "jinja2", specifier = ">=3.1.4" },
     { name = "pillow", specifier = ">=11.0.0" },
     { name = "pyroma", specifier = ">=4.2" },
     { name = "ruff", specifier = ">=0.7.1" },
