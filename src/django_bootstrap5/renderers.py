@@ -19,7 +19,7 @@ from .forms import render_field, render_form, render_label
 from .size import DEFAULT_SIZE, SIZE_MD, get_size_class, parse_size
 from .text import text_value
 from .utils import render_template_file
-from .widgets import ReadOnlyPasswordHashWidget, is_widget_with_placeholder
+from .widgets import RadioSelectButtonGroup, ReadOnlyPasswordHashWidget, is_widget_with_placeholder
 
 
 class BaseRenderer:
@@ -347,7 +347,9 @@ class FieldRenderer(BaseRenderer):
         for widget in widgets:
             self.add_widget_class_attrs(widget)
             self.add_placeholder_attrs(widget)
-            if isinstance(widget, (RadioSelect, CheckboxSelectMultiple)):
+            if isinstance(widget, (RadioSelect, CheckboxSelectMultiple)) and not isinstance(
+                widget, RadioSelectButtonGroup
+            ):
                 widget.template_name = "django_bootstrap5/widgets/radio_select.html"
             elif isinstance(widget, ClearableFileInput):
                 widget.template_name = "django_bootstrap5/widgets/clearable_file_input.html"
@@ -379,11 +381,7 @@ class FieldRenderer(BaseRenderer):
     def get_label_html(self, horizontal=False):
         """Return value for label."""
         label_html = "" if self.show_label == "skip" else self.field.label
-        if isinstance(self.widget, (RadioSelect, CheckboxSelectMultiple)):
-            # TODO: This is a fix for Django < 4, remove after we drop support for Django 3
-            label_for = None
-        else:
-            label_for = self.field.id_for_label
+        label_for = self.field.id_for_label
         if label_html:
             label_html = render_label(
                 label_html,
@@ -396,11 +394,14 @@ class FieldRenderer(BaseRenderer):
         """Return HTML for help text."""
         help_text = self.help_text or ""
         if help_text:
+            widget_attrs = self.field.build_widget_attrs(self.widget.attrs)
+            aria_describedby = widget_attrs.get("aria-describedby")
             return render_template_file(
                 self.field_help_text_template,
                 context={
                     "field": self.field,
                     "help_text": help_text,
+                    "id_help_text": aria_describedby,
                     "layout": self.layout,
                     "show_help": self.show_help,
                 },

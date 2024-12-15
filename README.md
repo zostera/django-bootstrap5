@@ -1,6 +1,6 @@
 # django-bootstrap5
 
-[![CI](https://github.com/zostera/django-bootstrap5/workflows/CI/badge.svg?branch=main)](https://github.com/zostera/django-bootstrap5/actions?workflow=CI)
+[![Tests](https://github.com/zostera/django-bootstrap5/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/zostera/django-bootstrap5/actions?workflow=test)
 [![Coverage Status](https://coveralls.io/repos/github/zostera/django-bootstrap5/badge.svg?branch=main)](https://coveralls.io/github/zostera/django-bootstrap5?branch=main)
 [![Latest PyPI version](https://img.shields.io/pypi/v/django-bootstrap5.svg)](https://pypi.python.org/pypi/django-bootstrap5)
 
@@ -19,6 +19,8 @@ Ready for production. Issues and pull requests welcome, see [CONTRIBUTING.md](CO
 This package requires a combination of Python and Django that is currently supported.
 
 See "Supported Versions" on https://www.djangoproject.com/download/.
+
+This package uses [uv](https://github.com/astral-sh/uv) and [just](https://github.com/casey/just) for local development.
 
 ## Documentation
 
@@ -64,7 +66,7 @@ The full documentation is at https://django-bootstrap5.readthedocs.io/
 An example app is provided in the folder `example`. You can run the example app with this command:
 
 ```console
-make example
+just example
 ```
 
 ## Bugs and suggestions
