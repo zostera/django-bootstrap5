@@ -9,10 +9,6 @@ from django_bootstrap5.utils import get_url_attrs
 from .core import get_bootstrap_setting
 
 
-def starts_with_prefix(string, prefixes):
-    return any(string.startswith(prefix) for prefix in prefixes)
-
-
 def render_script_tag(url):
     """Build a script tag."""
     return render_tag("script", get_url_attrs(url, attr_name="src"))
@@ -27,9 +23,10 @@ def render_link_tag(url):
 
 def render_tag(tag, attrs=None, content=None, close=True):
     """Render an HTML tag."""
+    prefixes = get_bootstrap_setting("hyphenate_attribute_prefixes")
     if attrs:
         for att_name, att_value in copy(attrs).items():
-            if starts_with_prefix(att_name, get_bootstrap_setting("hyphenate_attribute_prefixes")):
+            if any(att_name.startswith(prefix) for prefix in prefixes):
                 attrs[att_name.replace("_", "-")] = att_value
                 del attrs[att_name]
     attrs_string = flatatt(attrs) if attrs else ""
