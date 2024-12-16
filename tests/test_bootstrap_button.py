@@ -67,16 +67,37 @@ class ButtonTestCase(BootstrapTestCase):
         with self.assertRaises(ValueError):
             self.render("{% bootstrap_button 'button' button_type='button' href='#' %}")
 
-    def test_button_extra_attributes(self):
-        link_button = (
-            '<button class="btn btn-outline-primary btn-lg something" hx-post="/something" data-value="some value" '
-            'aria-label="example" extra-attribute="something" type="reset" role="button">some button</button>'
-        )
+    def test_button_hyphenate_attributes(self):
+        # No attributes to hyphenate
         self.assertHTMLEqual(
-            self.render(
-                "{% bootstrap_button content='some button' button_type='reset' button_class='btn-outline-primary'"
-                " size='lg' hx_post='/something' data_value='some value' aria_label='example'"
-                " extra_classes='something' extra_attribute='something' role='button' %}"
-            ),
-            link_button,
+            self.render("{% bootstrap_button 'button' href='#' %}"),
+            '<a class="btn btn-primary" href="#" role="button">button</a>',
         )
+        # Default: data prefix
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_button 'button' href='#' data_foo='bar' %}"),
+            '<a class="btn btn-primary" href="#" role="button" data-foo="bar">button</a>',
+        )
+        # Default: no hx prefix
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_button 'button' href='#' data_foo='bar' hx_xyz='abc' %}"),
+            '<a class="btn btn-primary" href="#" role="button" data-foo="bar" hx_xyz="abc">button</a>',
+        )
+        # Custom: data and hx
+        with self.settings(BOOTSTRAP5={"hyphenate_attribute_prefixes": ["data", "hx"]}):
+            self.assertHTMLEqual(
+                self.render("{% bootstrap_button 'button' href='#' data_foo='bar' hx_xyz='abc' %}"),
+                '<a class="btn btn-primary" href="#" role="button" data-foo="bar" hx-xyz="abc">button</a>',
+            )
+        # Custom: hx only
+        with self.settings(BOOTSTRAP5={"hyphenate_attribute_prefixes": ["hx"]}):
+            self.assertHTMLEqual(
+                self.render("{% bootstrap_button 'button' href='#' data_foo='bar' hx_xyz='abc' %}"),
+                '<a class="btn btn-primary" href="#" role="button" data_foo="bar" hx-xyz="abc">button</a>',
+            )
+        # Custom: empty list
+        with self.settings(BOOTSTRAP5={"hyphenate_attribute_prefixes": []}):
+            self.assertHTMLEqual(
+                self.render("{% bootstrap_button 'button' href='#' data_foo='bar' hx_xyz='abc' %}"),
+                '<a class="btn btn-primary" href="#" role="button" data_foo="bar" hx_xyz="abc">button</a>',
+            )
