@@ -21,18 +21,24 @@ def render_link_tag(url):
     return render_tag("link", attrs=attrs, close=False)
 
 
-def should_hyphenate(name, prefixes):
+def has_prefix(name, prefixes):
+    """Return whether the name has one of the given prefixes."""
     return any(name.startswith(prefix) for prefix in prefixes)
+
+
+def hyphenate(attr_name):
+    """Return the hyphenated version of the attribute name."""
+    return attr_name.replace("_", "-")
 
 
 def render_tag(tag, attrs=None, content=None, close=True):
     """Render an HTML tag."""
     prefixes = get_bootstrap_setting("hyphenate_attribute_prefixes") or []
     if attrs:
-        for att_name, att_value in copy(attrs).items():
-            if should_hyphenate(att_name, prefixes):
-                attrs[att_name.replace("_", "-")] = att_value
-                del attrs[att_name]
+        for attr_name, attr_value in copy(attrs).items():
+            if has_prefix(attr_name, prefixes):
+                attrs[hyphenate(attr_name)] = attr_value
+                del attrs[attr_name]
     attrs_string = flatatt(attrs) if attrs else ""
     builder = "<{tag}{attrs}>{content}"
     content_string = text_value(content)
