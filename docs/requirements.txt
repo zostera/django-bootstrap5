@@ -1,3 +1,0 @@
-sphinx==7.3.7
-myst-parser==3.0.1
-furo==2024.5.6
