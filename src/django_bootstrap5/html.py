@@ -3,10 +3,9 @@ from copy import copy
 from django.forms.utils import flatatt
 from django.utils.html import format_html
 
+from django_bootstrap5.core import get_bootstrap_setting
 from django_bootstrap5.text import text_value
 from django_bootstrap5.utils import get_url_attrs
-
-from django_bootstrap5.core import get_bootstrap_setting
 
 
 def render_script_tag(url):
