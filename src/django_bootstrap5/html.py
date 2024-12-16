@@ -6,6 +6,12 @@ from django.utils.html import format_html
 from django_bootstrap5.text import text_value
 from django_bootstrap5.utils import get_url_attrs
 
+from .core import get_bootstrap_setting
+
+
+def starts_with_prefix(string, prefixes):
+    return any(string.startswith(prefix) for prefix in prefixes)
+
 
 def render_script_tag(url):
     """Build a script tag."""
@@ -23,7 +29,7 @@ def render_tag(tag, attrs=None, content=None, close=True):
     """Render an HTML tag."""
     if attrs:
         for att_name, att_value in copy(attrs).items():
-            if "_" in att_name:
+            if starts_with_prefix(att_name, get_bootstrap_setting("hyphenate_attribute_prefixes")):
                 attrs[att_name.replace("_", "-")] = att_value
                 del attrs[att_name]
     attrs_string = flatatt(attrs) if attrs else ""
