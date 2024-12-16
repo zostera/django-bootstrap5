@@ -21,12 +21,16 @@ def render_link_tag(url):
     return render_tag("link", attrs=attrs, close=False)
 
 
+def should_hyphenate(name, prefixes):
+    return any(name.startswith(prefix) for prefix in prefixes)
+
+
 def render_tag(tag, attrs=None, content=None, close=True):
     """Render an HTML tag."""
-    prefixes = get_bootstrap_setting("hyphenate_attribute_prefixes")
+    prefixes = get_bootstrap_setting("hyphenate_attribute_prefixes") or []
     if attrs:
         for att_name, att_value in copy(attrs).items():
-            if any(att_name.startswith(prefix) for prefix in prefixes):
+            if should_hyphenate(att_name, prefixes):
                 attrs[att_name.replace("_", "-")] = att_value
                 del attrs[att_name]
     attrs_string = flatatt(attrs) if attrs else ""
