@@ -23,7 +23,7 @@ def render_link_tag(url):
 
 def has_prefix(name, prefixes):
     """Return whether the name has one of the given prefixes."""
-    return any(name.startswith(prefix) for prefix in prefixes)
+    return any(name.startswith(f"{prefix}_") for prefix in prefixes)
 
 
 def hyphenate(attr_name):
