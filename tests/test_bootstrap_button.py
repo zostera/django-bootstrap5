@@ -101,3 +101,16 @@ class ButtonTestCase(BootstrapTestCase):
                 self.render("{% bootstrap_button 'button' href='#' data_foo='bar' hx_xyz='abc' %}"),
                 '<a class="btn btn-primary" href="#" role="button" data_foo="bar" hx_xyz="abc">button</a>',
             )
+
+        # Custom: None
+        with self.settings(BOOTSTRAP5={"hyphenate_attribute_prefixes": None}):
+            self.assertHTMLEqual(
+                self.render("{% bootstrap_button 'button' href='#' data_foo='bar' hx_xyz='abc' %}"),
+                '<a class="btn btn-primary" href="#" role="button" data_foo="bar" hx_xyz="abc">button</a>',
+            )
+
+        # Edge case: attribute name starts with prefix but prefix is not followed by underscore
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_button 'button' href='#' databar_foo='bar' %}"),
+            '<a class="btn btn-primary" href="#" role="button" databar_foo="bar">button</a>',
+        )
