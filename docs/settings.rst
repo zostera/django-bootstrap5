@@ -57,6 +57,9 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
         # Field class used for horizontal fields withut a label.
         'horizontal_field_offset_class': 'offset-sm-2',
 
+        # HTML attributes with any of these prefixes will have underscores converted to hyphens.
+        "hyphenate_attribute_prefixes": ["data"],
+
         # Set placeholder attributes to label if no placeholder is provided.
         'set_placeholder': True,
 
