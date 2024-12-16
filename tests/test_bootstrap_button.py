@@ -74,9 +74,9 @@ class ButtonTestCase(BootstrapTestCase):
         )
         self.assertHTMLEqual(
             self.render(
-                "{% bootstrap_button content='some button' button_type='reset' button_class='btn-outline-primary' size='lg' "
-                "hx_post='/something' data_value='some value' aria_label='example' extra_classes='something' "
-                "extra_attribute='something' role='button' %}"
+                "{% bootstrap_button content='some button' button_type='reset' button_class='btn-outline-primary'"
+                " size='lg' hx_post='/something' data_value='some value' aria_label='example'"
+                " extra_classes='something' extra_attribute='something' role='button' %}"
             ),
             link_button,
         )

@@ -27,7 +27,6 @@ class DisabledSelectTestForm(forms.Form):
 
 
 class RadioSelectButtonGroupWithDisabledOptions(RadioSelectButtonGroup):
-
     def __init__(self, attrs=None, choices=(), *, disabled_values=()):
         super().__init__(attrs)
         self.choices = choices
@@ -48,8 +47,6 @@ class DisabledOptionSelectTestForm(forms.Form):
         ),
         widget=RadioSelectButtonGroupWithDisabledOptions(disabled_values={1}),
     )
-
-
 
 
 class BootstrapFieldSelectTestCase(BootstrapTestCase):
