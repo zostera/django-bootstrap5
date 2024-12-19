@@ -50,6 +50,23 @@ class FieldTestCase(BootstrapTestCase):
         )
         self.assertIn('class="form-control field-class-test"', html)
 
+    def test_valid_field_class(self):
+        form = SubjectTestForm({"subject": "valid_data"})
+        form.is_valid()
+        html = self.render("{% bootstrap_field form.subject field_valid_class='custom-class' %}", {"form": form})
+        self.assertNotIn('class="form-control is-valid"', html)
+        self.assertIn('class="form-control custom-class"', html)
+
+    def test_invalid_field_class(self):
+        form = SubjectTestForm({"invalid_field": "invalid_data"})
+        form.is_valid()
+        html = self.render(
+            "{% bootstrap_field form.subject field_invalid_class='custom-class' %}",
+            {"form": form},
+        )
+        self.assertNotIn('class="form-control is-invalid"', html)
+        self.assertIn('class="form-control custom-class"', html)
+
     def test_xss_field(self):
         html = self.render("{% bootstrap_field form.xss_field %}", {"form": XssTestForm()})
         self.assertIn('type="text"', html)
