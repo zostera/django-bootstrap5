@@ -479,6 +479,16 @@ def bootstrap_field(field, **kwargs):
 
             :default: ``'has-success'``. Can be changed :doc:`settings`
 
+        field_valid_class
+            CSS class used by the field when it is valid
+
+            :default: ``'is-valid'``.
+
+        field_invalid_class
+            CSS class used by the field when it is invalid
+
+            :default: ``'is-invalid'``
+
     **Usage**::
 
         {% bootstrap_field field %}
