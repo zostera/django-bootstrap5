@@ -246,6 +246,9 @@ class FieldRenderer(BaseRenderer):
             else success_css_class
         )
 
+        self.field_valid_class = kwargs.get("field_valid_class", "is-valid")
+        self.field_invalid_class = kwargs.get("field_invalid_class", "is-invalid")
+
     @property
     def is_floating(self):
         return (
@@ -426,9 +429,9 @@ class FieldRenderer(BaseRenderer):
     def get_server_side_validation_classes(self):
         """Return CSS classes for server-side validation."""
         if self.field_errors:
-            return "is-invalid"
+            return self.field_invalid_class
         elif self.field.form.is_bound:
-            return "is-valid"
+            return self.field_valid_class
         return ""
 
     def get_inline_field_class(self):
