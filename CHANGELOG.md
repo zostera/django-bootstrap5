@@ -2,6 +2,7 @@
 
 ## In development
 
+- Hyphenate attributes with certain prefixes (#737, #524, thanks @yakky).
 - Switch to just and uv for package management (#734).
 - Remove `<nav>` from pagination (#686, @xi).
 - Add an `id` to the help text of fields for Django 5.0+, to match the `aria-describedby` attribute.
