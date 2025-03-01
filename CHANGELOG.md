@@ -1,6 +1,6 @@
 # Changelog
 
-## In development
+## 25.1 (2025-03-01)
 
 - Hyphenate attributes with certain prefixes (#737, #524, thanks @yakky).
 - Switch to just and uv for package management (#734).
