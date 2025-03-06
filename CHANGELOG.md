@@ -1,5 +1,18 @@
 # Changelog
 
+## 25.1 (2025-03-01)
+
+- Hyphenate attributes with certain prefixes (#737, #524, thanks @yakky).
+- Switch to just and uv for package management (#734).
+- Remove `<nav>` from pagination (#686, @xi).
+- Add an `id` to the help text of fields for Django 5.0+, to match the `aria-describedby` attribute.
+- Drop support for Python 3.8 in the test matrix
+
+## 24.3 (2024-09-17)
+
+- Add support for Django 5.1 (#663).
+- Add support for Jinja2 (#664, @jorenham)
+
 ## 24.2 (2024-04-23)
 
 - Add .editorconfig (#598).

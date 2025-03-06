@@ -2,7 +2,6 @@ from importlib import import_module
 
 from django.conf import settings
 
-BOOTSTRAP5 = {"foo": "bar"}
 BOOTSTRAP5_DEFAULTS = {
     "css_url": {
         "url": "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
@@ -34,6 +33,7 @@ BOOTSTRAP5_DEFAULTS = {
     "field_renderers": {
         "default": "django_bootstrap5.renderers.FieldRenderer",
     },
+    "hyphenate_attribute_prefixes": ["data"],
 }
 
 

@@ -8,7 +8,7 @@ except RuntimeError:
 
 
 class RadioSelectButtonGroup(RadioSelect):
-    """A RadioSelect that renders as a horizontal button groep."""
+    """A RadioSelect that renders as a horizontal button group."""
 
     template_name = "django_bootstrap5/widgets/radio_select_button_group.html"
 
