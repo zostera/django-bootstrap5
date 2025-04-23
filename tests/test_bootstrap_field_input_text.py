@@ -33,6 +33,8 @@ class InputTypeTextTestCase(BootstrapTestCase):
         html = self.render("{% bootstrap_field form.test %}", context={"form": form})
         if DJANGO_VERSION >= "5":
             html = html.replace(' aria-invalid="true"', "")
+        if DJANGO_VERSION >= "5.2":
+            html = html.replace(' aria-describedby="id_test_error"', "")
 
         self.assertHTMLEqual(
             html,
@@ -187,6 +189,8 @@ class InputTypeTextTestCase(BootstrapTestCase):
         html = self.render('{% bootstrap_field form.test addon_before="foo" %}', context={"form": form})
         if DJANGO_VERSION >= "5":
             html = html.replace(' aria-invalid="true"', "")
+        if DJANGO_VERSION >= "5.2":
+            html = html.replace(' aria-describedby="id_test_error"', "")
 
         self.assertHTMLEqual(
             html,

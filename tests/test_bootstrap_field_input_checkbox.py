@@ -30,6 +30,8 @@ class InputTypeCheckboxTestCase(BootstrapTestCase):
         )
         if DJANGO_VERSION >= "5":
             html = html.replace(' aria-invalid="true"', "")
+        if DJANGO_VERSION >= "5.2":
+            html = html.replace(' aria-describedby="id_test_error"', "")
         self.assertHTMLEqual(
             html,
             (
