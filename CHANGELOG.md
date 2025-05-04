@@ -1,5 +1,9 @@
 # Changelog
 
+## In development
+
+- Fix help text and error IDs for aria-describedby (#746, thanks @xi).
+
 ## 25.1 (2025-03-01)
 
 - Hyphenate attributes with certain prefixes (#737, #524, thanks @yakky).
