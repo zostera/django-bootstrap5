@@ -33,6 +33,8 @@ class InputTypeTextTestCase(BootstrapTestCase):
         html = self.render("{% bootstrap_field form.test %}", context={"form": form})
         if DJANGO_VERSION >= "5":
             html = html.replace(' aria-invalid="true"', "")
+        if DJANGO_VERSION >= "5.2":
+            html = html.replace(' aria-describedby="id_test_error"', "")
 
         self.assertHTMLEqual(
             html,
@@ -41,7 +43,9 @@ class InputTypeTextTestCase(BootstrapTestCase):
                 '<label class="form-label" for="id_test">Test</label>'
                 '<input type="text" name="test"'
                 ' class="form-control is-invalid" placeholder="Test" required id="id_test">'
+                '<div id="id_test_error">'
                 '<div class="invalid-feedback">This field is required.</div>'
+                "</div>"
                 "</div>"
             ),
         )
@@ -185,6 +189,8 @@ class InputTypeTextTestCase(BootstrapTestCase):
         html = self.render('{% bootstrap_field form.test addon_before="foo" %}', context={"form": form})
         if DJANGO_VERSION >= "5":
             html = html.replace(' aria-invalid="true"', "")
+        if DJANGO_VERSION >= "5.2":
+            html = html.replace(' aria-describedby="id_test_error"', "")
 
         self.assertHTMLEqual(
             html,
@@ -195,7 +201,9 @@ class InputTypeTextTestCase(BootstrapTestCase):
                 '<span class="input-group-text">foo</span>'
                 '<input type="text" name="test" minlength="1" class="form-control'
                 ' is-invalid" placeholder="Test" required id="id_test">'
+                '<div id="id_test_error">'
                 '<div class="invalid-feedback">This field is required.</div>'
+                "</div>"
                 "</div>"
                 "</div>"
             ),

@@ -37,7 +37,7 @@ class FieldTestCase(BootstrapTestCase):
             form = SubjectTestForm()
             form.fields["subject"].widget.attrs["aria-describedby"] = "my_id"
             html = self.render("{% bootstrap_field form.subject %}", {"form": form})
-            self.assertIn('<div id="my_id" class="form-text">my_help_text</div>', html)
+            self.assertIn('<div id="id_subject_helptext" class="form-text">my_help_text</div>', html)
 
     def test_placeholder(self):
         html = self.render("{% bootstrap_field form.subject %}", {"form": SubjectTestForm()})
