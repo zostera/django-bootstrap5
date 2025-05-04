@@ -5,6 +5,7 @@
 - Fix help text and error IDs for aria-describedby (#746, thanks @xi).
 - Symlink CHANGELOG.md into docs for Sphinx (#750).
 - Drop support for Django 5.0 (EOL) (#751).
+- Add support for Django 5.2 ().
 
 ## 25.1 (2025-03-01)
 
