@@ -36,7 +36,7 @@ class BootstrapFormTestCase(BootstrapTestCase):
             '{% bootstrap_form form exclude="optional_text" %}',
             {"form": FormTestForm()},
         )
-        if DJANGO_VERSION >= "5":
+        if DJANGO_VERSION >= "5":  # TODO: Django 4.2
             html = html.replace(' aria-describedby="id_required_text_helptext"', "")
         self.assertHTMLEqual(
             html,
