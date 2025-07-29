@@ -7,6 +7,7 @@
 - Drop support for Django 5.0 (EOL) (#751).
 - Add support for Django 5.2 (#753).
 - Uset `setup-uv` and `uv build` (#759).
+- Use `uv.lock` in GitHub Actions (#760).
 
 ## 25.1 (2025-03-01)
 
