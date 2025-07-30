@@ -1,6 +1,6 @@
 # Changelog
 
-## In development
+## 25.2 (2025-07-30)
 
 - Fix help text and error IDs for aria-describedby (#746, thanks @xi).
 - Symlink CHANGELOG.md into docs for Sphinx (#750).
