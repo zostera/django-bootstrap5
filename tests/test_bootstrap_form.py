@@ -36,11 +36,8 @@ class BootstrapFormTestCase(BootstrapTestCase):
             '{% bootstrap_form form exclude="optional_text" %}',
             {"form": FormTestForm()},
         )
-        if DJANGO_VERSION >= "5":
+        if DJANGO_VERSION >= "5":  # TODO: Django 4.2
             html = html.replace(' aria-describedby="id_required_text_helptext"', "")
-            help_text = '<div id="id_required_text_helptext" class="form-text"><i>required_text_help</i>'
-        else:
-            help_text = '<div class="form-text"><i>required_text_help</i>'
         self.assertHTMLEqual(
             html,
             (
@@ -48,7 +45,7 @@ class BootstrapFormTestCase(BootstrapTestCase):
                 '<label class="form-label" for="id_required_text">Required text</label>'
                 '<input type="text" name="required_text" class="form-control"'
                 ' placeholder="Required text" required id="id_required_text">'
-                f"{help_text}"
+                '<div id="id_required_text_helptext" class="form-text"><i>required_text_help</i>'
                 "</div>"
             ),
         )

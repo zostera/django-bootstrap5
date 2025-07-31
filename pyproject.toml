@@ -1,6 +1,6 @@
 [build-system]
-build-backend = "hatchling.build"
-requires = ["hatchling"]
+build-backend = "uv_build"
+requires = ["uv_build>=0.8.3,<0.9.0"]
 
 [project]
 authors = [
@@ -11,10 +11,9 @@ classifiers = [
   "Environment :: Web Environment",
   "Framework :: Django",
   "Framework :: Django :: 4.2",
-  "Framework :: Django :: 5.0",
   "Framework :: Django :: 5.1",
+  "Framework :: Django :: 5.2",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: BSD License",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.9",
@@ -28,11 +27,12 @@ classifiers = [
 dependencies = ["Django>=4.2"]
 description = "Bootstrap 5 for Django"
 keywords = ["django", "bootstrap", "bootstrap5"]
-license = {file = "LICENSE"}
+license = "BSD-3-Clause"
+license-files = ["LICENSE", "AUTHORS"]
 name = "django-bootstrap5"
 readme = "README.md"
 requires-python = ">=3.9"
-version = "25.1"
+version = "25.2"
 
 [project.optional-dependencies]
 jinja = ["Jinja2>=3.0,<4"]
@@ -106,4 +106,24 @@ docs = [
   "furo>=2024.8.6",
   "myst-parser>=3.0.1",
   "sphinx>=7.1.2",
+]
+
+[tool.uv.build-backend]
+source-exclude = [
+  "**/.DS_Store",
+  "docs/_build",
+  "example/db.sqlite3",
+]
+source-include = [
+  ".editorconfig",
+  ".readthedocs.yaml",
+  "FUNDING.yml",
+  "manage.py",
+  "justfile",
+  "*.md",
+  "example/**",
+  "tests/**",
+  "tox.ini",
+  "docs/**",
+  "uv.lock",
 ]
