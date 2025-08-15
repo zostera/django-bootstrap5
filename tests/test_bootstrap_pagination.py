@@ -106,6 +106,131 @@ class PaginatorTestCase(BootstrapTestCase):
         with self.assertRaises(ValueError):
             self.render("{{% bootstrap_pagination page pages_to_show=-5 %}", {"page": self.paginator.page(2)})
 
+    def test_paginator_extra_css(self):
+        """Test only the pagination_extra_css parameter."""
+        # Test with single CSS class
+        self.assertHTMLEqual(
+                self.render('{% bootstrap_pagination page pagination_extra_css="custom-pagination" %}', {"page": self.paginator.page(2)}),
+                (
+                    '<ul class="pagination custom-pagination">'
+                    '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
+                    '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
+                    '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
+                    '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
+                    "</ul>"
+                    ),
+                )
+
+        # Test with multiple CSS classes
+        self.assertHTMLEqual(
+                self.render('{% bootstrap_pagination page pagination_extra_css="my-custom-class another-class" %}', {"page": self.paginator.page(2)}),
+                (
+                    '<ul class="pagination my-custom-class another-class">'
+                    '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
+                    '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
+                    '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
+                    '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
+                    "</ul>"
+                    ),
+                )
+
+        # Test with empty string (should not add anything)
+        self.assertHTMLEqual(
+                self.render('{% bootstrap_pagination page pagination_extra_css="" %}', {"page": self.paginator.page(2)}),
+                (
+                    '<ul class="pagination">'
+                    '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
+                    '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
+                    '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
+                    '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
+                    "</ul>"
+                    ),
+                )
+
+    def test_paginator_extra_css_with_size(self):
+        """Test pagination_extra_css combined with size parameter."""
+        self.assertHTMLEqual(
+                self.render('{% bootstrap_pagination page size="sm" pagination_extra_css="custom-small" %}', {"page": self.paginator.page(2)}),
+                (
+                    '<ul class="pagination pagination-sm custom-small">'
+                    '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
+                    '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
+                    '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
+                    '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
+                    "</ul>"
+                    ),
+                )
+
+        self.assertHTMLEqual(
+                self.render('{% bootstrap_pagination page size="lg" pagination_extra_css="large-custom" %}', {"page": self.paginator.page(2)}),
+                (
+                    '<ul class="pagination pagination-lg large-custom">'
+                    '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
+                    '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
+                    '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
+                    '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
+                    "</ul>"
+                    ),
+                )
+
+    def test_paginator_extra_css_with_justify(self):
+        """Test pagination_extra_css combined with justify_content parameter."""
+        self.assertHTMLEqual(
+                self.render('{% bootstrap_pagination page justify_content="center" pagination_extra_css="centered-custom" %}', {"page": self.paginator.page(2)}),
+                (
+                    '<ul class="pagination justify-content-center centered-custom">'
+                    '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
+                    '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
+                    '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
+                    '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
+                    "</ul>"
+                    ),
+                )
+
+        self.assertHTMLEqual(
+                self.render('{% bootstrap_pagination page justify_content="end" pagination_extra_css="end-aligned" %}', {"page": self.paginator.page(2)}),
+                (
+                    '<ul class="pagination justify-content-end end-aligned">'
+                    '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
+                    '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
+                    '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
+                    '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
+                    "</ul>"
+                    ),
+                )
+
+    def test_paginator_extra_css_with_all_options(self):
+        """Test pagination_extra_css combined with size and justify_content parameters."""
+        self.assertHTMLEqual(
+                self.render('{% bootstrap_pagination page size="lg" justify_content="center" pagination_extra_css="all-options-test" %}', {"page": self.paginator.page(2)}),
+                (
+                    '<ul class="pagination pagination-lg justify-content-center all-options-test">'
+                    '<li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>'
+                    '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>'
+                    '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
+                    '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
+                    "</ul>"
+                    ),
+                )
+
+    def test_paginator_extra_css_with_url_and_extra(self):
+        """Test pagination_extra_css with URL and extra parameters."""
+        html = self.bootstrap_pagination(
+                self.paginator.page(2),
+                extra='url="/projects/?foo=bar" pagination_extra_css="url-test-class"'
+                )
+        self.assertHTMLEqual(
+                html,
+                (
+                    '<ul class="pagination url-test-class">'
+                    '<li class="page-item"><a class="page-link" href="/projects/?foo=bar&page=1">&laquo;</a></li>'
+                    '<li class="page-item"><a class="page-link" href="/projects/?foo=bar&page=1">1</a></li>'
+                    '<li class="page-item active"><a class="page-link" href="#">2</a></li>'
+                    '<li class="page-item disabled"><a class="page-link" href="#">&raquo;</a></li>'
+                    "</ul>"
+                    ),
+                )
+
 
 class LargePaginatorTestCase(BootstrapTestCase):
     @classmethod
@@ -125,3 +250,14 @@ class LargePaginatorTestCase(BootstrapTestCase):
         html = self.render("{{% bootstrap_pagination page %}", {"page": self.paginator.page(49)})
         self.assertInHTML('<li class="page-item"><a class="page-link" href="?page=38">&hellip;</a></li>', html)
         self.assertInHTML("&hellip;", html, count=1)
+
+    def test_paginator_ellipsis_with_extra_css(self):
+        """Test that pagination_extra_css works correctly with ellipsis pagination."""
+        html = self.render('{% bootstrap_pagination page pagination_extra_css="ellipsis-test" %}', {"page": self.paginator.page(33)})
+
+        # Check that the extra CSS class is present
+        self.assertIn('class="pagination ellipsis-test"', html)
+
+        # Check that ellipsis are still rendered correctly
+        self.assertInHTML('<li class="page-item"><a class="page-link" href="?page=23">&hellip;</a></li>', html)
+        self.assertInHTML('<li class="page-item"><a class="page-link" href="?page=43">&hellip;</a></li>', html)
