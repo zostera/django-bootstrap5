@@ -44,6 +44,7 @@ class InputTypeTextTestCase(BootstrapTestCase):
                 '<input type="text" name="test"'
                 ' class="form-control is-invalid" placeholder="Test" required id="id_test">'
                 '<div id="id_test_error">'
+                '<div class="is-invalid"></div>'
                 '<div class="invalid-feedback">This field is required.</div>'
                 "</div>"
                 "</div>"
@@ -202,6 +203,7 @@ class InputTypeTextTestCase(BootstrapTestCase):
                 '<input type="text" name="test" minlength="1" class="form-control'
                 ' is-invalid" placeholder="Test" required id="id_test">'
                 '<div id="id_test_error">'
+                '<div class="is-invalid"></div>'
                 '<div class="invalid-feedback">This field is required.</div>'
                 "</div>"
                 "</div>"
