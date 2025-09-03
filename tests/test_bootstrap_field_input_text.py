@@ -43,7 +43,7 @@ class InputTypeTextTestCase(BootstrapTestCase):
                 '<label class="form-label" for="id_test">Test</label>'
                 '<input type="text" name="test"'
                 ' class="form-control is-invalid" placeholder="Test" required id="id_test">'
-                '<div id="id_test_error">'
+                '<div id="id_test_error" class="w-100">'
                 '<div class="invalid-feedback d-block">This field is required.</div>'
                 "</div>"
                 "</div>"
@@ -201,7 +201,7 @@ class InputTypeTextTestCase(BootstrapTestCase):
                 '<span class="input-group-text">foo</span>'
                 '<input type="text" name="test" minlength="1" class="form-control'
                 ' is-invalid" placeholder="Test" required id="id_test">'
-                '<div id="id_test_error">'
+                '<div id="id_test_error" class="w-100">'
                 '<div class="invalid-feedback d-block">This field is required.</div>'
                 "</div>"
                 "</div>"

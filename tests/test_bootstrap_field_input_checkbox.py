@@ -39,7 +39,7 @@ class InputTypeCheckboxTestCase(BootstrapTestCase):
                 '<div class="form-check">'
                 '<input class="form-check-input is-invalid" id="id_test" name="test" required type="checkbox">'
                 '<label class="form-check-label" for="id_test">Test</label>'
-                '<div id="id_test_error">'
+                '<div id="id_test_error" class="w-100">'
                 '<div class="invalid-feedback d-block">This field is required.</div>'
                 "</div>"
                 "</div>"
