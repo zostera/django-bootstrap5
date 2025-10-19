@@ -21,17 +21,31 @@ jobs:
     needs: [ ruff ]
     strategy:
       matrix:
-        python-version: [3.9, "3.10", 3.11, 3.12, 3.13]
-        django-version: [4.2, 5.1, 5.2, "main"]
+        python-version: [3.9, "3.10", 3.11, 3.12, 3.13, 3.14]
+        django-version: [4.2, 5.1, 5.2, 6.0, "main"]
         exclude:
+
+            # Django 4.2
+            - python-version: 3.14
+              django-version: 4.2
 
             # Django 5.1
             - python-version: 3.9
+              django-version: 5.1
+            - python-version: 3.14
               django-version: 5.1
 
             # Django 5.2
             - python-version: 3.9
               django-version: 5.2
+
+            # Django 6.0
+            - python-version: 3.9
+              django-version: 6.0
+            - python-version: 3.10
+              django-version: 6.0
+            - python-version: 3.11
+              django-version: 6.0
 
             # Django main
             - python-version: 3.9
@@ -51,7 +65,7 @@ jobs:
       run: sudo apt-get install binutils libproj-dev gdal-bin
 
     - name: Set up Python with uv
-      uses: astral-sh/setup-uv@v6
+      uses: astral-sh/setup-uv@v7
       with:
         python-version: ${{ matrix.python-version }}
         enable-cache: true
@@ -64,7 +78,10 @@ jobs:
 
     - name: Install Django ${{ matrix.django-version }}
       run: uv pip install Django==${{ matrix.django-version }}
-      if: matrix.django-version != 'main'
+      if: ${{ matrix.django-version != 'main' && matrix.django-version != '6.0' }}
+    - name: Install Django ${{ matrix.django-version }}
+      run: uv pip install "Django>=6.0a1,<6.1"
+      if: matrix.django-version == '6.0'
     - name: Install Django main branch
       run: uv pip install -U https://github.com/django/django/archive/master.tar.gz
       if: matrix.django-version == 'main'
@@ -90,7 +107,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Set up Python with uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: 3.12
           enable-cache: true
@@ -109,7 +126,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Set up Python with uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         with:
           python-version: 3.12
           enable-cache: true
