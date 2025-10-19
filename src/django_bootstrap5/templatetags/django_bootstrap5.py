@@ -705,6 +705,11 @@ def bootstrap_pagination(page, **kwargs):
 
             :default: ``None``
 
+        pagination_extra_css
+            Appends string as extra CSS classes to the pagination ul.
+
+            :default: ``None``
+
         extra
             Any extra page parameters.
 
@@ -740,6 +745,7 @@ def get_pagination_context(
     url=None,
     size=None,
     justify_content=None,
+    pagination_extra_css=None,
     extra=None,
     parameter_name="page",
 ):
@@ -806,6 +812,9 @@ def get_pagination_context(
                 f"Invalid value '{justify_content}' for pagination justification."
                 " Valid values are 'start', 'center', 'end'."
             )
+
+    if pagination_extra_css:
+        pagination_css_classes.append(pagination_extra_css)
 
     return {
         "bootstrap_pagination_url": url,
