@@ -1,7 +1,7 @@
 {% if field_errors %}
-    <div id="{{ field.auto_id }}_error">
+    <div id="{{ field.auto_id }}_error" class="w-100">
         {% for text in field_errors %}
-            <div class="invalid-feedback">{{ text }}</div>
+            <div class="invalid-feedback d-block">{{ text }}</div>
         {% endfor %}
     </div>
 {% endif %}
