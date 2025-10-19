@@ -2,7 +2,6 @@
 
 ## In development
 
-- Make sure that field errors are always visible (#767, @xi).
 - Add support for Python 3.14 (#774).
 - Add support for Django 6.0 (#773).
 - Update settings.rst (#756, @inpool).
