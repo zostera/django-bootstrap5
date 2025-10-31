@@ -17,7 +17,6 @@ classifiers = [
   "Intended Audience :: Developers",
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
@@ -33,7 +32,7 @@ license = "BSD-3-Clause"
 license-files = ["LICENSE", "AUTHORS"]
 name = "django-bootstrap5"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 version = "25.2"
 
 [project.optional-dependencies]
@@ -93,12 +92,9 @@ skip_covered = true
 
 [dependency-groups]
 dev = [
-  "beautifulsoup4>=4.12.3",
   "check-manifest>=0.50",
   "check-wheel-contents>=0.6.0",
   "coverage[toml]>=7.6.1",
-  "jinja2>=3.1.4",
-  "pillow>=11.0.0",
   "pyroma>=4.2",
   "ruff>=0.7.1",
   "tox-uv>=1.13.1",
@@ -115,6 +111,7 @@ source-exclude = [
   "**/.DS_Store",
   "docs/_build",
   "example/db.sqlite3",
+  "uv.lock",
 ]
 source-include = [
   ".editorconfig",
@@ -127,5 +124,7 @@ source-include = [
   "tests/**",
   "tox.ini",
   "docs/**",
-  "uv.lock",
 ]
+
+[tool.check-manifest]
+ignore = ["uv.lock"]
