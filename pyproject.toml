@@ -92,9 +92,12 @@ skip_covered = true
 
 [dependency-groups]
 dev = [
+  "beautifulsoup4>=4.12.3",
   "check-manifest>=0.50",
   "check-wheel-contents>=0.6.0",
   "coverage[toml]>=7.6.1",
+  "jinja2>=3.1.4",
+  "pillow>=11.0.0",
   "pyroma>=4.2",
   "ruff>=0.7.1",
   "tox-uv>=1.13.1",
