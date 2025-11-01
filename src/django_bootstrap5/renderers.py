@@ -388,7 +388,7 @@ class FieldRenderer(BaseRenderer):
                 label_for=label_for,
                 label_class=self.get_label_class(horizontal=horizontal),
             )
-        return label_html
+        return mark_safe(label_html)
 
     def get_help_html(self):
         """Return HTML for help text."""
