@@ -2,7 +2,7 @@
 
 ## In development
 
-- Remove support for Python 3.9 (EOL) (#779).
+- Remove support for Python 3.9 (EOL) (#779, #781).
 - Make sure that field errors are always visible (#767, @xi).
 - Add support for Python 3.14 (#774).
 - Add support for Django 6.0 (#773).
