@@ -2,6 +2,7 @@
 
 ## In development
 
+- Return safe HTML while minimizing use of mark_safe (#782, thanks @lyndonscotthumphris #778).
 - Remove support for Python 3.9 (EOL) (#779, #781).
 - Make sure that field errors are always visible (#767, @xi).
 - Add support for Python 3.14 (#774).
