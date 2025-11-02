@@ -5,7 +5,6 @@ from django import template
 from django.contrib.messages import constants as message_constants
 from django.template import Context
 from django.utils.http import urlencode
-from django.utils.safestring import mark_safe
 
 from ..components import render_alert, render_button
 from ..core import css_url, get_bootstrap_setting, javascript_url, theme_url
@@ -18,7 +17,7 @@ from ..forms import (
     render_formset_errors,
     render_label,
 )
-from ..html import render_link_tag, render_script_tag
+from ..html import EMPTY_SAFE_HTML, render_link_tag, render_multi_line_html, render_script_tag
 from ..size import get_size_class
 from ..utils import render_template_file, url_replace_param
 
@@ -175,12 +174,12 @@ def bootstrap_css():
 
         {% bootstrap_css %}
     """
-    rendered_urls = []
+    html_lines = []
     if bootstrap_css_url():
-        rendered_urls.append(render_link_tag(bootstrap_css_url()))
+        html_lines.append(render_link_tag(bootstrap_css_url()))
     if bootstrap_theme_url():
-        rendered_urls.append(render_link_tag(bootstrap_theme_url()))
-    return mark_safe("".join([url for url in rendered_urls]))
+        html_lines.append(render_link_tag(bootstrap_theme_url()))
+    return render_multi_line_html(html_lines)
 
 
 @register.simple_tag
@@ -208,16 +207,10 @@ def bootstrap_javascript():
 
         {% bootstrap_javascript %}
     """
-    # List of JS tags to include
-    javascript_tags = []
-
-    # Bootstrap JavaScript
     bootstrap_js_url = bootstrap_javascript_url()
     if bootstrap_js_url:
-        javascript_tags.append(render_script_tag(bootstrap_js_url))
-
-    # Join and return
-    return mark_safe("\n".join(javascript_tags))
+        return render_script_tag(bootstrap_js_url)
+    return EMPTY_SAFE_HTML
 
 
 @register.simple_tag
