@@ -2,10 +2,13 @@ from copy import copy
 
 from django.forms.utils import flatatt
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 from django_bootstrap5.core import get_bootstrap_setting
 from django_bootstrap5.text import text_value
 from django_bootstrap5.utils import get_url_attrs
+
+EMPTY_SAFE_HTML = mark_safe("")
 
 
 def render_script_tag(url):
