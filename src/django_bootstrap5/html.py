@@ -49,6 +49,6 @@ def render_tag(tag, attrs=None, content=None, close=True):
     return format_html(builder, tag=tag, attrs=attrs_string, content=content_string)
 
 
-def render_multi_line_html(safe_html_list=[]):
-    """Render a list of multiple lines of HTML."""
-    return format_html_join("\n", "{}", ((safe_html,) for safe_html in safe_html_list))
+def render_multi_line_html(html_lines=[]):
+    """Render a list of multiple lines of HTML as one block."""
+    return format_html_join("\n", "{}", ((html_line,) for html_line in html_lines))
