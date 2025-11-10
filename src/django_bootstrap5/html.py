@@ -1,11 +1,14 @@
 from copy import copy
 
 from django.forms.utils import flatatt
-from django.utils.html import format_html
+from django.utils.html import format_html, format_html_join
+from django.utils.safestring import mark_safe
 
 from django_bootstrap5.core import get_bootstrap_setting
 from django_bootstrap5.text import text_value
 from django_bootstrap5.utils import get_url_attrs
+
+EMPTY_SAFE_HTML = mark_safe("")
 
 
 def render_script_tag(url):
@@ -44,3 +47,8 @@ def render_tag(tag, attrs=None, content=None, close=True):
     if content_string or close:
         builder += "</{tag}>"
     return format_html(builder, tag=tag, attrs=attrs_string, content=content_string)
+
+
+def render_multi_line_html(html_lines=[]):
+    """Render a list of multiple lines of HTML as one block."""
+    return format_html_join("\n", "{}", ((html_line,) for html_line in html_lines))

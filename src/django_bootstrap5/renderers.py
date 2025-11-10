@@ -16,6 +16,7 @@ from django.utils.safestring import mark_safe
 from .core import get_bootstrap_setting
 from .css import merge_css_classes
 from .forms import render_field, render_form, render_label
+from .html import EMPTY_SAFE_HTML
 from .size import DEFAULT_SIZE, SIZE_MD, get_size_class, parse_size
 from .text import text_value
 from .utils import render_template_file
@@ -107,7 +108,7 @@ class BaseRenderer:
 
     def render(self):
         """Render to string."""
-        return ""
+        EMPTY_SAFE_HTML
 
 
 class FormsetRenderer(BaseRenderer):
@@ -124,7 +125,7 @@ class FormsetRenderer(BaseRenderer):
         return text_value(self.formset.management_form)
 
     def render_forms(self):
-        rendered_forms = mark_safe("")
+        rendered_forms = EMPTY_SAFE_HTML
         kwargs = self.get_kwargs()
         for form in self.formset.forms:
             rendered_forms += render_form(form, **kwargs)
@@ -144,7 +145,7 @@ class FormsetRenderer(BaseRenderer):
                     "layout": self.layout,
                 },
             )
-        return mark_safe("")
+        return EMPTY_SAFE_HTML
 
     def render(self):
         return format_html(self.render_management_form() + "{}{}", self.render_errors(), self.render_forms())
@@ -160,7 +161,7 @@ class FormRenderer(BaseRenderer):
         super().__init__(**kwargs)
 
     def render_fields(self):
-        rendered_fields = mark_safe("")
+        rendered_fields = EMPTY_SAFE_HTML
         kwargs = self.get_kwargs()
         for field in self.form:
             rendered_fields += render_field(field, **kwargs)
@@ -188,7 +189,7 @@ class FormRenderer(BaseRenderer):
                 context={"errors": form_errors, "form": self.form, "layout": self.layout, "type": type},
             )
 
-        return mark_safe("")
+        return EMPTY_SAFE_HTML
 
     def render(self):
         errors = self.render_errors(self.alert_error_type)
@@ -404,7 +405,7 @@ class FieldRenderer(BaseRenderer):
                     "show_help": self.show_help,
                 },
             )
-        return ""
+        return EMPTY_SAFE_HTML
 
     def get_errors_html(self):
         """Return HTML for field errors."""
@@ -419,7 +420,7 @@ class FieldRenderer(BaseRenderer):
                     "show_help": self.show_help,
                 },
             )
-        return ""
+        return EMPTY_SAFE_HTML
 
     def get_server_side_validation_classes(self):
         """Return CSS classes for server-side validation."""
@@ -474,7 +475,7 @@ class FieldRenderer(BaseRenderer):
 
     def render(self):
         if self.field.name in self.exclude.replace(" ", "").split(","):
-            return mark_safe("")
+            return EMPTY_SAFE_HTML
         if self.field.is_hidden:
             return text_value(self.field)
 
@@ -483,7 +484,7 @@ class FieldRenderer(BaseRenderer):
         if self.field_before_label():
             label = self.get_label_html()
             field = field + label
-            label = mark_safe("")
+            label = EMPTY_SAFE_HTML
             horizontal_class = merge_css_classes(self.horizontal_field_class, self.horizontal_field_offset_class)
         else:
             label = self.get_label_html(horizontal=self.is_horizontal)

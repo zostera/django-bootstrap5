@@ -1,5 +1,14 @@
 # Changelog
 
+## In development
+
+- Return safe HTML while minimizing use of mark_safe (#782, thanks @lyndonscotthumphris #778).
+- Remove support for Python 3.9 (EOL) (#779, #781).
+- Make sure that field errors are always visible (#767, @xi).
+- Add support for Python 3.14 (#774).
+- Add support for Django 6.0 (#773).
+- Update settings.rst (#756, @inpool).
+
 ## 25.2 (2025-07-30)
 
 - Fix help text and error IDs for aria-describedby (#746, thanks @xi).
