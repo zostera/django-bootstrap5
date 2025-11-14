@@ -1,6 +1,6 @@
 # Changelog
 
-## In development
+## 25.3 (2025-11-14)
 
 - Return safe HTML while minimizing use of mark_safe (#782, thanks @lyndonscotthumphris #778).
 - Remove support for Python 3.9 (EOL) (#779, #781).
