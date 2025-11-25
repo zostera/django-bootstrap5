@@ -306,7 +306,7 @@ class FieldRenderer(BaseRenderer):
         classes = [widget.attrs.get("class", ""), text_value(self.field_class)]
 
         if ReadOnlyPasswordHashWidget is not None and isinstance(widget, ReadOnlyPasswordHashWidget):
-            before.append("form-control-static")
+            before.append("form-control-plaintext")
         elif isinstance(widget, Select):
             before.append("form-select")
             size_prefix = "form-select"
