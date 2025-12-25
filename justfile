@@ -51,11 +51,11 @@ VERSION := `sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml`
 
 # Upgrade and install all dependencies
 @upgrade: uv
-    uv sync --all-extras --all-groups --upgrade
+    uv sync --all-groups --upgrade
 
-# Install all dependencies
-@sync: uv
-    uv sync --all-extras --all-groups --frozen
+# Install for development (uses uv.lock)
+install: uv
+    uv sync --frozen --all-groups
 
 # Format source code
 @format: uv
@@ -67,27 +67,21 @@ VERSION := `sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml`
     uvx ruff format --check
     uvx ruff check
 
-# Run test on the current environment with coverage and then report
-@test *ARGS: sync
-    just test-with-coverage-without-sync {{ARGS}}
+# Run test with coverage
+@test-cov *ARGS: uv
+    uv run coverage run manage.py test {{ARGS}}
     uv run coverage report
 
-# Run test with coverage
-[private]
-@test-with-coverage-without-sync *ARGS:
-    uv run coverage run manage.py test {{ARGS}}
-
-# Run test command without coverage and syncing
-[private]
-@test-without-coverage-without-sync *ARGS:
+# Run test
+@test *ARGS: uv
     uv run manage.py test {{ARGS}}
 
 # Run all tests (invokes tox)
-@tests: sync
+@tests:
     uv run tox
 
 # Build the package and test the build
-@build: clean-build
+@build: clean-build install
     uv build
     uvx twine check dist/*
     uvx check-manifest
@@ -95,8 +89,8 @@ VERSION := `sed -n 's/^ *version.*=.*"\([^"]*\)".*/\1/p' pyproject.toml`
     uvx check-wheel-contents dist
 
 # Build the documentation
-@docs: clean-docs sync
-    uv run -m sphinx -T -b html -d docs/_build/doctrees -D language=en docs docs/_build/html
+@docs: clean-docs install
+    uv run sphinx -T -b html -d docs/_build/doctrees -D language=en docs docs/_build/html
 
 # Run the example project
 @example:
