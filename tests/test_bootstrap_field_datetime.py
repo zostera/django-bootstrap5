@@ -12,16 +12,20 @@ class DateTimeTestCase(BootstrapTestCase):
     def test_input_type_admin_split_date_time(self):
         """Test field with AdminSplitDateTime widget."""
         if DJANGO_VERSION >= "6.0":
-            expected_html = """
-<div class="mb-3 django_bootstrap5-req"><label class="form-label" for="id_test">Test</label><p class="datetime">
-  <label for="id_test_0">Date:</label> <input type="text" name="test_0" class="form-control vDateField" size="10" placeholder="Test" required id="id_test_0" aria-describedby="id_test_timezone_warning_helptext">
-
-<br>
-  <label for="id_test_1">Time:</label> <input type="text" name="test_1" class="form-control vTimeField" size="8" placeholder="Test" required id="id_test_1" aria-describedby="id_test_timezone_warning_helptext">
-
-
-</p></div>
-"""
+            expected_html = (
+                '<div class="mb-3 django_bootstrap5-req">'
+                '<label class="form-label" for="id_test">Test</label>'
+                '<p class="datetime">'
+                ' <label for="id_test_0">Date:</label>'
+                ' <input type="text" name="test_0" class="form-control vDateField" size="10"'
+                ' placeholder="Test" required id="id_test_0" aria-describedby="id_test_timezone_warning_helptext">'
+                "<br>"
+                ' <label for="id_test_1">Time:</label>'
+                ' <input type="text" name="test_1" class="form-control vTimeField" size="8"'
+                ' placeholder="Test" required id="id_test_1" aria-describedby="id_test_timezone_warning_helptext">'
+                "</p>"
+                "</div>"
+            )
         else:
             expected_html = (
                 '<div class="django_bootstrap5-req mb-3">'
