@@ -1,5 +1,11 @@
 # Changelog
 
+## In development
+
+- Fix tests for Django 6 (#797, #798).
+- Fix tox and CI (#793, #794, #795).
+- Drop support for Django 5.1 (EOL) (#793).
+
 ## 25.3 (2025-11-14)
 
 - Return safe HTML while minimizing use of mark_safe (#782, thanks @lyndonscotthumphris #778).
