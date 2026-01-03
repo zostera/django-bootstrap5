@@ -1,6 +1,6 @@
 # django-bootstrap5
 
-[![Tests](https://github.com/zostera/django-bootstrap5/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/zostera/django-bootstrap5/actions?workflow=test)
+[![CI](https://github.com/zostera/django-bootstrap5/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/zostera/django-bootstrap5/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/zostera/django-bootstrap5/badge.svg?branch=main)](https://coveralls.io/github/zostera/django-bootstrap5?branch=main)
 [![Latest PyPI version](https://img.shields.io/pypi/v/django-bootstrap5.svg)](https://pypi.python.org/pypi/django-bootstrap5)
 
