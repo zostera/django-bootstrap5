@@ -1,7 +1,11 @@
 # Changelog
 
-## In development
+## 26.1 (2026-01-03)
 
+- Change form-control-static to form-control-plaintext (#787).
+- Refactor release workflow to tag-based publishing via GitHub (#802).
+- Remove tests folder from coverage source (#801).
+- Add smoke test (#799).
 - Fix tests for Django 6 (#797, #798).
 - Fix tox and CI (#793, #794, #795).
 - Drop support for Django 5.1 (EOL) (#793).
