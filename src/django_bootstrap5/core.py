@@ -16,6 +16,7 @@ BOOTSTRAP5_DEFAULTS = {
     "theme_url": None,
     "color_mode": None,
     "javascript_in_head": False,
+    "default_layout": "",
     "wrapper_class": "mb-3",
     "inline_wrapper_class": "",
     "horizontal_label_class": "col-sm-2",
