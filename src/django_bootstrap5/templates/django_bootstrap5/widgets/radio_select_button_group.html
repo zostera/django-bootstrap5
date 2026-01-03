@@ -10,7 +10,7 @@
               {% if option.attrs.checked %} checked="checked"{% endif %}{% endif %}
              {% if widget.attrs.disabled or option.attrs.disabled %} disabled{% endif %}
              {% if widget.required %} required{% endif %}>
-      <label class="btn btn-outline-primary" for="{{ option.attrs.id }}">{{ option.label }}</label>
+      <label class="btn btn-outline-primary{% if widget.attrs.btn_size_class %} {{ widget.attrs.btn_size_class }}{% endif %}" for="{{ option.attrs.id }}">{{ option.label }}</label>
     {% endfor %}
   {% endfor %}
 </div>
