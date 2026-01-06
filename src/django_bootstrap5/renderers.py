@@ -331,6 +331,11 @@ class FieldRenderer(BaseRenderer):
         classes = before + classes
         widget.attrs["class"] = merge_css_classes(*classes)
 
+        # Add button size class for RadioSelectButtonGroup
+        if isinstance(widget, RadioSelectButtonGroup):
+            btn_size_class = get_size_class(self.size, prefix="btn", skip=["xs", "md"])
+            widget.attrs["btn_size_class"] = btn_size_class
+
     def add_placeholder_attrs(self, widget=None):
         """Add placeholder attribute to widget."""
         if widget is None:
