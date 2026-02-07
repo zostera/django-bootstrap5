@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add extra_classes to pagination tag (#765).
+
 ## 26.1 (2026-01-03)
 
 - Change form-control-static to form-control-plaintext (#787).
