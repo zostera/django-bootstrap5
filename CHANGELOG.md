@@ -1,6 +1,16 @@
 # Changelog
 
-## In development
+## 26.1 (2026-01-03)
+
+- Change form-control-static to form-control-plaintext (#787).
+- Refactor release workflow to tag-based publishing via GitHub (#802).
+- Remove tests folder from coverage source (#801).
+- Add smoke test (#799).
+- Fix tests for Django 6 (#797, #798).
+- Fix tox and CI (#793, #794, #795).
+- Drop support for Django 5.1 (EOL) (#793).
+
+## 25.3 (2025-11-14)
 
 - Return safe HTML while minimizing use of mark_safe (#782, thanks @lyndonscotthumphris #778).
 - Remove support for Python 3.9 (EOL) (#779, #781).
