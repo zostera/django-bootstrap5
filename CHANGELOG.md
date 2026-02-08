@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 26.2 (2026-02-08)
 
 - Add size parameter support for RadioSelectButtonGroup widget (#789, thanks sgordon16)
 - Fix FieldRenderer label_html function returning unsafe html (#805, thanks @lyndonscotthumphris)
