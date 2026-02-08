@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add size parameter support for RadioSelectButtonGroup widget (#789, thanks sgordon16claude)
+- Fix FieldRenderer label_html function returning unsafe html (#805, thanks @lyndonscotthumphris)
 - Add extra_classes to pagination tag (#765).
 
 ## 26.1 (2026-01-03)
