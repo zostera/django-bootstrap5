@@ -1,6 +1,6 @@
 [build-system]
 build-backend = "uv_build"
-requires = ["uv_build>=0.9.6,<0.10.0"]
+requires = ["uv_build>=0.9.6,<0.11.0"]
 
 [project]
 authors = [
@@ -11,7 +11,6 @@ classifiers = [
   "Environment :: Web Environment",
   "Framework :: Django",
   "Framework :: Django :: 4.2",
-  "Framework :: Django :: 5.1",
   "Framework :: Django :: 5.2",
   "Framework :: Django :: 6.0",
   "Intended Audience :: Developers",
@@ -33,7 +32,7 @@ license-files = ["LICENSE", "AUTHORS"]
 name = "django-bootstrap5"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "25.3"
+version = "26.1"
 
 [project.optional-dependencies]
 jinja = ["Jinja2>=3.0,<4"]
@@ -80,7 +79,7 @@ known-third-party = ["django"]
 
 [tool.coverage.run]
 branch = true
-source = ["src", "tests"]
+source = ["src"]
 
 [tool.coverage.paths]
 package = ["src/django_bootstrap5", "*/django_bootstrap5/src/django_bootstrap5"]
@@ -91,16 +90,19 @@ skip_covered = true
 
 [dependency-groups]
 dev = [
-  "beautifulsoup4>=4.12.3",
-  "coverage[toml]>=7.6.1",
-  "jinja2>=3.1.4",
-  "pillow>=11.0.0",
-  "tox-uv>=1.13.1",
+  {include-group = "test"},
+  {include-group = "docs"},
 ]
 docs = [
   "furo>=2024.8.6",
   "myst-parser>=3.0.1",
   "sphinx>=7.1.2",
+]
+test = [
+  "coverage[toml]>=7.6.1",
+  "beautifulsoup4>=4.12.3",
+  "coverage[toml]>=7.6.1",
+  "pillow>=11.0.0",
 ]
 
 [tool.uv.build-backend]

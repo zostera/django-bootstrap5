@@ -306,7 +306,7 @@ class FieldRenderer(BaseRenderer):
         classes = [widget.attrs.get("class", ""), text_value(self.field_class)]
 
         if ReadOnlyPasswordHashWidget is not None and isinstance(widget, ReadOnlyPasswordHashWidget):
-            before.append("form-control-static")
+            before.append("form-control-plaintext")
         elif isinstance(widget, Select):
             before.append("form-select")
             size_prefix = "form-select"
@@ -386,15 +386,15 @@ class FieldRenderer(BaseRenderer):
 
     def get_label_html(self, horizontal=False):
         """Return value for label."""
-        label_html = "" if self.show_label == "skip" else self.field.label
+        if self.show_label == "skip":
+            return EMPTY_SAFE_HTML
+        
         label_for = self.field.id_for_label
-        if label_html:
-            label_html = render_label(
-                label_html,
-                label_for=label_for,
-                label_class=self.get_label_class(horizontal=horizontal),
-            )
-        return label_html
+        return render_label(
+            self.field.label,
+            label_for=label_for,
+            label_class=self.get_label_class(horizontal=horizontal),
+        )
 
     def get_help_html(self):
         """Return HTML for help text."""
