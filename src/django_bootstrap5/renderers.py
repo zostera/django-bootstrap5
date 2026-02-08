@@ -388,7 +388,7 @@ class FieldRenderer(BaseRenderer):
         """Return value for label."""
         if self.show_label == "skip":
             return EMPTY_SAFE_HTML
-        
+
         label_for = self.field.id_for_label
         return render_label(
             self.field.label,
