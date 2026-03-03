@@ -310,7 +310,7 @@ wheels = [
 
 [[package]]
 name = "django-bootstrap5"
-version = "26.2"
+version = "26.3.dev0"
 source = { editable = "." }
 dependencies = [
     { name = "django", version = "5.2.11", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
