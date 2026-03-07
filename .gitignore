@@ -2,6 +2,7 @@
 # Editors
 .vscode/
 .idea/
+.claude/
 
 # Local development
 .python-version
