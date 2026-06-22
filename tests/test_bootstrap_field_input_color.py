@@ -16,7 +16,7 @@ class InputTypeColorTestCase(BootstrapTestCase):
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
                 '<input class="form-control form-control-color" '
-                'id="id_test" name="test" placeholder="Test" required type="color">'
+                'id="id_test" name="test" required type="color">'
                 "</div>"
             ),
         )
@@ -30,7 +30,7 @@ class InputTypeColorTestCase(BootstrapTestCase):
                 '<label for="id_test" class="col-form-label col-sm-2">Test</label>'
                 '<div class="col-sm-10">'
                 '<input class="form-control form-control-color" id="id_test"'
-                ' name="test" placeholder="Test" required type="color">'
+                ' name="test" required type="color">'
                 "</div>"
                 "</div>"
             ),
@@ -44,7 +44,7 @@ class InputTypeColorTestCase(BootstrapTestCase):
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
                 '<input class="form-control form-control-color" id="id_test"'
-                ' name="test" placeholder="Test" required type="color">'
+                ' name="test" required type="color">'
                 "</div>"
             ),
         )

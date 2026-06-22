@@ -15,7 +15,7 @@ class InputTypeRangeTestCase(BootstrapTestCase):
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
-                '<input class="form-range" id="id_test" name="test" placeholder="Test" required type="range">'
+                '<input class="form-range" id="id_test" name="test" required type="range">'
                 "</div>"
             ),
         )
@@ -28,7 +28,7 @@ class InputTypeRangeTestCase(BootstrapTestCase):
                 '<div class="django_bootstrap5-req row mb-3">'
                 '<label for="id_test" class="col-form-label col-sm-2">Test</label>'
                 '<div class="col-sm-10">'
-                '<input class="form-range" id="id_test" name="test" placeholder="Test" required type="range">'
+                '<input class="form-range" id="id_test" name="test" required type="range">'
                 "</div>"
                 "</div>"
             ),
@@ -41,7 +41,7 @@ class InputTypeRangeTestCase(BootstrapTestCase):
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label for="id_test" class="form-label">Test</label>'
-                '<input class="form-range" id="id_test" name="test" placeholder="Test" required type="range">'
+                '<input class="form-range" id="id_test" name="test" required type="range">'
                 "</div>"
             ),
         )

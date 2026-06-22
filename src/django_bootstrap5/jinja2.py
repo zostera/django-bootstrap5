@@ -21,14 +21,14 @@ def get_language_code(context) -> str:
 
     # check for a request object to extract the language from
     request = context.get("request")
-    language_code = getattr(request, "LANGUAGE_CODE")
+    language_code = getattr(request, "LANGUAGE_CODE", None)
     if language_code:
         return language_code
 
     # defer expensive django import (python caches imports)
     from django.utils.translation import get_language
 
-    return get_language.get_language()
+    return get_language()
 
 
 def pagination(context, page, **kwargs) -> str:
