@@ -45,3 +45,17 @@ class InputTypeRangeTestCase(BootstrapTestCase):
                 "</div>"
             ),
         )
+
+    def test_input_type_range_invalid(self):
+        """Test that range input gets is-invalid class when bound with errors."""
+        form = RangeTestForm(data={})
+        html = self.render("{% bootstrap_field form.test %}", context={"form": form})
+        self.assertIn("is-invalid", html)
+        self.assertNotIn("is-valid", html)
+
+    def test_input_type_range_valid(self):
+        """Test that range input gets is-valid class when bound and valid."""
+        form = RangeTestForm(data={"test": "5"})
+        html = self.render("{% bootstrap_field form.test %}", context={"form": form})
+        self.assertIn("is-valid", html)
+        self.assertNotIn("is-invalid", html)
