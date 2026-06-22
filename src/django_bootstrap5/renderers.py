@@ -108,7 +108,7 @@ class BaseRenderer:
 
     def render(self):
         """Render to string."""
-        EMPTY_SAFE_HTML
+        return EMPTY_SAFE_HTML
 
 
 class FormsetRenderer(BaseRenderer):
