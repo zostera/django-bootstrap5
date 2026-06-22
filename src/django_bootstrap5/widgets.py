@@ -15,4 +15,6 @@ class RadioSelectButtonGroup(RadioSelect):
 
 def is_widget_with_placeholder(widget):
     """Return whether this widget can have a placeholder."""
+    if isinstance(widget, TextInput):
+        return widget.input_type not in ("color", "range")
     return isinstance(widget, (TextInput, Textarea, NumberInput, EmailInput, URLInput, PasswordInput))
