@@ -1,3 +1,5 @@
+import warnings
+
 from django.forms import (
     BaseForm,
     BaseFormSet,
@@ -216,6 +218,11 @@ class FieldRenderer(BaseRenderer):
 
         self.addon_before = kwargs.get("addon_before", self.widget.attrs.pop("addon_before", ""))
         self.addon_after = kwargs.get("addon_after", self.widget.attrs.pop("addon_after", ""))
+        if self.layout == "floating" and (self.addon_before or self.addon_after):
+            warnings.warn(
+                'layout="floating" has no effect when addon_before or addon_after is set.',
+                stacklevel=2,
+            )
         self.addon_before_class = kwargs.get(
             "addon_before_class", self.widget.attrs.pop("addon_before_class", "input-group-text")
         )
