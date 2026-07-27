@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Warn when `layout="floating"` is used with `addon_before` or `addon_after` (#833).
+- Fix placeholder being set on color and range inputs (#832).
+- Fix bugs in `url_replace_param`, jinja2 helpers, and `BaseRenderer.render`; add AGENTS.md (#830).
+
 ## 26.2 (2026-02-08)
 
 - Add size parameter support for RadioSelectButtonGroup widget (#789, thanks sgordon16)
