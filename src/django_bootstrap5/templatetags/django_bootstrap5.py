@@ -379,6 +379,11 @@ def bootstrap_field(field, **kwargs):
         field_class
             CSS class of the ``div`` that wraps the field.
 
+        label
+            Override the field's label text. Also used as the default placeholder, if ``set_placeholder`` is on.
+
+            :default: the field's own ``label``
+
         label_class
             CSS class of the ``label`` element. Will always have ``control-label`` as the last CSS class.
 
