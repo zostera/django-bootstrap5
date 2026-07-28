@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add MAINTAINING.md (version-support policy, release process); add scope statement and PR-review checklist to CONTRIBUTING.md.
 - Add support for Django 6.1.
 - Add `layout` setting to set a default layout for forms and fields (#190, #531, thanks @blag).
 - Drop support for Django 4.2 (EOL).
