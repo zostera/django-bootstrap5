@@ -98,6 +98,18 @@ class BootstrapFormTestCase(BootstrapTestCase):
         html = self.render('{% bootstrap_form form success_css_class="" %}', {"form": form})
         self.assertNotIn("django_bootstrap5-success", html)
 
+    def test_server_side_validation(self):
+        form = FormTestForm({"subject": "subject"})
+
+        html = self.render("{% bootstrap_form form %}", {"form": form})
+        self.assertIn("is-valid", html)
+
+        form = FormTestForm({"subject": "subject"})
+
+        html = self.render("{% bootstrap_form form server_side_validation=False %}", {"form": form})
+        self.assertNotIn("is-valid", html)
+        self.assertNotIn("is-invalid", html)
+
     def test_alert_error_type(self):
         form = NonFieldErrorTestForm({"subject": "subject"})
 
