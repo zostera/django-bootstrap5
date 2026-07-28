@@ -111,9 +111,9 @@ Test matrix (tox) — not a full grid:
 |---------|-------------------------|
 | 3.10    | 5.2                     |
 | 3.11    | 5.2                     |
-| 3.12    | 5.2, 6.0, main          |
-| 3.13    | 5.2, 6.0, main          |
-| 3.14    | 5.2, 6.0, main          |
+| 3.12    | 5.2, 6.0, 6.1, main     |
+| 3.13    | 5.2, 6.0, 6.1, main     |
+| 3.14    | 5.2, 6.0, 6.1, main     |
 
 Target the matrix when adding features; avoid Django-version-specific code paths where possible.
 
