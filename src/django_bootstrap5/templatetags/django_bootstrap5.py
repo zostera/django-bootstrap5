@@ -477,6 +477,11 @@ def bootstrap_field(field, **kwargs):
 
             :default: ``''``
 
+        server_side_validation
+            Whether to add ``is-valid``/``is-invalid`` classes based on the field's validation state.
+
+            :default: ``True``. Can be changed :doc:`settings`
+
     **Usage**::
 
         {% bootstrap_field field %}
