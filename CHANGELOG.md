@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Drop support for Django 4.2 (EOL).
 - Update default Bootstrap to 5.3.8.
 - Add `input_class` argument to `bootstrap_field` (#525, #535, thanks @frolenkov-nikita).
 - Warn when `layout="floating"` is used with `addon_before` or `addon_after` (#833).
