@@ -95,6 +95,19 @@ class FieldTestCase(BootstrapTestCase):
             '<label class="form-label" for="subject">foobar</label>',
         )
 
+    def test_label_kwarg(self):
+        """bootstrap_field label kwarg overrides the field's own label text (#635)."""
+        html = self.render('{% bootstrap_field form.subject label="Custom Label" %}', {"form": SubjectTestForm()})
+        self.assertIn('<label class="form-label" for="id_subject">Custom Label</label>', html)
+        self.assertNotIn(">Subject<", html)
+
+    def test_label_kwarg_used_as_default_placeholder(self):
+        class PlainTestForm(forms.Form):
+            plain = forms.CharField()
+
+        html = self.render('{% bootstrap_field form.plain label="Custom Label" %}', {"form": PlainTestForm()})
+        self.assertIn('placeholder="Custom Label"', html)
+
     @override_settings(BOOTSTRAP5={"label_class": "custom-label-class"})
     def test_label_class_setting(self):
         html = self.render("{% bootstrap_field form.subject %}", {"form": SubjectTestForm()})

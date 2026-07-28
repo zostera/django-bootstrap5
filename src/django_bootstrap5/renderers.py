@@ -214,6 +214,7 @@ class FieldRenderer(BaseRenderer):
         self.initial_attrs = self.widget.attrs.copy()
         self.help_text = text_value(field.help_text) if self.show_help and field.help_text else ""
         self.field_errors = [conditional_escape(text_value(error)) for error in field.errors]
+        self.label = kwargs.get("label", field.label)
 
         self.placeholder = text_value(kwargs.get("placeholder", self.default_placeholder))
 
@@ -269,7 +270,7 @@ class FieldRenderer(BaseRenderer):
     @property
     def default_placeholder(self):
         """Return default placeholder for field."""
-        return self.field.label if get_bootstrap_setting("set_placeholder") else ""
+        return self.label if get_bootstrap_setting("set_placeholder") else ""
 
     def restore_widget_attrs(self):
         self.widget.attrs = self.initial_attrs.copy()
@@ -410,7 +411,7 @@ class FieldRenderer(BaseRenderer):
 
         label_for = self.field.id_for_label
         return render_label(
-            self.field.label,
+            self.label,
             label_for=label_for,
             label_class=self.get_label_class(horizontal=horizontal),
         )
