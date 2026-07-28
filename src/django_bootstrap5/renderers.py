@@ -289,6 +289,8 @@ class FieldRenderer(BaseRenderer):
                 "date",
                 "time",
                 "password",
+                "month",
+                "datetime-local",
             ]
 
         return isinstance(widget, Textarea)
