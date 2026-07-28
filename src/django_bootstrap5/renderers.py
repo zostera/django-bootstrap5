@@ -101,6 +101,7 @@ class BaseRenderer:
             "checkbox_layout": self.checkbox_layout,
             "checkbox_style": self.checkbox_style,
             "inline_field_class": self.inline_field_class,
+            "server_side_validation": self.server_side_validation,
             "error_css_class": self.error_css_class,
             "success_css_class": self.success_css_class,
             "required_css_class": self.required_css_class,
