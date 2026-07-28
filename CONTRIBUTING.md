@@ -9,10 +9,10 @@ You can contribute in many ways:
 
 The goal of this project is to seamlessly blend Django and Bootstrap 5: template tags and
 widgets that render Bootstrap 5 markup for Django forms. Contributions that fit that goal are
-welcome. Contributions that don't — a competing form-rendering abstraction, support for other
-CSS frameworks, functionality unrelated to rendering Django forms as Bootstrap 5 — are likely
-to be closed even if well-implemented, so it's worth opening an issue to discuss scope before
-investing time in a pull request.
+welcome. Contributions that don't (such as a competing form-rendering abstraction, support for
+other CSS frameworks, functionality unrelated to rendering Django forms as Bootstrap 5) are
+likely to be closed even if well-implemented, so it's worth opening an issue to discuss scope
+before investing time in a pull request.
 
 ## Types of Contributions
 
