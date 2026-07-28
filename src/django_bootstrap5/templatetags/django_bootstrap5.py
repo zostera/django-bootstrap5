@@ -382,6 +382,8 @@ def bootstrap_field(field, **kwargs):
         label_class
             CSS class of the ``label`` element. Will always have ``control-label`` as the last CSS class.
 
+            :default: ``''``. Can be changed :doc:`settings`
+
         show_help
             Show the field's help text, if the field has help text.
 
