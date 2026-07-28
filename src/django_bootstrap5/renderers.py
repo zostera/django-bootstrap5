@@ -306,6 +306,13 @@ class FieldRenderer(BaseRenderer):
             return self.size == DEFAULT_SIZE and not isinstance(widget, (SelectMultiple, RadioSelect))
         return False
 
+    def can_widget_have_addons(self, widget=None):
+        """Return whether given widget can be rendered with addon_before/addon_after."""
+        widget = widget or self.widget
+        if self.is_form_control_widget(widget):
+            return True
+        return isinstance(widget, Select) and not isinstance(widget, (SelectMultiple, RadioSelect))
+
     def add_widget_class_attrs(self, widget=None):
         """Add class attribute to widget."""
         if widget is None:
@@ -508,7 +515,7 @@ class FieldRenderer(BaseRenderer):
         help = self.get_help_html()
         errors = self.get_errors_html()
 
-        if self.is_form_control_widget():
+        if self.can_widget_have_addons():
             if self.addon_before_class is None:
                 addon_before = self.addon_before
             else:
