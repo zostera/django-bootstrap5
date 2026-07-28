@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add MAINTAINING.md (version-support policy, release process); add scope statement and PR-review checklist to CONTRIBUTING.md.
 - Drop support for Django 4.2 (EOL).
 - Update default Bootstrap to 5.3.8.
 - Add `input_class` argument to `bootstrap_field` (#525, #535, thanks @frolenkov-nikita).
