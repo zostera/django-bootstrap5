@@ -40,9 +40,9 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
         # Put JavaScript in the HEAD section of the HTML document (only relevant if you use bootstrap5.html).
         'javascript_in_head': False,
 
-        # Default layout class
-        # Can be floating, horizontal, or inline
-        'default_layout': '',
+        # Default layout for forms and fields.
+        # Can be floating, horizontal, or inline. Can be overridden per call with the "layout" argument.
+        'layout': '',
 
         # Wrapper class for non-inline fields.
         # The default value "mb-3" is the spacing as used by Bootstrap 5 example code.

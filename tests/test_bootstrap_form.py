@@ -216,7 +216,7 @@ class HorizontalFormTestCase(BootstrapTestCase):
 class DefaultLayoutTestCase(BootstrapTestCase):
     @override_settings(
         BOOTSTRAP5={
-            "default_layout": "horizontal",
+            "layout": "horizontal",
         },
     )
     def test_horizontal_default_layout(self):
@@ -230,18 +230,18 @@ class DefaultLayoutTestCase(BootstrapTestCase):
             (
                 '<div class="mb-3 row">'
                 '<label class="col-form-label col-sm-2" for="id_subject">'
-                'Subject'
-                '</label>'
+                "Subject"
+                "</label>"
                 '<div class="col-sm-10">'
                 '<input class="form-control" id="id_subject" name="subject" placeholder="Subject" required type="text">'
-                '</div>'
-                '</div>'
+                "</div>"
+                "</div>"
             ),
         )
 
     @override_settings(
         BOOTSTRAP5={
-            "default_layout": "inline",
+            "layout": "inline",
             "inline_wrapper_class": "custom-inline-wrapper-class",
         },
     )
@@ -256,8 +256,8 @@ class DefaultLayoutTestCase(BootstrapTestCase):
             (
                 '<div class="col-12 custom-inline-wrapper-class">'
                 '<label class="visually-hidden" for="id_subject">'
-                'Subject'
-                '</label>'
+                "Subject"
+                "</label>"
                 '<input class="form-control" id="id_subject" name="subject" placeholder="Subject" required type="text">'
                 "</div>"
             ),
@@ -265,7 +265,7 @@ class DefaultLayoutTestCase(BootstrapTestCase):
 
     @override_settings(
         BOOTSTRAP5={
-            "default_layout": "floating",
+            "layout": "floating",
         },
     )
     def test_floating_default_layout(self):
@@ -280,8 +280,8 @@ class DefaultLayoutTestCase(BootstrapTestCase):
                 '<div class="form-floating mb-3">'
                 '<input class="form-control" id="id_subject" name="subject" placeholder="Subject" required type="text">'
                 '<label class="form-label" for="id_subject">'
-                'Subject'
-                '</label>'
-                '</div>'
+                "Subject"
+                "</label>"
+                "</div>"
             ),
         )
