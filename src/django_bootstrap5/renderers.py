@@ -38,7 +38,7 @@ class BaseRenderer:
         self.wrapper_class = kwargs.get("wrapper_class", get_bootstrap_setting("wrapper_class"))
         self.inline_wrapper_class = kwargs.get("inline_wrapper_class", get_bootstrap_setting("inline_wrapper_class"))
         self.field_class = kwargs.get("field_class", "")
-        self.label_class = kwargs.get("label_class", "")
+        self.label_class = kwargs.get("label_class", get_bootstrap_setting("label_class"))
         self.show_help = kwargs.get("show_help", True)
         self.show_label = kwargs.get("show_label", True)
         self.exclude = kwargs.get("exclude", "")

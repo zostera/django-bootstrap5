@@ -52,6 +52,9 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
         # The default value is empty, as Bootstrap5 example code doesn't use a wrapper class.
         'inline_wrapper_class': '',
 
+        # CSS class for the label element.
+        'label_class': '',
+
         # Field class for inline fields.
         # the default value is "col-12". This class will combined with `inline_wrapper_class`.
         'inline_field_class': 'col-auto',
