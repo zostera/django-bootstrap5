@@ -65,13 +65,13 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label class="form-label">Test</label>'
-                '<div class="" required id="id_test">'
+                '<div id="id_test">'
                 '<div class="form-check">'
-                '<input class="form-check-input" type="radio" name="test" id="id_test_0" value="1">'
+                '<input class="form-check-input" type="radio" name="test" id="id_test_0" value="1" required>'
                 '<label class="form-check-label" for="id_test_0">one</label>'
                 "</div>"
                 '<div class="form-check">'
-                '<input class="form-check-input" type="radio" name="test" id="id_test_1" value="2">'
+                '<input class="form-check-input" type="radio" name="test" id="id_test_1" value="2" required>'
                 '<label class="form-check-label" for="id_test_1">two</label>'
                 "</div>"
                 "</div>"
@@ -87,13 +87,13 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
                 '<div class="django_bootstrap5-req row mb-3">'
                 '<label class="col-sm-2 col-form-label">Test</label>'
                 '<div class="col-sm-10">'
-                '<div class="" required id="id_test">'
+                '<div id="id_test">'
                 '<div class="form-check">'
-                '<input class="form-check-input" type="radio" name="test" id="id_test_0" value="1">'
+                '<input class="form-check-input" type="radio" name="test" id="id_test_0" value="1" required>'
                 '<label class="form-check-label" for="id_test_0">one</label>'
                 "</div>"
                 '<div class="form-check">'
-                '<input class="form-check-input" type="radio" name="test" id="id_test_1" value="2">'
+                '<input class="form-check-input" type="radio" name="test" id="id_test_1" value="2" required>'
                 '<label class="form-check-label" for="id_test_1">two</label>'
                 "</div>"
                 "</div>"
@@ -109,13 +109,13 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label class="form-label">Test</label>'
-                '<div class="" required id="id_test">'
+                '<div id="id_test">'
                 '<div class="form-check">'
-                '<input class="form-check-input" type="radio" name="test" id="id_test_0" value="1">'
+                '<input class="form-check-input" type="radio" name="test" id="id_test_0" value="1" required>'
                 '<label class="form-check-label" for="id_test_0">one</label>'
                 "</div>"
                 '<div class="form-check">'
-                '<input class="form-check-input" type="radio" name="test" id="id_test_1" value="2">'
+                '<input class="form-check-input" type="radio" name="test" id="id_test_1" value="2" required>'
                 '<label class="form-check-label" for="id_test_1">two</label>'
                 "</div>"
                 "</div>"
@@ -131,13 +131,13 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label class="form-label">Test</label>'
-                '<div class="" disabled required id="id_test">'
+                '<div id="id_test">'
                 '<div class="form-check">'
-                '<input class="form-check-input" disabled type="radio" name="test" id="id_test_0" value="1">'
+                '<input class="form-check-input" type="radio" name="test" id="id_test_0" value="1" required disabled>'
                 '<label class="form-check-label" for="id_test_0">one</label>'
                 "</div>"
                 '<div class="form-check">'
-                '<input class="form-check-input" disabled type="radio" name="test" id="id_test_1" value="2">'
+                '<input class="form-check-input" type="radio" name="test" id="id_test_1" value="2" required disabled>'
                 '<label class="form-check-label" for="id_test_1">two</label>'
                 "</div>"
                 "</div>"
@@ -152,13 +152,13 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label class="form-label">Test</label>'
-                '<div class="" required id="id_test">'
+                '<div id="id_test">'
                 '<div class="form-check">'
-                '<input class="form-check-input" disabled type="radio" name="test" id="id_test_0" value="1">'
+                '<input class="form-check-input" type="radio" name="test" id="id_test_0" value="1" required disabled>'
                 '<label class="form-check-label" for="id_test_0">one</label>'
                 "</div>"
                 '<div class="form-check">'
-                '<input class="form-check-input" type="radio" name="test" id="id_test_1" value="2">'
+                '<input class="form-check-input" type="radio" name="test" id="id_test_1" value="2" required>'
                 '<label class="form-check-label" for="id_test_1">two</label>'
                 "</div>"
                 "</div>"
@@ -173,13 +173,15 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
             (
                 '<div class="django_bootstrap5-req mb-3">'
                 '<label class="form-label">Test</label>'
-                '<div class="" form="another-form" required id="id_test">'
+                '<div id="id_test">'
                 '<div class="form-check">'
-                '<input class="form-check-input" form="another-form" type="radio" name="test" id="id_test_0" value="1">'
+                '<input class="form-check-input" form="another-form" type="radio" name="test" id="id_test_0"'
+                ' value="1" required>'
                 '<label class="form-check-label" for="id_test_0">one</label>'
                 "</div>"
                 '<div class="form-check">'
-                '<input class="form-check-input" form="another-form" type="radio" name="test" id="id_test_1" value="2">'
+                '<input class="form-check-input" form="another-form" type="radio" name="test" id="id_test_1"'
+                ' value="2" required>'
                 '<label class="form-check-label" for="id_test_1">two</label>'
                 "</div>"
                 "</div>"

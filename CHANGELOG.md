@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Recognize `month` and `datetime-local` input-type widget subclasses as form-control widgets, enabling addons and floating labels for them (#309, #678).
+- Rewrite `radio_select.html` to forward each option's own attrs (fixing custom attrs like `data-total` from a custom `create_option()` being silently dropped on `RadioSelect`/`CheckboxSelectMultiple`, #300) and to stop leaking `disabled`/`required`/`form`/an always-empty `class=""` onto the non-form-control wrapper `<div>` (#806). Individual radio/checkbox inputs now correctly get `required`/`disabled`, matching Django's own default widget rendering, instead of only the wrapper having them.
 - Add `label_class` setting so a default label CSS class can be set globally (#260).
 - Support `addon_before`/`addon_after` on `Select` widgets, excluding `SelectMultiple` and `RadioSelect` (#613).
 - Fix `server_side_validation` not propagating from `bootstrap_form`/`bootstrap_formset` to field renderers (#612).
