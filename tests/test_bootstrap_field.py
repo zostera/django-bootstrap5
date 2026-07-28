@@ -1,4 +1,5 @@
 from django import forms
+from django.test import override_settings
 
 from .base import BootstrapTestCase
 
@@ -93,3 +94,16 @@ class FieldTestCase(BootstrapTestCase):
             self.render('{% bootstrap_label "foobar" label_for="subject" %}'),
             '<label class="form-label" for="subject">foobar</label>',
         )
+
+    @override_settings(BOOTSTRAP5={"label_class": "custom-label-class"})
+    def test_label_class_setting(self):
+        html = self.render("{% bootstrap_field form.subject %}", {"form": SubjectTestForm()})
+        self.assertIn('class="form-label custom-label-class"', html)
+
+    def test_label_class_kwarg_overrides_setting(self):
+        with override_settings(BOOTSTRAP5={"label_class": "custom-label-class"}):
+            html = self.render(
+                '{% bootstrap_field form.subject label_class="kwarg-label-class" %}', {"form": SubjectTestForm()}
+            )
+            self.assertIn('class="form-label kwarg-label-class"', html)
+            self.assertNotIn("custom-label-class", html)
