@@ -406,9 +406,9 @@ def bootstrap_field(field, **kwargs):
 
             One of the following values:
 
-                * ``'small'``
-                * ``'medium'``
-                * ``'large'``
+                * ``'sm'``
+                * ``'md'``
+                * ``'lg'``
 
         placeholder
             Sets the placeholder text of a textbox
@@ -694,8 +694,8 @@ def bootstrap_pagination(page, **kwargs):
 
             One of the following:
 
-                * ``'small'``
-                * ``'large'``
+                * ``'sm'``
+                * ``'lg'``
 
             :default: ``None``
 

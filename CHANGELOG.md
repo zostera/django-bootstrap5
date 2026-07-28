@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix `size` docstrings for `bootstrap_field`/`bootstrap_form` and `bootstrap_pagination` — the documented values (`'small'`/`'medium'`/`'large'`) don't exist; the accepted values are `'sm'`/`'md'`/`'lg'` (#777).
 - Recognize `month` and `datetime-local` input-type widget subclasses as form-control widgets, enabling addons and floating labels for them (#309, #678).
 - Rewrite `radio_select.html` to forward each option's own attrs (fixing custom attrs like `data-total` from a custom `create_option()` being silently dropped on `RadioSelect`/`CheckboxSelectMultiple`, #300) and to stop leaking `disabled`/`required`/`form`/an always-empty `class=""` onto the non-form-control wrapper `<div>` (#806). Individual radio/checkbox inputs now correctly get `required`/`disabled`, matching Django's own default widget rendering, instead of only the wrapper having them.
 - Add `label_class` setting so a default label CSS class can be set globally (#260).
