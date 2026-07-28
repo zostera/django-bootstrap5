@@ -1,6 +1,6 @@
 {% load django_bootstrap5 %}
 {% bootstrap_server_side_validation_class widget as server_side_validation_class %}
-<div{% include "django/forms/widgets/attrs.html" %}>
+<div{% if widget.attrs.id %} id="{{ widget.attrs.id }}"{% endif %}{% if widget.attrs.class %} class="{{ widget.attrs.class }}"{% endif %}>
     {% for group, options, index in widget.optgroups %}
         {% if group %}
             <div>{{ group }}</div>{% endif %}
@@ -9,11 +9,8 @@
                 <input class="{% bootstrap_classes 'form-check-input' server_side_validation_class %}"
                        type="{{ option.type }}"
                        name="{{ option.name }}"
-                       id="{{ option.attrs.id }}"
-                        {% if option.value != None %} value="{{ option.value|stringformat:'s' }}"
-                            {% if option.attrs.checked %} checked="checked"{% endif %}{% endif %}
-                        {% if widget.attrs.form %} form="{{ widget.attrs.form }}"{% endif %}
-                        {% if widget.attrs.disabled or option.attrs.disabled %} disabled{% endif %}>
+                        {% if option.value != None %} value="{{ option.value|stringformat:'s' }}"{% endif %}
+                        {% for attr_name, attr_value in option.attrs.items %}{% if attr_name != "class" and attr_value is not False %} {{ attr_name }}{% if attr_value is not True %}="{{ attr_value|stringformat:'s' }}"{% endif %}{% endif %}{% endfor %}>
                 <label class="form-check-label" for="{{ option.attrs.id }}">{{ option.label }}</label>
             </div>
         {% endfor %}
