@@ -10,7 +10,6 @@ classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Environment :: Web Environment",
   "Framework :: Django",
-  "Framework :: Django :: 4.2",
   "Framework :: Django :: 5.2",
   "Framework :: Django :: 6.0",
   "Intended Audience :: Developers",
@@ -24,7 +23,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries",
   "Topic :: Utilities",
 ]
-dependencies = ["Django>=4.2"]
+dependencies = ["Django>=5.2"]
 description = "Bootstrap 5 for Django"
 keywords = ["django", "bootstrap", "bootstrap5"]
 license = "BSD-3-Clause"

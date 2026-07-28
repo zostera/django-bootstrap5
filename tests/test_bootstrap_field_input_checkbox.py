@@ -1,6 +1,6 @@
 from django import forms
 
-from tests.base import DJANGO_VERSION, BootstrapTestCase
+from tests.base import BootstrapTestCase
 
 
 class CheckboxTestForm(forms.Form):
@@ -28,10 +28,8 @@ class InputTypeCheckboxTestCase(BootstrapTestCase):
             "{% bootstrap_field form.test %}",
             context={"form": CheckboxTestForm(data={})},
         )
-        if DJANGO_VERSION >= "5":  # TODO: Django 4.2
-            html = html.replace(' aria-invalid="true"', "")
-        if DJANGO_VERSION >= "5.2":  # TODO: Django 5.1
-            html = html.replace(' aria-describedby="id_test_error"', "")
+        html = html.replace(' aria-invalid="true"', "")
+        html = html.replace(' aria-describedby="id_test_error"', "")
         self.assertHTMLEqual(
             html,
             (

@@ -3,7 +3,7 @@ from django import forms
 from django.forms import formset_factory
 from django.test import override_settings
 
-from tests.base import DJANGO_VERSION, BootstrapTestCase
+from tests.base import BootstrapTestCase
 
 
 class FormTestForm(forms.Form):
@@ -37,8 +37,7 @@ class BootstrapFormTestCase(BootstrapTestCase):
             '{% bootstrap_form form exclude="optional_text" %}',
             {"form": FormTestForm()},
         )
-        if DJANGO_VERSION >= "5":  # TODO: Django 4.2
-            html = html.replace(' aria-describedby="id_required_text_helptext"', "")
+        html = html.replace(' aria-describedby="id_required_text_helptext"', "")
         self.assertHTMLEqual(
             html,
             (
