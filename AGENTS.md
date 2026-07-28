@@ -17,9 +17,9 @@ AGENTS.md is **not** synced — each package has its own.
 
 ## Bootstrap 5
 
-Current stable release is 5.3. New Bootstrap releases are expected — update support when they arrive.
+The default CDN URLs in `src/django_bootstrap5/core.py` are pinned to a specific Bootstrap release. Check https://github.com/twbs/bootstrap/releases for newer ones — don't hardcode a version number here, it will drift.
 
-Docs: https://getbootstrap.com/docs/5.3/
+Docs: https://getbootstrap.com/docs/5.3/ (versioned by major.minor; update this link when adopting a new minor)
 
 ## Setup
 
