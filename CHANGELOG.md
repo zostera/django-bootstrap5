@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Recognize `month` and `datetime-local` input-type widget subclasses as form-control widgets, enabling addons and floating labels for them (#309, #678).
+- Support `addon_before`/`addon_after` on `Select` widgets, excluding `SelectMultiple` and `RadioSelect` (#613).
 - Fix `server_side_validation` not propagating from `bootstrap_form`/`bootstrap_formset` to field renderers (#612).
 - Add MAINTAINING.md (version-support policy, release process); add scope statement and PR-review checklist to CONTRIBUTING.md.
 - Add support for Django 6.1.
