@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `just release-check` to list `src/` changes against changelog entries before a release.
+- Fix the release process in MAINTAINING.md: the version bump goes through a PR, not a direct push to protected `main`.
 - Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
 
 ## 26.3 (2026-08-28)
