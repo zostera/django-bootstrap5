@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Fix `just build` / CI failing on `main`: newer `uv_build` writes a `pyproject.toml.orig` backup file into the sdist, which `check-manifest` flagged as untracked. Added it to `check-manifest`'s ignore list.
+- Fix `just build`: ignore the transient `pyproject.toml.orig` in `check-manifest`.
 - Add `label` argument to `bootstrap_field` to override a field's label text without touching the form definition — works with horizontal/floating layout and as the default placeholder (#635).
 - Fix `size` docstrings for `bootstrap_field`/`bootstrap_form` and `bootstrap_pagination` — the documented values (`'small'`/`'medium'`/`'large'`) don't exist; the accepted values are `'sm'`/`'md'`/`'lg'` (#777).
 - Recognize `month` and `datetime-local` input-type widget subclasses as form-control widgets, enabling addons and floating labels for them (#309, #678).
