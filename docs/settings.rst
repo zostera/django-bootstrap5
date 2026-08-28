@@ -65,7 +65,7 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
         # Field class to use in horizontal forms.
         'horizontal_field_class': 'col-sm-10',
 
-        # Field class used for horizontal fields withut a label.
+        # Field class used for horizontal fields without a label.
         'horizontal_field_offset_class': 'offset-sm-2',
 
         # HTML attributes with any of these prefixes will have underscores converted to hyphens.

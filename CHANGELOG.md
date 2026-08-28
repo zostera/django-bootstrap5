@@ -3,6 +3,8 @@
 ## Unreleased
 
 - Fix `just build`: ignore the transient `pyproject.toml.orig` in `check-manifest`.
+- Add `typos` spell checking to `just lint`.
+- Fix typos in `CHANGELOG.md` and `docs/settings.rst`.
 - Add `label` argument to `bootstrap_field` to override a field's label text without touching the form definition — works with horizontal/floating layout and as the default placeholder (#635).
 - Fix `size` docstrings for `bootstrap_field`/`bootstrap_form` and `bootstrap_pagination` — the documented values (`'small'`/`'medium'`/`'large'`) don't exist; the accepted values are `'sm'`/`'md'`/`'lg'` (#777).
 - Recognize `month` and `datetime-local` input-type widget subclasses as form-control widgets, enabling addons and floating labels for them (#309, #678).
@@ -204,7 +206,7 @@
 
 ## 0.3.0 (2021-04-18)
 
-- Fix suport for `Textarea` widgets.
+- Fix support for `Textarea` widgets.
 - Add support for horizontal forms.
 - Add support for `checkbox_type="switch"`.
 - Set PyPI Development Status to 4 - Beta.
