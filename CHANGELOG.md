@@ -5,7 +5,7 @@
 - Drop support for Django 4.2 (EOL).
 - Add support for Django 6.1.
 - Recognize `month` and `datetime-local` input-type widget subclasses as form-control widgets, enabling addons and floating labels for them (#309, #678).
-- Rewrite `radio_select.html` to forward each option's own attrs (fixing custom attrs like `data-total` from a custom `create_option()` being silently dropped on `RadioSelect`/`CheckboxSelectMultiple`, #300) and to stop leaking `disabled`/`required`/`form`/an always-empty `class=""` onto the non-form-control wrapper `<div>` (#806). Individual radio/checkbox inputs now correctly get `required`/`disabled`, matching Django's own default widget rendering, instead of only the wrapper having them.
+- **Breaking:** Rewrite `radio_select.html` to forward each option's own attrs (fixing custom attrs like `data-total` from a custom `create_option()` being silently dropped on `RadioSelect`/`CheckboxSelectMultiple`, #300) and to stop leaking `disabled`/`required`/`form`/an always-empty `class=""` onto the non-form-control wrapper `<div>` (#806). Individual radio/checkbox inputs now correctly get `required`/`disabled`, matching Django's own default widget rendering, instead of only the wrapper having them.
 - Fix `server_side_validation` not propagating from `bootstrap_form`/`bootstrap_formset` to field renderers (#612).
 - Fix placeholder being set on color and range inputs (#832).
 - Fix bugs in `url_replace_param`, jinja2 helpers, and `BaseRenderer.render`; add AGENTS.md (#830).
