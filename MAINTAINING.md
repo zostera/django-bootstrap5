@@ -36,6 +36,15 @@ copy always drifts out of sync with the files that actually enforce it.
 - Don't hardcode a Bootstrap version number in prose docs. Point at `core.py` and the upstream
   releases page instead.
 
+Don't put an upper bound on the `Django` dependency. A cap does not produce a clean failure when a
+new Django major ships: the resolver backtracks to an older release of this package whose metadata
+never had one, so users silently get old, unmaintained code instead of an error. Verified — asking
+for `django-bootstrap4` with `django<5.2` resolves to `django-bootstrap4==26.1` with `django==5.1.15`,
+no error. Capping the current release cannot close a door that published metadata already left open.
+
+The `django-version: main` job in the CI matrix is the real early warning: it breaks while the new
+major is still in development, when there is time to fix and release.
+
 ## Maintenance round
 
 Start every maintenance round — and every release — by reconciling the support matrix with
