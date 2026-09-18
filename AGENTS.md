@@ -15,6 +15,10 @@ These packages share tooling and conventions. Changes in one often mirror to oth
 Config files (justfile, tox.ini, pyproject.toml, etc.) are kept in sync across packages.
 AGENTS.md is **not** synced, each package has its own.
 
+django-marina is the canonical source for this shared tooling. See its
+[PACKAGING.md](https://github.com/zostera/django-marina/blob/main/PACKAGING.md) for exactly
+which files sync, which need per-package substitution, and the propagation process.
+
 ## Bootstrap 5
 
 The default CDN URLs in `src/django_bootstrap5/core.py` are pinned to a specific Bootstrap release. Check https://github.com/twbs/bootstrap/releases for newer ones. Don't hardcode a version number here, it will drift. See [MAINTAINING.md](MAINTAINING.md) for the full version-support policy (Python, Django, and Bootstrap).
