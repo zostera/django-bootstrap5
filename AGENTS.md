@@ -1,23 +1,23 @@
-# django-bootstrap5 — Agent Guide
+# django-bootstrap5: Agent Guide
 
 Bootstrap 5 template tags and filters for Django, by [Zostera](https://github.com/zostera).
 
 ## Related packages
 
-These packages share tooling and conventions — changes in one often mirror to others:
+These packages share tooling and conventions. Changes in one often mirror to others:
 
-- `https://github.com/zostera/django-bootstrap3` — Bootstrap 3 for Django
-- `https://github.com/zostera/django-bootstrap4` — Bootstrap 4 for Django
-- `https://github.com/zostera/django-bootstrap5` — Bootstrap 5 for Django (this package)
-- `https://github.com/zostera/django-icons` — Icons for Django
-- `https://github.com/zostera/django-marina` — Django extensions by Zostera
+- `https://github.com/zostera/django-bootstrap3`, Bootstrap 3 for Django
+- `https://github.com/zostera/django-bootstrap4`, Bootstrap 4 for Django
+- `https://github.com/zostera/django-bootstrap5`, Bootstrap 5 for Django (this package)
+- `https://github.com/zostera/django-icons`, Icons for Django
+- `https://github.com/zostera/django-marina`, Django extensions by Zostera
 
 Config files (justfile, tox.ini, pyproject.toml, etc.) are kept in sync across packages.
-AGENTS.md is **not** synced — each package has its own.
+AGENTS.md is **not** synced, each package has its own.
 
 ## Bootstrap 5
 
-The default CDN URLs in `src/django_bootstrap5/core.py` are pinned to a specific Bootstrap release. Check https://github.com/twbs/bootstrap/releases for newer ones — don't hardcode a version number here, it will drift. See [MAINTAINING.md](MAINTAINING.md) for the full version-support policy (Python, Django, and Bootstrap).
+The default CDN URLs in `src/django_bootstrap5/core.py` are pinned to a specific Bootstrap release. Check https://github.com/twbs/bootstrap/releases for newer ones. Don't hardcode a version number here, it will drift. See [MAINTAINING.md](MAINTAINING.md) for the full version-support policy (Python, Django, and Bootstrap).
 
 Docs: https://getbootstrap.com/docs/5.3/ (versioned by major.minor; update this link when adopting a new minor)
 
@@ -27,9 +27,9 @@ Requires [uv](https://github.com/astral-sh/uv) and [just](https://github.com/cas
 
 Never invoke `python`, `pip`, or `ruff` directly. All commands go through `just`, which delegates to `uv run` (venv) or `uvx` (ephemeral tools like ruff, twine, check-manifest).
 
-`uv.lock` is fully generated — never manually resolve merge conflicts in it. On conflict: accept either side, then run `just upgrade` to regenerate.
+`uv.lock` is fully generated, never manually resolve merge conflicts in it. On conflict: accept either side, then run `just upgrade` to regenerate.
 
-Also run `just upgrade` after changing any dependency constraint in `pyproject.toml` (e.g. bumping the Django floor) — otherwise `uv.lock`'s own `requires-dist` metadata goes stale and silently drifts from `pyproject.toml`.
+Also run `just upgrade` after changing any dependency constraint in `pyproject.toml` (e.g. bumping the Django floor). Otherwise `uv.lock`'s own `requires-dist` metadata goes stale and silently drifts from `pyproject.toml`.
 
 ## Code style
 
@@ -45,12 +45,12 @@ The package lives in `src/django_bootstrap5/`. The Django app name is `django_bo
 
 The tox matrix includes a `jinja` extra for Jinja2 integration testing.
 
-The current Python × Django matrix is not a full grid — see `tox.ini`'s `envlist` for what's actually tested (`pyproject.toml` classifiers and `ci.yml`'s matrix must match it). Don't copy the matrix into prose elsewhere; it drifts. See [MAINTAINING.md](MAINTAINING.md) for the policy behind how the matrix is chosen and kept current.
+The current Python × Django matrix is not a full grid. See `tox.ini`'s `envlist` for what's actually tested (`pyproject.toml` classifiers and `ci.yml`'s matrix must match it). Don't copy the matrix into prose elsewhere; it drifts. See [MAINTAINING.md](MAINTAINING.md) for the policy behind how the matrix is chosen and kept current.
 
 Target the matrix when adding features; avoid Django-version-specific code paths where possible.
 
 ## CI
 
-`just lint` must pass before committing — CI enforces it and will fail the PR.
+`just lint` must pass before committing, CI enforces it and will fail the PR.
 
 See [MAINTAINING.md](MAINTAINING.md) for the release process and version-support policy.
