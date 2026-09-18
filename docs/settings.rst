@@ -97,3 +97,23 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
             'default': 'django_bootstrap5.renderers.FieldRenderer',
         },
     }
+
+Unused settings
+---------------
+
+A key in ``BOOTSTRAP5`` that this package does not read is ignored. That is a problem
+when a setting used to exist and was removed, or when a settings dict is carried over
+from django-bootstrap3 or django-bootstrap4: the key goes on looking effective while
+doing nothing.
+
+A system check reports those keys, so they show up in ``manage.py check``, in
+``runserver`` and in CI:
+
+.. code:: text
+
+    ?: (django_bootstrap5.W001) BOOTSTRAP5['jquery_url'] has no effect: not a
+    django-bootstrap5 setting; Bootstrap 5 does not use jQuery.
+
+If you deliberately keep extra keys in the dict, silence it with::
+
+    SILENCED_SYSTEM_CHECKS = ["django_bootstrap5.W001"]

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add a system check that warns about keys in the `BOOTSTRAP5` setting that the package does not read, such as a setting removed in an earlier release or one carried over from django-bootstrap3 or django-bootstrap4 (`django_bootstrap5.W001`, #867). Silence it with `SILENCED_SYSTEM_CHECKS` if you keep extra keys deliberately.
+- Add the documented `inline_field_class` setting to `BOOTSTRAP5_DEFAULTS`, where it was missing. Its effective default is unchanged.
 - Add `just release-check` to list `src/` changes against changelog entries before a release.
 - Fix the release process in MAINTAINING.md: the version bump goes through a PR, not a direct push to protected `main`.
 - Note in MAINTAINING.md why the `Django` dependency carries no upper bound.

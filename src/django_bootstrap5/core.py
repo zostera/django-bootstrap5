@@ -19,6 +19,7 @@ BOOTSTRAP5_DEFAULTS = {
     "layout": "",
     "wrapper_class": "mb-3",
     "inline_wrapper_class": "",
+    "inline_field_class": None,
     "label_class": "",
     "horizontal_label_class": "col-sm-2",
     "horizontal_field_class": "col-sm-10",
