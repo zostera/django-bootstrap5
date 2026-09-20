@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Recognize `week`, `search` and `color` input-type widgets as form-control widgets, so `addon_before`/`addon_after` work on them, and warn instead of silently dropping addons on a widget that cannot have them (#743, #872). Floating labels stay unsupported for `color`, where Bootstrap sizes the swatch itself.
 - Add a system check that warns about keys in the `BOOTSTRAP5` setting that the package does not read, such as a setting removed in an earlier release or one carried over from django-bootstrap3 or django-bootstrap4 (`django_bootstrap5.W001`, #867). Silence it with `SILENCED_SYSTEM_CHECKS` if you keep extra keys deliberately.
 - Add the documented `inline_field_class` setting to `BOOTSTRAP5_DEFAULTS`, where it was missing. Its effective default is unchanged.
 - Add `just release-check` to list `src/` changes against changelog entries before a release.

@@ -220,11 +220,17 @@ class FieldRenderer(BaseRenderer):
 
         self.addon_before = kwargs.get("addon_before", self.widget.attrs.pop("addon_before", ""))
         self.addon_after = kwargs.get("addon_after", self.widget.attrs.pop("addon_after", ""))
-        if self.layout == "floating" and (self.addon_before or self.addon_after):
-            warnings.warn(
-                'layout="floating" has no effect when addon_before or addon_after is set.',
-                stacklevel=2,
-            )
+        if self.addon_before or self.addon_after:
+            if self.layout == "floating":
+                warnings.warn(
+                    'layout="floating" has no effect when addon_before or addon_after is set.',
+                    stacklevel=2,
+                )
+            if not self.can_widget_have_addons():
+                warnings.warn(
+                    "addon_before and addon_after have no effect on this widget.",
+                    stacklevel=2,
+                )
         self.addon_before_class = kwargs.get(
             "addon_before_class", self.widget.attrs.pop("addon_before_class", "input-group-text")
         )
@@ -293,6 +299,9 @@ class FieldRenderer(BaseRenderer):
                 "password",
                 "month",
                 "datetime-local",
+                "week",
+                "search",
+                "color",
             ]
 
         return isinstance(widget, Textarea)
@@ -303,6 +312,9 @@ class FieldRenderer(BaseRenderer):
 
     def can_widget_float(self, widget):
         """Return whether given widget can be set to `form-floating` behavior."""
+        if self.get_widget_input_type(widget) == "color":
+            # Bootstrap sizes the color swatch itself, leaving no room for a floating label.
+            return False
         if self.is_form_control_widget(widget):
             return True
         if isinstance(widget, Select):
