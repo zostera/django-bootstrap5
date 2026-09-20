@@ -4,7 +4,7 @@ Settings
 
 The django-bootstrap5 has some pre-configured settings.
 
-They can be modified by adding a dict variable called ``BOOTSTRAP5`` in your ``settings.py`` and customizing the values ​​you want;
+They can be modified by adding a dict variable called ``BOOTSTRAP5`` in your ``settings.py`` and customizing the values you want;
 
 The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
 
