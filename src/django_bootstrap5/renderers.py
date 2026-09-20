@@ -220,17 +220,11 @@ class FieldRenderer(BaseRenderer):
 
         self.addon_before = kwargs.get("addon_before", self.widget.attrs.pop("addon_before", ""))
         self.addon_after = kwargs.get("addon_after", self.widget.attrs.pop("addon_after", ""))
-        if self.addon_before or self.addon_after:
-            if self.layout == "floating":
-                warnings.warn(
-                    'layout="floating" has no effect when addon_before or addon_after is set.',
-                    stacklevel=2,
-                )
-            if not self.can_widget_have_addons():
-                warnings.warn(
-                    "addon_before and addon_after have no effect on this widget.",
-                    stacklevel=2,
-                )
+        if (self.addon_before or self.addon_after) and not self.can_widget_have_addons():
+            warnings.warn(
+                "addon_before and addon_after have no effect on this widget.",
+                stacklevel=2,
+            )
         self.addon_before_class = kwargs.get(
             "addon_before_class", self.widget.attrs.pop("addon_before_class", "input-group-text")
         )
@@ -266,12 +260,12 @@ class FieldRenderer(BaseRenderer):
 
     @property
     def is_floating(self):
-        return (
-            super().is_floating
-            and self.can_widget_float(self.widget)
-            and not self.addon_before
-            and not self.addon_after
-        )
+        return super().is_floating and self.can_widget_float(self.widget)
+
+    @property
+    def has_addons(self):
+        """Return whether the widget is rendered inside an input group with addons."""
+        return bool(self.addon_before or self.addon_after) and self.can_widget_have_addons()
 
     @property
     def default_placeholder(self):
@@ -492,7 +486,8 @@ class FieldRenderer(BaseRenderer):
                 wrapper_classes.append("row")
             wrapper_classes.append(self.wrapper_class)
 
-        if self.is_floating:
+        # With addons, `form-floating` goes on a div inside the input group, not on the wrapper.
+        if self.is_floating and not self.has_addons:
             wrapper_classes.append("form-floating")
 
         # The indicator classes are added to the wrapper class. Bootstrap 5 server-side validation classes
@@ -548,6 +543,9 @@ class FieldRenderer(BaseRenderer):
                     else ""
                 )
             if addon_before or addon_after:
+                if self.is_floating:
+                    # Bootstrap nests `form-floating` (widget plus label) inside the input group.
+                    field = format_html('<div class="form-floating">{}</div>', field)
                 classes = "input-group"
                 if self.server_side_validation and self.get_server_side_validation_classes():
                     classes = merge_css_classes(classes, "has-validation")
