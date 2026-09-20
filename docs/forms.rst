@@ -67,6 +67,8 @@ Floating labels are supported for widgets that can use `form-control`, with the 
 
 The `Select` widget can only float if it has the default size, does not support multiple selects, and has no special markup.
 
+Note: a `TextInput` with type `color` does support add-ons, but it does not stay a compact swatch inside an input group. Bootstrap sizes the swatch with `form-control-color`, and the `.input-group > .form-control` rule that sets the width of controls in an input group is more specific, so the swatch stretches to fill the row. This package ships no CSS of its own and cannot override that, so add a rule of your own if you want to keep the swatch at its normal width.
+
 
 Horizontal forms
 ----------------
