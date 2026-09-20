@@ -139,10 +139,12 @@ class InputTypeTextTestCase(BootstrapTestCase):
             ),
             (
                 '<div class="django_bootstrap5-req mb-3">'
-                '<label for="id_test" class="form-label">Test</label>'
                 '<div class="input-group">'
                 '<span class="input-group-text">foo</span>'
+                '<div class="form-floating">'
                 '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
+                '<label for="id_test" class="form-label">Test</label>'
+                "</div>"
                 "</div>"
                 "</div>"
             ),
@@ -175,6 +177,36 @@ class InputTypeTextTestCase(BootstrapTestCase):
                 '<div class="django_bootstrap5-req mb-3 form-floating">'
                 '<input class="form-control" id="id_test" name="test" placeholder="Test" required type="text">'
                 '<label for="id_test" class="form-label">Test</label>'
+                "</div>"
+            ),
+        )
+
+    def test_input_floating_addon_validation_failure(self):
+        """A floating label in an input group keeps the error inside the input group, next to `form-floating`."""
+        form = CharFieldRequiredTestForm(data={"test": ""})
+        self.assertFalse(form.is_valid())
+
+        html = self.render(
+            '{% bootstrap_field form.test addon_before="foo" layout="floating" %}', context={"form": form}
+        )
+        html = html.replace(' aria-invalid="true"', "")
+        html = html.replace(' aria-describedby="id_test_error"', "")
+
+        self.assertHTMLEqual(
+            html,
+            (
+                '<div class="django_bootstrap5-err django_bootstrap5-req mb-3">'
+                '<div class="input-group has-validation">'
+                '<span class="input-group-text">foo</span>'
+                '<div class="form-floating">'
+                '<input type="text" name="test" minlength="1" class="form-control'
+                ' is-invalid" placeholder="Test" required id="id_test">'
+                '<label class="form-label" for="id_test">Test</label>'
+                "</div>"
+                '<div id="id_test_error" class="w-100">'
+                '<div class="invalid-feedback d-block">This field is required.</div>'
+                "</div>"
+                "</div>"
                 "</div>"
             ),
         )

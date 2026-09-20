@@ -64,3 +64,22 @@ class InputTypeColorTestCase(BootstrapTestCase):
                 "</div>"
             ),
         )
+
+    def test_input_type_color_addon_floating(self):
+        """A color input takes an addon but still does not float, so it gets a plain input group."""
+        self.assertHTMLEqual(
+            self.render(
+                '{% bootstrap_field form.test addon_before="$" layout="floating" %}',
+                context={"form": ColorTestForm()},
+            ),
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<label for="id_test" class="form-label">Test</label>'
+                '<div class="input-group">'
+                '<span class="input-group-text">$</span>'
+                '<input class="form-control form-control-color" id="id_test"'
+                ' name="test" required type="color">'
+                "</div>"
+                "</div>"
+            ),
+        )

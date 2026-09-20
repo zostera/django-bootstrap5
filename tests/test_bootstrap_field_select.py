@@ -94,3 +94,26 @@ class BootstrapFieldRadioSelectTestCase(BootstrapTestCase):
                 "</div>"
             ),
         )
+
+    def test_select_floating_with_addon(self):
+        """A select with an addon and a floating label nests `form-floating` inside the input group."""
+        self.assertHTMLEqual(
+            self.render(
+                '{% bootstrap_field form.test addon_after="bar" layout="floating" %}',
+                context={"form": SelectTestForm()},
+            ),
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<div class="input-group">'
+                '<div class="form-floating">'
+                '<select class="form-select" id="id_test" name="test">'
+                '<option value="1">one</option>'
+                '<option value="2">two</option>'
+                "</select>"
+                '<label for="id_test" class="form-label">Test</label>'
+                "</div>"
+                '<span class="input-group-text">bar</span>'
+                "</div>"
+                "</div>"
+            ),
+        )
