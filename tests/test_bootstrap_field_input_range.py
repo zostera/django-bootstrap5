@@ -46,6 +46,12 @@ class InputTypeRangeTestCase(BootstrapTestCase):
             ),
         )
 
+    def test_input_type_range_addon_warns(self):
+        """Test that an addon on a range input warns instead of being dropped silently (#872)."""
+        with self.assertWarnsMessage(UserWarning, "addon_before and addon_after have no effect on this widget."):
+            html = self.render('{% bootstrap_field form.test addon_before="foo" %}', context={"form": RangeTestForm()})
+        self.assertNotIn("input-group", html)
+
     def test_input_type_range_invalid(self):
         """Test that range input gets is-invalid class when bound with errors."""
         form = RangeTestForm(data={})

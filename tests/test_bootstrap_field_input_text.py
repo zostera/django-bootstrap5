@@ -276,6 +276,28 @@ class InputTypeTextTestCase(BootstrapTestCase):
             floating_html,
         )
 
+    def _test_input_type_addon(self, input_type):
+        """Test field with given input type and an addon."""
+
+        class InputTypeTestForm(forms.Form):
+            test = forms.CharField(widget=TextInput(attrs={"type": input_type}))
+
+        self.assertHTMLEqual(
+            self.render(
+                '{% bootstrap_field form.test addon_before="foo" %}',
+                context={"form": InputTypeTestForm()},
+            ),
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<label for="id_test" class="form-label">Test</label>'
+                '<div class="input-group">'
+                '<span class="input-group-text">foo</span>'
+                f'<input class="form-control" id="id_test" name="test" placeholder="Test" required type="{input_type}">'
+                "</div>"
+                "</div>"
+            ),
+        )
+
     def test_input_types(self):
         """Test field with CharField widget and its type set."""
         self._test_input_type("text")
@@ -286,6 +308,13 @@ class InputTypeTextTestCase(BootstrapTestCase):
         self._test_input_type("date")
         self._test_input_type("time")
         self._test_input_type("password")
+        self._test_input_type("week")
+        self._test_input_type("search")
+
+    def test_input_types_with_addon(self):
+        """Test addons on input types that are recognized as form controls (#872)."""
+        self._test_input_type_addon("week")
+        self._test_input_type_addon("search")
 
     def test_input_type_password(self):
         """Test field with password widget."""
