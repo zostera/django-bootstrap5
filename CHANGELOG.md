@@ -1,11 +1,12 @@
 # Changelog
 
-## Unreleased
+## 26.4 (2026-09-21)
 
+- Add the documented `inline_field_class` setting to `BOOTSTRAP5_DEFAULTS`, where it was missing. Its effective default is unchanged.
 - Support `addon_before`/`addon_after` on fields with `layout="floating"` (#866). The `form-floating` element is now nested inside the `input-group`, as Bootstrap's floating-label input-group markup requires, instead of the two being alternatives. This removes the warning added in 26.3 (#833), which existed because the combination was unsupported.
 - Recognize `week`, `search` and `color` input-type widgets as form-control widgets, so `addon_before`/`addon_after` work on them, and warn instead of silently dropping addons on a widget that cannot have them (#743, #872). Floating labels stay unsupported for `color`, where Bootstrap sizes the swatch itself.
 - Add a system check that warns about keys in the `BOOTSTRAP5` setting that the package does not read, such as a setting removed in an earlier release or one carried over from django-bootstrap3 or django-bootstrap4 (`django_bootstrap5.W001`, #867). Silence it with `SILENCED_SYSTEM_CHECKS` if you keep extra keys deliberately.
-- Add the documented `inline_field_class` setting to `BOOTSTRAP5_DEFAULTS`, where it was missing. Its effective default is unchanged.
+- Drop a duplicate `coverage[toml]` entry from the `test` dependency group and sort it alphabetically.
 - Add `just release-check` to list `src/` changes against changelog entries before a release.
 - Fix the release process in MAINTAINING.md: the version bump goes through a PR, not a direct push to protected `main`.
 - Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
