@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix a `template_name` set on a `RadioSelect`, `CheckboxSelectMultiple` or `ClearableFileInput` subclass being overwritten by this package's own widget template (#388). Widgets that still carry Django's default template are unaffected.
 - Test on Python 3.15 (release candidate) against Django 6.1 and `main`. The job is non-blocking and 3.15 is not yet advertised as supported.
 - Fail the CI gate when any job fails, not only the test matrix. A failing docs or packaging build could previously be merged.
 

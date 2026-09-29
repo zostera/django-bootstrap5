@@ -22,7 +22,12 @@ from .html import EMPTY_SAFE_HTML
 from .size import DEFAULT_SIZE, SIZE_MD, get_size_class, parse_size
 from .text import text_value
 from .utils import render_template_file
-from .widgets import RadioSelectButtonGroup, ReadOnlyPasswordHashWidget, is_widget_with_placeholder
+from .widgets import (
+    RadioSelectButtonGroup,
+    ReadOnlyPasswordHashWidget,
+    is_widget_with_placeholder,
+    set_widget_template,
+)
 
 
 class BaseRenderer:
@@ -382,9 +387,9 @@ class FieldRenderer(BaseRenderer):
             if isinstance(widget, (RadioSelect, CheckboxSelectMultiple)) and not isinstance(
                 widget, RadioSelectButtonGroup
             ):
-                widget.template_name = "django_bootstrap5/widgets/radio_select.html"
+                set_widget_template(widget, "django_bootstrap5/widgets/radio_select.html")
             elif isinstance(widget, ClearableFileInput):
-                widget.template_name = "django_bootstrap5/widgets/clearable_file_input.html"
+                set_widget_template(widget, "django_bootstrap5/widgets/clearable_file_input.html")
 
     def get_label_class(self, horizontal=False):
         """Return CSS class for label."""

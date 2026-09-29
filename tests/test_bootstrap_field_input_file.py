@@ -84,3 +84,25 @@ class InputTypeFileTestCase(BootstrapTestCase):
                 "</div>"
             ),
         )
+
+
+class CustomTemplateClearableFileInput(forms.ClearableFileInput):
+    template_name = "tests/custom_widget.html"
+
+
+class CustomTemplateFileTestForm(forms.Form):
+    test = forms.FileField(widget=CustomTemplateClearableFileInput, required=False)
+
+
+class CustomTemplateClearableFileInputTestCase(BootstrapTestCase):
+    def test_custom_template_is_kept(self):
+        """Test that a template set on a ClearableFileInput subclass is not replaced."""
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_field form.test %}", context={"form": CustomTemplateFileTestForm()}),
+            (
+                '<div class="mb-3">'
+                '<label class="form-label" for="id_test">Test</label>'
+                '<div class="custom-widget">test</div>'
+                "</div>"
+            ),
+        )
