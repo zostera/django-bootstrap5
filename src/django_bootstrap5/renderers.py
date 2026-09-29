@@ -35,6 +35,7 @@ class BaseRenderer:
 
     def __init__(self, **kwargs):
         self.layout = kwargs.get("layout", get_bootstrap_setting("layout"))
+        self.wrapper = kwargs.get("wrapper", True)
         self.wrapper_class = kwargs.get("wrapper_class", get_bootstrap_setting("wrapper_class"))
         self.inline_wrapper_class = kwargs.get("inline_wrapper_class", get_bootstrap_setting("inline_wrapper_class"))
         self.field_class = kwargs.get("field_class", "")
@@ -87,6 +88,7 @@ class BaseRenderer:
         """Return kwargs to pass on to child renderers."""
         context = {
             "layout": self.layout,
+            "wrapper": self.wrapper,
             "wrapper_class": self.wrapper_class,
             "field_class": self.field_class,
             "label_class": self.label_class,
@@ -553,6 +555,11 @@ class FieldRenderer(BaseRenderer):
                 field = format_html('<div class="{}">{}{}{}{}</div>', classes, addon_before, field, addon_after, errors)
                 errors = ""
 
+        if not self.wrapper and self.is_floating and not self.has_addons:
+            # Without a wrapper there is nothing to carry `form-floating`, so the widget and its label get
+            # their own element, the same nesting Bootstrap uses for floating labels inside an input group.
+            field = format_html('<div class="form-floating">{}</div>', field)
+
         if isinstance(self.widget, CheckboxInput):
             field = format_html('<div class="{}">{}{}{}</div>', self.get_checkbox_classes(), field, errors, help)
             errors = ""
@@ -564,6 +571,11 @@ class FieldRenderer(BaseRenderer):
             field_with_errors_and_help = format_html(
                 '<div class="{}">{}</div>', horizontal_class, field_with_errors_and_help
             )
+
+        if not self.wrapper:
+            # The label, widget, errors and help text are rendered as before, without an element around them.
+            # The classes the wrapper carried are dropped, since the element that carried them is gone.
+            return format_html("{}{}", label, field_with_errors_and_help)
 
         return format_html(
             '<div class="{wrapper_classes}">{label}{field_with_errors_and_help}</div>',

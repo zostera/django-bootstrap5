@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add a `wrapper` argument to `bootstrap_field`, `bootstrap_form` and `bootstrap_formset` (#438). With `wrapper=False` a field renders its label, widget, errors and help text without the wrapper `div`, so several fields can share one element of your own, such as an `input-group`. The classes the wrapper carried (`wrapper_class`, the horizontal `row`, and the required and validation indicator classes) are then not rendered, as there is no element to carry them; the `is-valid`/`is-invalid` classes on the widget are unaffected. `wrapper_class=""` keeps rendering `<div class="">` as before.
 - Test on Python 3.15 (release candidate) against Django 6.1 and `main`. The job is non-blocking and 3.15 is not yet advertised as supported.
 - Fail the CI gate when any job fails, not only the test matrix. A failing docs or packaging build could previously be merged.
 
