@@ -523,6 +523,16 @@ def bootstrap_label(content, **kwargs):
         label_title
             The value that will be in the ``title`` attribute of the rendered ``<label>``
 
+        show_label
+            Whether to show the label.
+
+                * ``True``
+                * ``False``/``'visually-hidden'``, which adds ``visually-hidden`` to the
+                  label's CSS classes, so the label is available to screen readers only
+                * ``'skip'``, which renders nothing
+
+            :default: ``True``
+
     **Usage**::
 
         {% bootstrap_label content %}
