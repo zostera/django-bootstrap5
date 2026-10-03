@@ -25,6 +25,12 @@ copy always drifts out of sync with the files that actually enforce it.
   it's cut, so the interpreter itself is rarely the blocker. Only make the job blocking once
   our C-extension test dependencies (currently Pillow) publish wheels for it; that's normally
   the actual bottleneck.
+- A pre-release goes in `tox.ini` and `ci.yml` but **not** in the `pyproject.toml` classifiers.
+  A classifier is a promise to users, and a job that cannot fail the build does not back one.
+  Add the classifier in the same change that makes the job blocking. Pair the pre-release only
+  with the Django series that will support it first, the newest one plus `main`. A leg against
+  a series that will never claim it is a standing red mark, and it teaches reviewers to ignore
+  the column.
 
 ### Bootstrap
 

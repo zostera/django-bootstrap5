@@ -32,7 +32,7 @@ license-files = ["LICENSE", "AUTHORS"]
 name = "django-bootstrap5"
 readme = "README.md"
 requires-python = ">=3.10"
-version = "26.3"
+version = "26.4"
 
 [project.optional-dependencies]
 jinja = ["Jinja2>=3.0,<4"]
@@ -99,7 +99,6 @@ docs = [
   "sphinx>=7.1.2",
 ]
 test = [
-  "coverage[toml]>=7.6.1",
   "beautifulsoup4>=4.12.3",
   "coverage[toml]>=7.6.1",
   "pillow>=11.0.0",
