@@ -6,10 +6,3 @@ def text_value(value):
     if value is None:
         return ""
     return force_str(value)
-
-
-def text_concat(*args, **kwargs):
-    """Concatenate several values as a text string with an optional separator."""
-    separator = text_value(kwargs.get("separator", ""))
-    values = filter(None, [text_value(v) for v in args])
-    return separator.join(values)
