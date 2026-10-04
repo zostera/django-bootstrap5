@@ -188,3 +188,31 @@ class BootstrapFieldSelectTestCase(BootstrapTestCase):
                 "</div>"
             ),
         )
+
+
+class CustomTemplateRadioSelect(forms.RadioSelect):
+    template_name = "tests/custom_widget.html"
+
+
+class CustomTemplateSelectTestForm(forms.Form):
+    test = forms.ChoiceField(
+        choices=(
+            (1, "one"),
+            (2, "two"),
+        ),
+        widget=CustomTemplateRadioSelect,
+    )
+
+
+class BootstrapFieldCustomTemplateRadioSelectTestCase(BootstrapTestCase):
+    def test_custom_template_is_kept(self):
+        """Test that a template set on a RadioSelect subclass is not replaced."""
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_field form.test %}", context={"form": CustomTemplateSelectTestForm()}),
+            (
+                '<div class="django_bootstrap5-req mb-3">'
+                '<label class="form-label">Test</label>'
+                '<div class="custom-widget">test</div>'
+                "</div>"
+            ),
+        )

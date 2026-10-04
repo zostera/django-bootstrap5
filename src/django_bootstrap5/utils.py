@@ -41,11 +41,13 @@ def get_url_attrs(url, attr_name):
     """
     Return dictionary with attributes for HTML tag, updated with key `attr_name` with value `url`.
 
-    Parameter `url` is either a string or a dict of attrs with the key `url`.
+    Parameter `url` is either a dict of attrs with the key `url`, or the url value itself.
+    The url value does not have to be a `str`: a lazy object, such as one wrapping
+    `django.templatetags.static.static`, is passed through and resolved at render time.
     Parameter `attr_key` is the name for the url value in the results.
     """
     url_attrs = {}
-    if isinstance(url, str):
+    if not isinstance(url, dict):
         url = {"url": url}
     url_attrs.update(url)
     url_attrs[attr_name] = url_attrs.pop("url")
