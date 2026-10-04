@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Fix a `template_name` set on a `RadioSelect`, `CheckboxSelectMultiple` or `ClearableFileInput` subclass being overwritten by this package's own widget template (#388). Widgets that still carry Django's default template are unaffected.
 - Accept a non-string URL value in `css_url`, `javascript_url` and `theme_url`, so a lazy `static()` value can be used directly instead of only inside the dict form (#616). Passing one raised `ValueError: dictionary update sequence element #0 has length 1; 2 is required`, because anything that was not a `str` was treated as a dict of attributes. The docs now cover serving Bootstrap from your own static files, which needs the URL resolved at render time so `ManifestStaticFilesStorage` can supply the hashed filename.
 - Test on Python 3.15 (release candidate) against Django 6.1 and `main`. The job is non-blocking and 3.15 is not yet advertised as supported.
 - Fail the CI gate when any job fails, not only the test matrix. A failing docs or packaging build could previously be merged.
