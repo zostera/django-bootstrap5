@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- **Breaking:** Remove `django_bootstrap5.text.text_concat`. It is a general string helper, not a Bootstrap concern, and nothing in the package has ever called it: its one caller joined an icon to a button label and went away when icon support was removed, before this package was forked. It was never documented. If you import it, the replacement is three lines (#889).
 - Remove `BaseRenderer.get_size_class`, which nothing called. The module-level `get_size_class` in `django_bootstrap5.size` is the one in use, and the method shadowed its name inside the class body.
 - Fix a `template_name` set on a `RadioSelect`, `CheckboxSelectMultiple` or `ClearableFileInput` subclass being overwritten by this package's own widget template (#388). Widgets that still carry Django's default template are unaffected.
 - Accept a non-string URL value in `css_url`, `javascript_url` and `theme_url`, so a lazy `static()` value can be used directly instead of only inside the dict form (#616). Passing one raised `ValueError: dictionary update sequence element #0 has length 1; 2 is required`, because anything that was not a `str` was treated as a dict of attributes. The docs now cover serving Bootstrap from your own static files, which needs the URL resolved at render time so `ManifestStaticFilesStorage` can supply the hashed filename.
