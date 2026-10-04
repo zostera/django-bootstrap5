@@ -98,6 +98,40 @@ The ``BOOTSTRAP5`` dict variable contains these settings and defaults:
         },
     }
 
+Serving Bootstrap from your own static files
+--------------------------------------------
+
+To serve Bootstrap from your own ``staticfiles`` app instead of a CDN, point the URL
+settings at your static files. The URL has to be resolved when the tag renders, not when
+the settings module is imported, because a storage backend such as
+``ManifestStaticFilesStorage`` only knows the hashed filename after ``collectstatic`` has
+run. Wrap ``static()`` in ``lazy()`` to get that:
+
+.. code:: python
+
+    from django.templatetags.static import static
+    from django.utils.functional import lazy
+
+    lazy_static = lazy(static, str)
+
+    BOOTSTRAP5 = {
+        "css_url": lazy_static("css/bootstrap.min.css"),
+        "javascript_url": lazy_static("js/bootstrap.bundle.min.js"),
+    }
+
+The dict form works the same way, for when you want to set other attributes alongside
+the URL:
+
+.. code:: python
+
+    BOOTSTRAP5 = {
+        "css_url": {"url": lazy_static("css/bootstrap.min.css"), "crossorigin": "anonymous"},
+    }
+
+Drop ``integrity`` when you serve the files yourself. The hash in the default settings is
+over the CDN's file, not over your copy, and ``ManifestStaticFilesStorage`` rewrites the
+``url()`` references inside the CSS to hashed names, so the content changes again.
+
 Unused settings
 ---------------
 
