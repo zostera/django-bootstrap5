@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Remove `BaseRenderer.get_size_class`, which nothing called. The module-level `get_size_class` in `django_bootstrap5.size` is the one in use, and the method shadowed its name inside the class body.
+- Cover every statement and branch in the test suite, and hold it there with `fail_under = 100`.
+- Store `src/django_bootstrap5/widgets.py` with LF line endings, like every other file and as `.editorconfig` requires. It was the only file in the repository with CRLF.
 - Fix a `template_name` set on a `RadioSelect`, `CheckboxSelectMultiple` or `ClearableFileInput` subclass being overwritten by this package's own widget template (#388). Widgets that still carry Django's default template are unaffected.
 - Accept a non-string URL value in `css_url`, `javascript_url` and `theme_url`, so a lazy `static()` value can be used directly instead of only inside the dict form (#616). Passing one raised `ValueError: dictionary update sequence element #0 has length 1; 2 is required`, because anything that was not a `str` was treated as a dict of attributes. The docs now cover serving Bootstrap from your own static files, which needs the URL resolved at render time so `ManifestStaticFilesStorage` can supply the hashed filename.
 - Test on Python 3.15 (release candidate) against Django 6.1 and `main`. The job is non-blocking and 3.15 is not yet advertised as supported.
