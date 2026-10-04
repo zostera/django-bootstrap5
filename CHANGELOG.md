@@ -3,8 +3,6 @@
 ## Unreleased
 
 - Remove `BaseRenderer.get_size_class`, which nothing called. The module-level `get_size_class` in `django_bootstrap5.size` is the one in use, and the method shadowed its name inside the class body.
-- Cover every statement and branch in the test suite, and hold it there with `fail_under = 100`.
-- Store `src/django_bootstrap5/widgets.py` with LF line endings, like every other file and as `.editorconfig` requires. It was the only file in the repository with CRLF.
 - Fix a `template_name` set on a `RadioSelect`, `CheckboxSelectMultiple` or `ClearableFileInput` subclass being overwritten by this package's own widget template (#388). Widgets that still carry Django's default template are unaffected.
 - Accept a non-string URL value in `css_url`, `javascript_url` and `theme_url`, so a lazy `static()` value can be used directly instead of only inside the dict form (#616). Passing one raised `ValueError: dictionary update sequence element #0 has length 1; 2 is required`, because anything that was not a `str` was treated as a dict of attributes. The docs now cover serving Bootstrap from your own static files, which needs the URL resolved at render time so `ManifestStaticFilesStorage` can supply the hashed filename.
 - Recognize `week`, `search` and `color` input-type widgets as form-control widgets, so `addon_before`/`addon_after` work on them, and warn instead of silently dropping addons on a widget that cannot have them (#743, #872). Floating labels stay unsupported for `color`, where Bootstrap sizes the swatch itself.
@@ -17,6 +15,8 @@
 - Add `just release-check` to list `src/` changes against changelog entries before a release.
 - Fix the release process in MAINTAINING.md: the version bump goes through a PR, not a direct push to protected `main`.
 - Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
+- Cover every statement and branch in the test suite, and hold it there with `fail_under = 100`.
+- Store `src/django_bootstrap5/widgets.py` with LF line endings, like every other file and as `.editorconfig` requires. It was the only file in the repository with CRLF.
 
 ## 26.3 (2026-08-28)
 
