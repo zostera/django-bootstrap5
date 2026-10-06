@@ -394,7 +394,7 @@ class FieldRenderer(BaseRenderer):
     def get_label_class(self, horizontal=False):
         """Return CSS class for label."""
         label_classes = [text_value(self.label_class)]
-        if not self.show_label:
+        if not self.show_label or self.show_label == "visually-hidden":
             label_classes.append("visually-hidden")
         else:
             if isinstance(self.widget, CheckboxInput):
