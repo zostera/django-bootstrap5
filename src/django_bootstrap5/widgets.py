@@ -13,7 +13,7 @@ from django.forms import (
 try:
     # If Django is set up without a database, importing this widget gives RuntimeError
     from django.contrib.auth.forms import ReadOnlyPasswordHashWidget
-except RuntimeError:
+except RuntimeError:  # pragma: no cover - only reachable when Django has no database configured
     ReadOnlyPasswordHashWidget = None
 
 

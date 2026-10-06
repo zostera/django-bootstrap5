@@ -2,23 +2,24 @@
 
 ## Unreleased
 
+- **Breaking:** Remove `django_bootstrap5.text.text_concat`. It is a general string helper, not a Bootstrap concern, and nothing in the package has ever called it: its one caller joined an icon to a button label and went away when icon support was removed, before this package was forked. It was never documented. If you import it, the replacement is three lines (#889).
+- Remove `BaseRenderer.get_size_class`, which nothing called. The module-level `get_size_class` in `django_bootstrap5.size` is the one in use, and the method shadowed its name inside the class body.
 - Fix a `template_name` set on a `RadioSelect`, `CheckboxSelectMultiple` or `ClearableFileInput` subclass being overwritten by this package's own widget template (#388). Widgets that still carry Django's default template are unaffected.
 - Accept a non-string URL value in `css_url`, `javascript_url` and `theme_url`, so a lazy `static()` value can be used directly instead of only inside the dict form (#616). Passing one raised `ValueError: dictionary update sequence element #0 has length 1; 2 is required`, because anything that was not a `str` was treated as a dict of attributes. The docs now cover serving Bootstrap from your own static files, which needs the URL resolved at render time so `ManifestStaticFilesStorage` can supply the hashed filename.
+- Recognize `week`, `search` and `color` input-type widgets as form-control widgets, so `addon_before`/`addon_after` work on them, and warn instead of silently dropping addons on a widget that cannot have them (#743, #872). Floating labels stay unsupported for `color`, where Bootstrap sizes the swatch itself.
+- Add the documented `inline_field_class` setting to `BOOTSTRAP5_DEFAULTS`, where it was missing. Its effective default is unchanged.
 - Fix `show_label='visually-hidden'` being ignored by `bootstrap_field`, `bootstrap_form` and `bootstrap_formset`, which rendered an ordinary visible label instead of one hidden from sight (#526). The string is truthy, so the check that adds the `visually-hidden` class only ever caught `False`, even though both values have always been documented as equivalent.
+- Support `addon_before`/`addon_after` on fields with `layout="floating"` (#866). The `form-floating` element is now nested inside the `input-group`, as Bootstrap's floating-label input-group markup requires, instead of the two being alternatives. This removes the warning added in 26.3 (#833), which existed because the combination was unsupported.
+- Add a system check that warns about keys in the `BOOTSTRAP5` setting that the package does not read, such as a setting removed in an earlier release or one carried over from django-bootstrap3 or django-bootstrap4 (`django_bootstrap5.W001`, #867). Silence it with `SILENCED_SYSTEM_CHECKS` if you keep extra keys deliberately.
 - Add `show_label` to `bootstrap_label`, accepting the same values as on `bootstrap_field`: `True`, `False`/`'visually-hidden'` to hide the label from sight but keep it for screen readers, and `'skip'` to render nothing (#526).
 - Test on Python 3.15 (release candidate) against Django 6.1 and `main`. The job is non-blocking and 3.15 is not yet advertised as supported.
 - Fail the CI gate when any job fails, not only the test matrix. A failing docs or packaging build could previously be merged.
-
-## 26.4 (2026-09-21)
-
-- Add the documented `inline_field_class` setting to `BOOTSTRAP5_DEFAULTS`, where it was missing. Its effective default is unchanged.
-- Support `addon_before`/`addon_after` on fields with `layout="floating"` (#866). The `form-floating` element is now nested inside the `input-group`, as Bootstrap's floating-label input-group markup requires, instead of the two being alternatives. This removes the warning added in 26.3 (#833), which existed because the combination was unsupported.
-- Recognize `week`, `search` and `color` input-type widgets as form-control widgets, so `addon_before`/`addon_after` work on them, and warn instead of silently dropping addons on a widget that cannot have them (#743, #872). Floating labels stay unsupported for `color`, where Bootstrap sizes the swatch itself.
-- Add a system check that warns about keys in the `BOOTSTRAP5` setting that the package does not read, such as a setting removed in an earlier release or one carried over from django-bootstrap3 or django-bootstrap4 (`django_bootstrap5.W001`, #867). Silence it with `SILENCED_SYSTEM_CHECKS` if you keep extra keys deliberately.
 - Drop a duplicate `coverage[toml]` entry from the `test` dependency group and sort it alphabetically.
 - Add `just release-check` to list `src/` changes against changelog entries before a release.
 - Fix the release process in MAINTAINING.md: the version bump goes through a PR, not a direct push to protected `main`.
 - Note in MAINTAINING.md why the `Django` dependency carries no upper bound.
+- Cover every statement and branch in the test suite, and hold it there with `fail_under = 100`.
+- Store `src/django_bootstrap5/widgets.py` with LF line endings, like every other file and as `.editorconfig` requires. It was the only file in the repository with CRLF.
 
 ## 26.3 (2026-08-28)
 

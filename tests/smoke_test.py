@@ -17,10 +17,9 @@ def main():
     assert hasattr(django_bootstrap5, "__version__")
 
     # One minimal functional call
-    from django_bootstrap5.text import text_concat
+    from django_bootstrap5.css import merge_css_classes
 
-    combined = text_concat("alpha", "beta", separator="-")
-    assert combined == "alpha-beta"
+    assert merge_css_classes("btn", "btn btn-primary", "") == "btn btn-primary"
 
 
 if __name__ == "__main__":

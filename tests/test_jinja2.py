@@ -84,3 +84,30 @@ class Jinja2TestCase(BootstrapTestCase):
             self.render('{{ bootstrap_setting("required_css_class") }}'),
             "django_bootstrap5-req",
         )
+
+
+class GetLanguageCodeTestCase(BootstrapTestCase):
+    """`get_language_code` resolves the language from the context, a request, or Django."""
+
+    def test_language_code_in_context_wins(self):
+        from django_bootstrap5.jinja2 import get_language_code
+
+        self.assertEqual(get_language_code({"LANGUAGE_CODE": "fr"}), "fr")
+
+    def test_falls_back_to_the_request(self):
+        from django_bootstrap5.jinja2 import get_language_code
+
+        class Request:
+            LANGUAGE_CODE = "de"
+
+        self.assertEqual(get_language_code({"request": Request()}), "de")
+        self.assertEqual(get_language_code({"LANGUAGE_CODE": "", "request": Request()}), "de")
+
+    def test_falls_back_to_django_when_nothing_else_has_it(self):
+        from django.utils import translation
+
+        from django_bootstrap5.jinja2 import get_language_code
+
+        with translation.override("es"):
+            self.assertEqual(get_language_code({}), "es")
+            self.assertEqual(get_language_code({"request": object()}), "es")
