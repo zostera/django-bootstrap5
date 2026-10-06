@@ -85,10 +85,6 @@ class BaseRenderer:
         """Return whether to render widgets with inline layout."""
         return self.layout == "inline"
 
-    def get_size_class(self, prefix):
-        """Return size class for given prefix."""
-        return get_size_class(self.size, prefix=prefix) if self.size in ["sm", "lg"] else ""
-
     def get_kwargs(self):
         """Return kwargs to pass on to child renderers."""
         context = {
