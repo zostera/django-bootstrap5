@@ -51,23 +51,23 @@ Note: input-group needs has-validation
 https://github.com/twbs/bootstrap/blob/6b3254536bac263c39e3a536c3c13945210d91b2/site/content/docs/5.0/migration.md
 
 To put more than one field in a single input group, render the fields without their wrappers by
-passing ``wrapper=False``:
+passing ``wrapper=False``. Bootstrap lays out every child of an input group as a flex item, so a
+field's own label would be stretched into the row instead of sitting above it. Render the fields
+with ``show_label='skip'`` and give the group a single label of your own, outside it:
 
 .. code:: html
 
     <div class="input-group">
-        {% bootstrap_field form.field_a wrapper=False %}
-        {% bootstrap_field form.field_b wrapper=False %}
+        {% bootstrap_field form.field_a wrapper=False show_label='skip' %}
+        {% bootstrap_field form.field_b wrapper=False show_label='skip' %}
     </div>
 
-Each field then renders its label, widget, errors and help text, but no wrapper ``div``:
+Each field then renders its widget, errors and help text, but no wrapper ``div`` and no label:
 
 .. code:: html
 
     <div class="input-group">
-        <label for="id_field_a" class="form-label">Field a</label>
         <input type="text" name="field_a" class="form-control" id="id_field_a">
-        <label for="id_field_b" class="form-label">Field b</label>
         <input type="text" name="field_b" class="form-control" id="id_field_b">
     </div>
 
