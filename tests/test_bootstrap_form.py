@@ -166,6 +166,15 @@ class ShowLabelTestCase(BootstrapTestCase):
             self.render("{% bootstrap_form form show_label='' %}", {"form": ShowLabelTestForm()}),
         )
 
+    def test_show_label_visually_hidden(self):
+        self.assertInHTML(
+            '<label class="visually-hidden" for="id_subject">Subject</label>',
+            self.render(
+                "{% bootstrap_field form.subject show_label='visually-hidden' %}",
+                {"form": ShowLabelTestForm()},
+            ),
+        )
+
     def test_show_label_skip(self):
         self.assertNotIn(
             "label",
