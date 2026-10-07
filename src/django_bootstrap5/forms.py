@@ -37,7 +37,7 @@ def render_label(
     content,
     *,
     label_for=None,
-    label_class="form-label",
+    label_class=None,
     label_title="",
     show_label=True,
 ):
@@ -46,6 +46,8 @@ def render_label(
         return EMPTY_SAFE_HTML
     if not show_label or show_label == "visually-hidden":
         label_class = merge_css_classes(label_class, "visually-hidden")
+    elif label_class is None:
+        label_class = "form-label"
     attrs = {}
     if label_for:
         attrs["for"] = label_for

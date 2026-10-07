@@ -29,19 +29,19 @@ class BootstrapLabelTestCase(BootstrapTestCase):
     def test_show_label_false(self):
         self.assertHTMLEqual(
             self.render('{% bootstrap_label "Subject" show_label=False %}'),
-            '<label class="form-label visually-hidden">Subject</label>',
+            '<label class="visually-hidden">Subject</label>',
         )
 
     def test_show_label_empty(self):
         self.assertHTMLEqual(
             self.render("{% bootstrap_label \"Subject\" show_label='' %}"),
-            '<label class="form-label visually-hidden">Subject</label>',
+            '<label class="visually-hidden">Subject</label>',
         )
 
     def test_show_label_visually_hidden(self):
         self.assertHTMLEqual(
             self.render("{% bootstrap_label \"Subject\" show_label='visually-hidden' %}"),
-            '<label class="form-label visually-hidden">Subject</label>',
+            '<label class="visually-hidden">Subject</label>',
         )
 
     def test_show_label_visually_hidden_keeps_label_class(self):
@@ -49,11 +49,15 @@ class BootstrapLabelTestCase(BootstrapTestCase):
             self.render("{% bootstrap_label \"Subject\" label_class='label-class' show_label=False %}"),
             '<label class="label-class visually-hidden">Subject</label>',
         )
+        self.assertHTMLEqual(
+            self.render("{% bootstrap_label \"Subject\" label_class='label-class' show_label='visually-hidden' %}"),
+            '<label class="label-class visually-hidden">Subject</label>',
+        )
 
     def test_show_label_visually_hidden_keeps_other_attributes(self):
         self.assertHTMLEqual(
             self.render("{% bootstrap_label \"Subject\" label_for='subject' show_label=False %}"),
-            '<label for="subject" class="form-label visually-hidden">Subject</label>',
+            '<label for="subject" class="visually-hidden">Subject</label>',
         )
 
     def test_show_label_skip(self):

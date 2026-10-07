@@ -527,8 +527,9 @@ def bootstrap_label(content, **kwargs):
             Whether to show the label.
 
                 * ``True``
-                * ``False``/``'visually-hidden'``, which adds ``visually-hidden`` to the
-                  label's CSS classes, so the label is available to screen readers only
+                * ``False``/``'visually-hidden'``, which renders the label with
+                  ``visually-hidden`` in place of the default ``form-label``, so the
+                  label is available to screen readers only
                 * ``'skip'``, which renders nothing
 
             :default: ``True``
