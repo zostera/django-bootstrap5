@@ -40,6 +40,11 @@ New settings include `wrapper_class` (default `"mb-3"`), `horizontal_field_offse
 A system check, `django_bootstrap5.W001`, warns about keys in `BOOTSTRAP5` that the package does not read, which
 catches settings carried over from `BOOTSTRAP3`.
 
+**Delete the `BOOTSTRAP3` block once you have a `BOOTSTRAP5` one.** `W001` only inspects `BOOTSTRAP5`, so a leftover
+block is invisible to it while still reading like live configuration. In one project it sat directly above the working
+`BOOTSTRAP5` block, with `jquery_url` naming the same file that a `<script>` tag in the base template loaded directly.
+Nothing read the setting any more, but it was the first place anyone looked to find out how jQuery reached the page.
+
 ### Removed template tags and filters
 
 #### buttons
@@ -103,6 +108,22 @@ does nothing, so search your templates for the old names.
 `layout="horizontal"` builds the grid itself. The `form-horizontal` class on `<form>`, which Bootstrap 3 needed next to
 it, no longer exists and can go. `layout="inline"` still exists.
 
+### jQuery
+
+Bootstrap 5 does not use jQuery. This package has no `jquery_url` setting and no `{% bootstrap_jquery %}` or
+`{% bootstrap_jquery_url %}` tag, so load jQuery from your own template if your code needs it.
+
+For most projects that is all it is, because `include_jquery` defaulted to `False` and the jQuery on the page was
+already yours. Where it matters is `jquery_url`, whose default was the unversioned `//code.jquery.com/jquery.min.js`.
+That alias still serves jQuery 1.11.1, released in 2014, and is not updated, so a project on the default has been
+serving 1.11.1 rather than anything recent. Bootstrap 3 itself accepted `1.9.1 - 3`, so nothing about Bootstrap 3 held
+you there, only the default.
+
+Choosing the version yourself is therefore likely to be a jump of two majors. Read jQuery's
+[upgrade guide](https://jquery.com/upgrade-guide/) rather than assuming the code still runs, and check your plugins at
+the same time, since an old jQuery tends to come with old plugins. One project had to take bootstrap-datepicker from
+1.6.0 to 1.10.0 before it ran.
+
 ### Bootstrap's own class changes
 
 Not part of this package, but they are most of the work in templates. The ones that came up most:
@@ -141,7 +162,8 @@ The `{% buttons %} ... {% endbuttons %}` tag has been removed. To create buttons
 
 Bootstrap 5 does not depend on jQuery. Every function and tag referencing jQuery has been removed.
 
-If you need jQuery, you will have to include it yourself.
+If you need jQuery, you will have to include it yourself. django-bootstrap4 defaulted to jQuery 3.5.1, so there is no
+major jQuery upgrade in this move, only the loading.
 
 ### Popper
 
