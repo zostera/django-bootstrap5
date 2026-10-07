@@ -50,6 +50,35 @@ Bootstrap 5 offers Input groups to combine fields and add-ons (both before and a
 Note: input-group needs has-validation
 https://github.com/twbs/bootstrap/blob/6b3254536bac263c39e3a536c3c13945210d91b2/site/content/docs/5.0/migration.md
 
+To put more than one field in a single input group, render the fields without their wrappers by
+passing ``wrapper=False``. Bootstrap lays out every child of an input group as a flex item, so a
+field's own label would be stretched into the row instead of sitting above it. Render the fields
+with ``show_label='skip'`` and give the group a single label of your own, outside it:
+
+.. code:: html
+
+    <div class="input-group">
+        {% bootstrap_field form.field_a wrapper=False show_label='skip' %}
+        {% bootstrap_field form.field_b wrapper=False show_label='skip' %}
+    </div>
+
+Each field then renders its widget, errors and help text, but no wrapper ``div`` and no label:
+
+.. code:: html
+
+    <div class="input-group">
+        <input type="text" name="field_a" class="form-control" id="id_field_a">
+        <input type="text" name="field_b" class="form-control" id="id_field_b">
+    </div>
+
+The classes the wrapper carried are not rendered anywhere, because the element that carried them is
+gone: ``wrapper_class``, the ``row`` class of the horizontal layout, and the ``error_css_class``,
+``success_css_class`` and ``required_css_class`` indicator classes. The element you wrap the fields in
+is yours, so put what you need on it, including ``has-validation`` when the group contains a field that
+can show validation feedback. The ``is-valid``/``is-invalid`` classes on the widgets themselves are
+unaffected. With ``layout="floating"``, the widget and its label keep their own ``form-floating``
+element inside the group, as Bootstrap's floating labels require.
+
 Floating labels
 ---------------
 
