@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Cover jQuery in the migration guide: what replaces the `jquery_url` setting and the jQuery tags, and that django-bootstrap3's default pointed at a CDN alias still serving jQuery 1.11.1, so choosing a version is likely a jump of two majors. Also say to delete the old `BOOTSTRAP3` block, since `W001` only inspects `BOOTSTRAP5` and a leftover block reads like live configuration with nothing warning about it.
 - Document migrating from django-bootstrap3 in `MIGRATE.md`: renamed settings and their changed defaults, the removed `buttons`, `bootstrap_icon` and `bootstrap_message_classes`, renamed tag arguments, and the Bootstrap class changes that take most of the work.
 - **Breaking:** Remove `django_bootstrap5.text.text_concat`. It is a general string helper, not a Bootstrap concern, and nothing in the package has ever called it: its one caller joined an icon to a button label and went away when icon support was removed, before this package was forked. It was never documented. If you import it, the replacement is three lines (#889).
 - Remove `BaseRenderer.get_size_class`, which nothing called. The module-level `get_size_class` in `django_bootstrap5.size` is the one in use, and the method shadowed its name inside the class body.
