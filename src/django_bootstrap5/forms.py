@@ -1,5 +1,6 @@
 from .core import get_field_renderer, get_form_renderer, get_formset_renderer
-from .html import render_tag
+from .css import merge_css_classes
+from .html import EMPTY_SAFE_HTML, render_tag
 
 
 def render_formset(formset, **kwargs):
@@ -36,10 +37,17 @@ def render_label(
     content,
     *,
     label_for=None,
-    label_class="form-label",
+    label_class=None,
     label_title="",
+    show_label=True,
 ):
     """Render a label with content."""
+    if show_label == "skip":
+        return EMPTY_SAFE_HTML
+    if not show_label or show_label == "visually-hidden":
+        label_class = merge_css_classes(label_class, "visually-hidden")
+    elif label_class is None:
+        label_class = "form-label"
     attrs = {}
     if label_for:
         attrs["for"] = label_for
