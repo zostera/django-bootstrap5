@@ -52,14 +52,27 @@ https://github.com/twbs/bootstrap/blob/6b3254536bac263c39e3a536c3c13945210d91b2/
 
 To put more than one field in a single input group, render the fields without their wrappers by
 passing ``wrapper=False``. Bootstrap lays out every child of an input group as a flex item, so a
-field's own label would be stretched into the row instead of sitting above it. Render the fields
-with ``show_label='skip'`` and give the group a single label of your own, outside it:
+field's own label would be stretched into the row instead of sitting above it.
+
+Each input still needs an accessible name. A single ``<label>`` names one control, so a shared label
+outside the group leaves the other fields without one, and assistive technology falls back to the
+``placeholder``, which disappears as soon as the field has content. Give each field its own
+``aria-label`` and put the shared, readable text in an ``input-group-text``, as Bootstrap's own
+"Multiple inputs" example does. ``bootstrap_field`` has no ``attrs`` argument, so the attribute goes
+on the widget:
+
+.. code:: python
+
+    class NameForm(forms.Form):
+        first = forms.CharField(widget=forms.TextInput(attrs={"aria-label": "First name"}))
+        last = forms.CharField(widget=forms.TextInput(attrs={"aria-label": "Last name"}))
 
 .. code:: html
 
     <div class="input-group">
-        {% bootstrap_field form.field_a wrapper=False show_label='skip' %}
-        {% bootstrap_field form.field_b wrapper=False show_label='skip' %}
+        <span class="input-group-text">First and last name</span>
+        {% bootstrap_field form.first wrapper=False show_label='skip' %}
+        {% bootstrap_field form.last wrapper=False show_label='skip' %}
     </div>
 
 Each field then renders its widget, errors and help text, but no wrapper ``div`` and no label:
@@ -67,9 +80,14 @@ Each field then renders its widget, errors and help text, but no wrapper ``div``
 .. code:: html
 
     <div class="input-group">
-        <input type="text" name="field_a" class="form-control" id="id_field_a">
-        <input type="text" name="field_b" class="form-control" id="id_field_b">
+        <span class="input-group-text">First and last name</span>
+        <input type="text" name="first" aria-label="First name" class="form-control" id="id_first">
+        <input type="text" name="last" aria-label="Last name" class="form-control" id="id_last">
     </div>
+
+Where the group holds a single field, keep a real label instead. Bootstrap puts it before the group
+rather than inside it, so ``show_label='skip'`` on the field and your own
+``<label class="visually-hidden" for="...">`` above the ``div`` matches what Bootstrap documents.
 
 The classes the wrapper carried are not rendered anywhere, because the element that carried them is
 gone: ``wrapper_class``, the ``row`` class of the horizontal layout, and the ``error_css_class``,

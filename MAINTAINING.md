@@ -31,6 +31,11 @@ copy always drifts out of sync with the files that actually enforce it.
   with the Django series that will support it first, the newest one plus `main`. A leg against
   a series that will never claim it is a standing red mark, and it teaches reviewers to ignore
   the column.
+- A Python that is final but that no Django release claims yet stays non-blocking too, and
+  stays out of the classifiers. Our tests passing on it says nothing about the Django
+  underneath, and a user who takes the classifier at its word would be running a combination
+  Django does not support. Wait for a Django release to list it, then make the job blocking
+  and add the classifier in one change.
 
 ### Bootstrap
 
@@ -97,10 +102,24 @@ it half-updated. Dependabot reopens it on the next run.
 
 ## Release process
 
-1. `just release-check` — lists the commits touching `src/` since the last tag next to the current
-   `Unreleased` entries. Every one of those commits must be covered by an entry, or be a no-op for
-   users (a docstring typo, say). A code change that reaches users without an entry ships invisible.
-2. On a release branch, update `CHANGELOG.md` and bump `version` in `pyproject.toml`; open a PR and merge it
+1. `just release-check` — lists the commits since the last tag next to the current `Unreleased`
+   entries, in two groups. Every commit touching `src/` must be covered by an entry, or be a
+   no-op for users (a docstring typo, say). A code change that reaches users without an entry
+   ships invisible. The second group is everything else, and it needs reading rather than a rule:
+   a Dependabot bump of a dev dependency is genuinely nothing to a user, while a lint rule, a CI
+   gate or a contributor policy belongs in the notes under tooling. django-marina 26.3 shipped
+   with nine such changes unrecorded, and django-bootstrap4 and django-bootstrap5 each found
+   four or five more of their own, because the recipe only showed the first group.
+   Straight after a cut, in the window between merging the release PR and pushing the tag, this
+   prints `(none)` for the `Unreleased` entries next to every commit since the previous tag.
+   That is correct and it means nothing is pending: stamping the section removed the heading the
+   recipe looks for, and the tag it compares against is still the old one. It does not mean the
+   changelog was lost.
+2. On a release branch, update `CHANGELOG.md`, bump `version` in `pyproject.toml`, and run
+   `just relock` so `uv.lock` names the new version; open a PR and merge it. `uv sync --frozen`
+   does not check the project's own version, so a stale lock otherwise survives every packaging
+   check unnoticed. `just build` now fails on the mismatch, which is what catches it if the
+   relock is forgotten.
 3. Check out and pull `main`
 4. `just build` — builds wheel + tarball, runs packaging checks, and smoke-tests both against an isolated env
 5. `just release-tag` — creates and pushes the version tag; GitHub Actions publishes to PyPI
