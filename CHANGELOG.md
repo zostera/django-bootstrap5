@@ -22,6 +22,8 @@
 - Cover every statement and branch in the test suite, and hold it there with `fail_under = 100`.
 - Store `src/django_bootstrap5/widgets.py` with LF line endings, like every other file and as `.editorconfig` requires. It was the only file in the repository with CRLF.
 
+- Show commits that touch nothing in `src/` in `just release-check` as a second group, instead of hiding them. Tooling, CI and documentation changes belong in the release notes too, and the old output read as a complete list while being a filtered one.
+- Fail `just build` when `uv.lock` does not name the version in `pyproject.toml`, and add `just relock` to fix it. `uv sync --frozen` does not check the project's own version, so a stale lock passed every packaging check.
 ## 26.3 (2026-08-28)
 
 - Drop support for Django 4.2 (EOL).
