@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix `show_label='visually-hidden'` being ignored by `bootstrap_field`, `bootstrap_form` and `bootstrap_formset`, which rendered an ordinary visible label instead of one hidden from sight (#526). The string is truthy, so the check that adds the `visually-hidden` class only ever caught `False`, even though both values have always been documented as equivalent.
+- Add `show_label` to `bootstrap_label`, accepting the same values as on `bootstrap_field`: `True`, `False`/`'visually-hidden'` to hide the label from sight but keep it for screen readers, and `'skip'` to render nothing (#526). A hidden label gets `visually-hidden` in place of the default `form-label`, as `bootstrap_field` and Bootstrap's own examples do; a `label_class` you pass yourself is kept either way.
 - Add a `wrapper` argument to `bootstrap_field`, `bootstrap_form` and `bootstrap_formset` (#438). With `wrapper=False` a field renders its label, widget, errors and help text without the wrapper `div`, so several fields can share one element of your own, such as an `input-group`. The classes the wrapper carried (`wrapper_class`, the horizontal `row`, and the required and validation indicator classes) are then not rendered, as there is no element to carry them; the `is-valid`/`is-invalid` classes on the widget are unaffected. `wrapper_class=""` keeps rendering `<div class="">` as before.
 
 ## 26.4 (2026-10-11)
