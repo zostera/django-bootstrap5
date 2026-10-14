@@ -50,6 +50,53 @@ Bootstrap 5 offers Input groups to combine fields and add-ons (both before and a
 Note: input-group needs has-validation
 https://github.com/twbs/bootstrap/blob/6b3254536bac263c39e3a536c3c13945210d91b2/site/content/docs/5.0/migration.md
 
+To put more than one field in a single input group, render the fields without their wrappers by
+passing ``wrapper=False``. Bootstrap lays out every child of an input group as a flex item, so a
+field's own label would be stretched into the row instead of sitting above it.
+
+Each input still needs an accessible name. A single ``<label>`` names one control, so a shared label
+outside the group leaves the other fields without one, and assistive technology falls back to the
+``placeholder``, which disappears as soon as the field has content. Give each field its own
+``aria-label`` and put the shared, readable text in an ``input-group-text``, as Bootstrap's own
+"Multiple inputs" example does. ``bootstrap_field`` has no ``attrs`` argument, so the attribute goes
+on the widget:
+
+.. code:: python
+
+    class NameForm(forms.Form):
+        first = forms.CharField(widget=forms.TextInput(attrs={"aria-label": "First name"}))
+        last = forms.CharField(widget=forms.TextInput(attrs={"aria-label": "Last name"}))
+
+.. code:: html
+
+    <div class="input-group">
+        <span class="input-group-text">First and last name</span>
+        {% bootstrap_field form.first wrapper=False show_label='skip' %}
+        {% bootstrap_field form.last wrapper=False show_label='skip' %}
+    </div>
+
+Each field then renders its widget, errors and help text, but no wrapper ``div`` and no label:
+
+.. code:: html
+
+    <div class="input-group">
+        <span class="input-group-text">First and last name</span>
+        <input type="text" name="first" aria-label="First name" class="form-control" id="id_first">
+        <input type="text" name="last" aria-label="Last name" class="form-control" id="id_last">
+    </div>
+
+Where the group holds a single field, keep a real label instead. Bootstrap puts it before the group
+rather than inside it, so ``show_label='skip'`` on the field and your own
+``<label class="visually-hidden" for="...">`` above the ``div`` matches what Bootstrap documents.
+
+The classes the wrapper carried are not rendered anywhere, because the element that carried them is
+gone: ``wrapper_class``, the ``row`` class of the horizontal layout, and the ``error_css_class``,
+``success_css_class`` and ``required_css_class`` indicator classes. The element you wrap the fields in
+is yours, so put what you need on it, including ``has-validation`` when the group contains a field that
+can show validation feedback. The ``is-valid``/``is-invalid`` classes on the widgets themselves are
+unaffected. With ``layout="floating"``, the widget and its label keep their own ``form-floating``
+element inside the group, as Bootstrap's floating labels require.
+
 Floating labels
 ---------------
 

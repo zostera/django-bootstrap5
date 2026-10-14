@@ -371,8 +371,19 @@ def bootstrap_field(field, **kwargs):
             Layout set in ``'bootstrap_form'`` takes precedence over layout set in ``'bootstrap_formset'``.
             Layout set in ``'bootstrap_field'`` takes precedence over layout set in ``'bootstrap_form'``.
 
+        wrapper
+            Whether to render the ``div`` that wraps the field and label. Set this to ``False`` to render
+            the label, widget, errors and help text without a wrapper, so several fields can share an
+            element of your own, such as a Bootstrap ``input-group``. The classes the wrapper carried
+            (``wrapper_class``, ``row``, and the required and validation indicator classes) are then not
+            rendered, as there is no element to carry them; put them on your own element instead. The
+            ``is-valid``/``is-invalid`` classes on the widget itself are not affected.
+
+            :default: ``True``
+
         wrapper_class
-            CSS class of the ``div`` that wraps the field and label.
+            CSS class of the ``div`` that wraps the field and label. An empty value still renders the
+            wrapper, with an empty ``class``; pass ``wrapper=False`` to leave it out altogether.
 
             :default: ``'mb-3'``
 
