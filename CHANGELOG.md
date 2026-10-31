@@ -5,6 +5,10 @@
 - Fix `show_label='visually-hidden'` being ignored by `bootstrap_field`, `bootstrap_form` and `bootstrap_formset`, which rendered an ordinary visible label instead of one hidden from sight (#526). The string is truthy, so the check that adds the `visually-hidden` class only ever caught `False`, even though both values have always been documented as equivalent.
 - Add `show_label` to `bootstrap_label`, accepting the same values as on `bootstrap_field`: `True`, `False`/`'visually-hidden'` to hide the label from sight but keep it for screen readers, and `'skip'` to render nothing (#526). A hidden label gets `visually-hidden` in place of the default `form-label`, as `bootstrap_field` and Bootstrap's own examples do; a `label_class` you pass yourself is kept either way.
 
+- Add `.gitattributes` with `* text=auto`, so the repository stores text files with LF whatever the committing machine used. `.editorconfig` asked for this and could not enforce it.
+- Drop `max_line_length` for Python from `.editorconfig`. It said 88 while ruff enforces 120, so an editor honouring it flagged code that passes lint.
+- Fail `just lint` on trailing whitespace, and strip it in `just format`. `.editorconfig` asked for it and nothing enforced it, so it depended on each person's editor. Markdown hard line breaks, which are exactly two trailing spaces, are preserved.
+- Fail `just lint` if `CHANGELOG.md` has more than one `## Unreleased` heading, or has it below a released section. Branches that each add the heading merge without a conflict.
 ## 26.4 (2026-10-11)
 
 - **Breaking:** Drop support for Python 3.10, end of life since 2026-10-01. The floor is now Python 3.11.
